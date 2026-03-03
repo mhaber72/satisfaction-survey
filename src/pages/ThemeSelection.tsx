@@ -45,24 +45,28 @@ const ThemeSelection = () => {
         background: "radial-gradient(ellipse 70% 40% at 50% 20%, hsla(200,85%,55%,0.2) 0%, transparent 70%)"
       }} />
       {/* Diagonal futuristic light streaks */}
-      <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.06]" xmlns="http://www.w3.org/2000/svg">
-        <line x1="0%" y1="100%" x2="40%" y2="0%" stroke="hsl(200,80%,60%)" strokeWidth="1" />
-        <line x1="10%" y1="100%" x2="50%" y2="0%" stroke="hsl(200,80%,60%)" strokeWidth="0.5" />
-        <line x1="60%" y1="100%" x2="100%" y2="0%" stroke="hsl(200,80%,60%)" strokeWidth="1" />
-        <line x1="70%" y1="100%" x2="110%" y2="0%" stroke="hsl(200,80%,60%)" strokeWidth="0.5" />
-        <line x1="30%" y1="100%" x2="70%" y2="0%" stroke="hsl(195,70%,50%)" strokeWidth="0.3" />
-        <line x1="80%" y1="100%" x2="120%" y2="0%" stroke="hsl(195,70%,50%)" strokeWidth="0.3" />
+      <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.35]" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0%" y1="100%" x2="35%" y2="0%" stroke="hsl(200,80%,50%)" strokeWidth="1.5" />
+        <line x1="5%" y1="100%" x2="40%" y2="0%" stroke="hsl(200,80%,50%)" strokeWidth="0.8" />
+        <line x1="55%" y1="100%" x2="90%" y2="0%" stroke="hsl(200,80%,50%)" strokeWidth="1.5" />
+        <line x1="60%" y1="100%" x2="95%" y2="0%" stroke="hsl(200,80%,50%)" strokeWidth="0.8" />
+        <line x1="25%" y1="100%" x2="60%" y2="0%" stroke="hsl(195,70%,45%)" strokeWidth="0.5" />
+        <line x1="75%" y1="100%" x2="110%" y2="0%" stroke="hsl(195,70%,45%)" strokeWidth="0.5" />
+        <line x1="-5%" y1="80%" x2="20%" y2="0%" stroke="hsl(200,80%,50%)" strokeWidth="0.4" />
+        <line x1="85%" y1="100%" x2="105%" y2="20%" stroke="hsl(200,80%,50%)" strokeWidth="0.4" />
       </svg>
       {/* Curved arc lines */}
-      <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.05]" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1000 600">
-        <ellipse cx="500" cy="600" rx="600" ry="300" fill="none" stroke="hsl(200,70%,55%)" strokeWidth="0.8" />
-        <ellipse cx="500" cy="650" rx="500" ry="250" fill="none" stroke="hsl(200,70%,55%)" strokeWidth="0.5" />
-        <ellipse cx="500" cy="700" rx="400" ry="200" fill="none" stroke="hsl(200,70%,55%)" strokeWidth="0.3" />
+      <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.25]" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1000 600">
+        <ellipse cx="500" cy="550" rx="650" ry="300" fill="none" stroke="hsl(200,70%,45%)" strokeWidth="1" />
+        <ellipse cx="500" cy="600" rx="550" ry="260" fill="none" stroke="hsl(200,70%,45%)" strokeWidth="0.7" />
+        <ellipse cx="500" cy="650" rx="450" ry="220" fill="none" stroke="hsl(200,70%,45%)" strokeWidth="0.5" />
+        <ellipse cx="200" cy="100" rx="300" ry="200" fill="none" stroke="hsl(200,70%,40%)" strokeWidth="0.4" />
+        <ellipse cx="800" cy="150" rx="250" ry="180" fill="none" stroke="hsl(200,70%,40%)" strokeWidth="0.3" />
       </svg>
       {/* Dot grid pattern */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.08]" style={{
-        backgroundImage: "radial-gradient(circle, hsla(200,80%,70%,1) 1px, transparent 1px)",
-        backgroundSize: "30px 30px"
+      <div className="pointer-events-none absolute inset-0 opacity-[0.25]" style={{
+        backgroundImage: "radial-gradient(circle, hsla(200,80%,65%,1) 1.2px, transparent 1.2px)",
+        backgroundSize: "28px 28px"
       }} />
       {/* Vignette */}
       <div className="pointer-events-none absolute inset-0" style={{
