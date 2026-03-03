@@ -206,50 +206,32 @@ const ThemeBubble = ({ theme, isHovered, onHover, onLeave, onClick }: ThemeBubbl
       onClick={onClick}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
-      className="group relative flex w-[200px] flex-col items-center gap-2 transition-transform duration-300"
+      className="group relative flex w-[220px] flex-col items-center transition-transform duration-300"
       style={{ transform: isHovered ? "scale(1.08)" : "scale(1)" }}
     >
-      {/* Custom image icon */}
-      <div className="relative z-10 -mb-5">
-        <div
-          className="flex h-36 w-36 items-center justify-center rounded-full border overflow-hidden transition-all duration-300"
-          style={{
-            borderColor: isHovered ? "hsla(200,80%,60%,0.6)" : "hsla(200,80%,60%,0.25)",
-            background: isHovered
-              ? "linear-gradient(135deg, hsla(200,80%,45%,0.5), hsla(210,70%,30%,0.6))"
-              : "linear-gradient(135deg, hsla(200,80%,40%,0.25), hsla(210,70%,25%,0.3))",
-            boxShadow: isHovered
-              ? "0 0 25px hsla(200,80%,50%,0.4), inset 0 1px 1px hsla(0,0%,100%,0.15)"
-              : "0 0 10px hsla(200,80%,50%,0.1), inset 0 1px 1px hsla(0,0%,100%,0.08)",
-          }}
-        >
-          <img
-            src={theme.image}
-            alt={theme.label}
-            className="h-24 w-24 object-contain transition-all duration-300"
-            style={{
-              filter: isHovered ? "brightness(1.3)" : "brightness(1)",
-            }}
-          />
-        </div>
-      </div>
-
-      {/* Oval pill label */}
+      {/* Ellipse with icon + label together */}
       <div
-        className="relative flex min-h-[52px] w-full items-center justify-center rounded-[28px] border px-4 pt-4 pb-3 transition-all duration-300"
+        className="flex h-[140px] w-[220px] flex-col items-center justify-center gap-1 overflow-hidden transition-all duration-300"
         style={{
-          borderColor: isHovered ? "hsla(200,80%,55%,0.45)" : "hsla(200,70%,50%,0.2)",
+          borderRadius: "50%",
+          border: `1px solid ${isHovered ? "hsla(200,80%,60%,0.6)" : "hsla(200,80%,60%,0.25)"}`,
           background: isHovered
-            ? "linear-gradient(180deg, hsla(200,70%,35%,0.4) 0%, hsla(210,60%,20%,0.5) 100%)"
-            : "linear-gradient(180deg, hsla(200,70%,30%,0.2) 0%, hsla(210,60%,18%,0.25) 100%)",
+            ? "linear-gradient(180deg, hsla(200,80%,45%,0.5), hsla(210,70%,30%,0.6))"
+            : "linear-gradient(180deg, hsla(200,80%,40%,0.2), hsla(210,70%,25%,0.25))",
           boxShadow: isHovered
-            ? "0 8px 32px hsla(200,80%,40%,0.2), inset 0 1px 0 hsla(0,0%,100%,0.1)"
-            : "0 4px 16px hsla(200,80%,30%,0.08), inset 0 1px 0 hsla(0,0%,100%,0.05)",
+            ? "0 0 25px hsla(200,80%,50%,0.4), inset 0 1px 1px hsla(0,0%,100%,0.15)"
+            : "0 0 10px hsla(200,80%,50%,0.1), inset 0 1px 1px hsla(0,0%,100%,0.08)",
           backdropFilter: "blur(12px)",
         }}
       >
+        <img
+          src={theme.image}
+          alt={theme.label}
+          className="h-16 w-16 object-contain transition-all duration-300"
+          style={{ filter: isHovered ? "brightness(1.3)" : "brightness(1)" }}
+        />
         <span
-          className="text-center text-[13px] font-semibold leading-tight transition-colors duration-300"
+          className="text-center text-[12px] font-semibold leading-tight transition-colors duration-300 px-4"
           style={{ color: isHovered ? "hsl(0,0%,100%)" : "hsl(200,40%,80%)" }}
         >
           {theme.label}
