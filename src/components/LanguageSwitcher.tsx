@@ -7,6 +7,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 const LANGUAGES = [
   { code: "en", flag: "🇬🇧" },
@@ -17,8 +19,17 @@ const LANGUAGES = [
 
 export function LanguageSwitcher({ collapsed = false }: { collapsed?: boolean }) {
   const { i18n, t } = useTranslation();
+  const { user } = useAuth();
 
   const current = LANGUAGES.find((l) => l.code === i18n.language) ?? LANGUAGES[0];
+
+  const changeLanguage = async (code: string) => {
+    i18n.changeLanguage(code);
+    // Save to profile if logged in
+    if (user) {
+      await supabase.from("profiles").update({ language: code } as any).eq("user_id", user.id);
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -39,7 +50,7 @@ export function LanguageSwitcher({ collapsed = false }: { collapsed?: boolean })
         {LANGUAGES.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
-            onClick={() => i18n.changeLanguage(lang.code)}
+            onClick={() => changeLanguage(lang.code)}
             className="cursor-pointer text-white hover:bg-[hsla(200,80%,50%,0.15)]"
           >
             {lang.flag} {t(`language.${lang.code}`)}

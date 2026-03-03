@@ -68,7 +68,7 @@ Deno.serve(async (req) => {
     }
 
     if (action === "create_user") {
-      const { email, password, full_name, role, access_profile_id } = params;
+      const { email, password, full_name, role, access_profile_id, language } = params;
       const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
         email,
         password,
@@ -77,13 +77,14 @@ Deno.serve(async (req) => {
       });
       if (createError) throw createError;
 
-      // Update profile with access_profile_id
-      if (access_profile_id) {
-        await supabaseAdmin
-          .from("profiles")
-          .update({ access_profile_id, full_name })
-          .eq("user_id", newUser.user.id);
-      }
+      // Update profile with access_profile_id and language
+      const profileUpdate: any = { full_name };
+      if (access_profile_id) profileUpdate.access_profile_id = access_profile_id;
+      if (language) profileUpdate.language = language;
+      await supabaseAdmin
+        .from("profiles")
+        .update(profileUpdate)
+        .eq("user_id", newUser.user.id);
 
       // Set role if admin
       if (role === "admin") {
@@ -98,7 +99,7 @@ Deno.serve(async (req) => {
     }
 
     if (action === "update_user") {
-      const { user_id, email, password, full_name, role, access_profile_id } = params;
+      const { user_id, email, password, full_name, role, access_profile_id, language } = params;
       
       const updateData: any = {};
       if (email) updateData.email = email;
@@ -111,9 +112,11 @@ Deno.serve(async (req) => {
       }
 
       // Update profile
+      const profileUpdate: any = { full_name, access_profile_id, email };
+      if (language) profileUpdate.language = language;
       await supabaseAdmin
         .from("profiles")
-        .update({ full_name, access_profile_id, email })
+        .update(profileUpdate)
         .eq("user_id", user_id);
 
       // Update role

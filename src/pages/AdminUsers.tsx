@@ -12,6 +12,13 @@ import { toast } from "sonner";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
+const LANGUAGE_OPTIONS = [
+  { code: "en", flag: "🇬🇧", label: "English" },
+  { code: "fr", flag: "🇫🇷", label: "Français" },
+  { code: "pt", flag: "🇧🇷", label: "Português" },
+  { code: "es", flag: "🇪🇸", label: "Español" },
+];
+
 const callAdminApi = async (body: any) => {
   const { data: { session } } = await supabase.auth.getSession();
   const res = await supabase.functions.invoke("admin-users", {
@@ -26,7 +33,7 @@ const AdminUsers = () => {
   const queryClient = useQueryClient();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editUser, setEditUser] = useState<any>(null);
-  const [form, setForm] = useState({ email: "", password: "", full_name: "", role: "user", access_profile_id: "" });
+  const [form, setForm] = useState({ email: "", password: "", full_name: "", role: "user", access_profile_id: "", language: "en" });
   const { t } = useTranslation();
 
   const { data: usersData, isLoading } = useQuery({
@@ -62,21 +69,21 @@ const AdminUsers = () => {
 
   const openCreate = () => {
     setEditUser(null);
-    setForm({ email: "", password: "", full_name: "", role: "user", access_profile_id: "" });
+    setForm({ email: "", password: "", full_name: "", role: "user", access_profile_id: "", language: "en" });
     setDialogOpen(true);
   };
 
   const openEdit = (user: any) => {
     setEditUser(user);
     const userRole = user.user_roles?.some((r: any) => r.role === "admin") ? "admin" : "user";
-    setForm({ email: user.email || "", password: "", full_name: user.full_name || "", role: userRole, access_profile_id: user.access_profile_id || "" });
+    setForm({ email: user.email || "", password: "", full_name: user.full_name || "", role: userRole, access_profile_id: user.access_profile_id || "", language: user.language || "en" });
     setDialogOpen(true);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (editUser) {
-      updateMutation.mutate({ user_id: editUser.user_id, email: form.email, password: form.password || undefined, full_name: form.full_name, role: form.role, access_profile_id: form.access_profile_id || null });
+      updateMutation.mutate({ user_id: editUser.user_id, email: form.email, password: form.password || undefined, full_name: form.full_name, role: form.role, access_profile_id: form.access_profile_id || null, language: form.language });
     } else {
       createMutation.mutate(form);
     }
@@ -95,7 +102,7 @@ const AdminUsers = () => {
                 <Plus className="mr-2 h-4 w-4" /> {t("adminUsers.newUser")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="border-[hsla(200,80%,60%,0.25)] bg-[hsl(215,85%,12%)] text-white">
+            <DialogContent className="border-[hsla(200,80%,60%,0.25)] bg-[hsl(215,85%,12%)] text-white max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>{editUser ? t("adminUsers.editUser") : t("adminUsers.createUser")}</DialogTitle>
               </DialogHeader>
@@ -137,6 +144,17 @@ const AdminUsers = () => {
                     </SelectContent>
                   </Select>
                 </div>
+                <div className="space-y-2">
+                  <Label className="text-[hsl(200,60%,70%)]">{t("adminUsers.language")}</Label>
+                  <Select value={form.language} onValueChange={(v) => setForm({ ...form, language: v })}>
+                    <SelectTrigger className="border-[hsla(200,80%,60%,0.3)] bg-[hsla(210,70%,15%,0.5)] text-white"><SelectValue /></SelectTrigger>
+                    <SelectContent className="border-[hsla(200,80%,60%,0.3)] bg-[hsl(215,85%,12%)]">
+                      {LANGUAGE_OPTIONS.map((lang) => (
+                        <SelectItem key={lang.code} value={lang.code} className="text-white">{lang.flag} {lang.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
                 <Button type="submit" className="w-full bg-[hsl(200,80%,45%)] hover:bg-[hsl(200,80%,55%)]"
                   disabled={createMutation.isPending || updateMutation.isPending}>
                   {editUser ? t("adminUsers.save") : t("adminUsers.create")}
@@ -158,32 +176,37 @@ const AdminUsers = () => {
                     <TableHead className="text-[hsl(200,60%,60%)]">{t("adminUsers.email")}</TableHead>
                     <TableHead className="text-[hsl(200,60%,60%)]">{t("adminUsers.role")}</TableHead>
                     <TableHead className="text-[hsl(200,60%,60%)]">{t("adminUsers.profile")}</TableHead>
+                    <TableHead className="text-[hsl(200,60%,60%)]">{t("adminUsers.language")}</TableHead>
                     <TableHead className="text-[hsl(200,60%,60%)]">{t("adminUsers.actions")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {users.map((u: any) => (
-                    <TableRow key={u.id} className="border-[hsla(200,80%,60%,0.05)] hover:bg-[hsla(200,80%,50%,0.05)]">
-                      <TableCell className="text-white">{u.full_name}</TableCell>
-                      <TableCell className="text-white/80">{u.email}</TableCell>
-                      <TableCell className="text-white/80">
-                        {u.user_roles?.some((r: any) => r.role === "admin") ? t("adminUsers.admin") : t("adminUsers.user")}
-                      </TableCell>
-                      <TableCell className="text-white/80">{u.access_profiles?.name || "—"}</TableCell>
-                      <TableCell>
-                        <div className="flex gap-2">
-                          <Button variant="ghost" size="icon" onClick={() => openEdit(u)} className="text-[hsl(200,60%,60%)] hover:text-white">
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="icon"
-                            onClick={() => { if (confirm(t("adminUsers.confirmDelete"))) deleteMutation.mutate(u.user_id); }}
-                            className="text-[hsl(0,60%,60%)] hover:text-[hsl(0,80%,70%)]">
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {users.map((u: any) => {
+                    const langOpt = LANGUAGE_OPTIONS.find((l) => l.code === u.language);
+                    return (
+                      <TableRow key={u.id} className="border-[hsla(200,80%,60%,0.05)] hover:bg-[hsla(200,80%,50%,0.05)]">
+                        <TableCell className="text-white">{u.full_name}</TableCell>
+                        <TableCell className="text-white/80">{u.email}</TableCell>
+                        <TableCell className="text-white/80">
+                          {u.user_roles?.some((r: any) => r.role === "admin") ? t("adminUsers.admin") : t("adminUsers.user")}
+                        </TableCell>
+                        <TableCell className="text-white/80">{u.access_profiles?.name || "—"}</TableCell>
+                        <TableCell className="text-white/80">{langOpt ? `${langOpt.flag} ${langOpt.label}` : u.language || "—"}</TableCell>
+                        <TableCell>
+                          <div className="flex gap-2">
+                            <Button variant="ghost" size="icon" onClick={() => openEdit(u)} className="text-[hsl(200,60%,60%)] hover:text-white">
+                              <Pencil className="h-4 w-4" />
+                            </Button>
+                            <Button variant="ghost" size="icon"
+                              onClick={() => { if (confirm(t("adminUsers.confirmDelete"))) deleteMutation.mutate(u.user_id); }}
+                              className="text-[hsl(0,60%,60%)] hover:text-[hsl(0,80%,70%)]">
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             )}
