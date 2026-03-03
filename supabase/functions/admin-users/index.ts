@@ -15,37 +15,57 @@ Deno.serve(async (req) => {
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey);
 
-    // Verify caller is admin
-    const authHeader = req.headers.get("Authorization")!;
-    const token = authHeader.replace("Bearer ", "");
-    const { data: { user }, error: authError } = await createClient(
-      supabaseUrl,
-      Deno.env.get("SUPABASE_PUBLISHABLE_KEY")!
-    ).auth.getUser(token);
-
-    if (authError || !user) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    // Check admin role
-    const { data: roleData } = await supabaseAdmin
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", user.id)
-      .eq("role", "admin")
-      .maybeSingle();
-
-    if (!roleData) {
-      return new Response(JSON.stringify({ error: "Forbidden: admin only" }), {
-        status: 403,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
     const { action, ...params } = await req.json();
+
+    // Check if this is a bootstrap (no users exist yet)
+    const authHeader = req.headers.get("Authorization");
+    const isBootstrap = action === "create_user" && !authHeader;
+
+    if (isBootstrap) {
+      // Only allow if no users exist
+      const { data: existingUsers } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1 });
+      if (existingUsers?.users?.length > 0) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+    } else {
+      // Verify caller is admin
+      if (!authHeader) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const token = authHeader.replace("Bearer ", "");
+      const { data: { user }, error: authError } = await createClient(
+        supabaseUrl,
+        Deno.env.get("SUPABASE_ANON_KEY")!
+      ).auth.getUser(token);
+
+      if (authError || !user) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      // Check admin role
+      const { data: roleData } = await supabaseAdmin
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user.id)
+        .eq("role", "admin")
+        .maybeSingle();
+
+      if (!roleData) {
+        return new Response(JSON.stringify({ error: "Forbidden: admin only" }), {
+          status: 403,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+    }
 
     if (action === "create_user") {
       const { email, password, full_name, role, access_profile_id } = params;
