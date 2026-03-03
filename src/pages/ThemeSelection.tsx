@@ -231,7 +231,7 @@ const ThemeBubble = ({ theme, isHovered, onHover, onLeave, onClick }: ThemeBubbl
           style={{ filter: isHovered ? "brightness(1.3)" : "brightness(1)" }}
         />
         <span
-          className="text-center text-[12px] font-semibold leading-tight transition-colors duration-300 px-4"
+          className="relative z-10 text-center text-[16px] font-bold leading-tight transition-colors duration-300 px-4 drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]"
           style={{ color: isHovered ? "hsl(0,0%,100%)" : "hsl(200,40%,80%)" }}
         >
           {theme.label}
