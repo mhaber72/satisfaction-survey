@@ -1,27 +1,26 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
-import {
-  Headphones,
-  Building2,
-  Cpu,
-  Handshake,
-  Users,
-  Settings,
-  Lightbulb,
-  Leaf,
-  Search,
-} from "lucide-react";
+import { Search } from "lucide-react";
+
+import customerSupportImg from "@/assets/Customer_Support.png";
+import corporatePerceptionImg from "@/assets/Corporate_Perception.png";
+import itExpertiseImg from "@/assets/IT_Expertise.png";
+import partnershipImg from "@/assets/Partnership.png";
+import humanResourcesImg from "@/assets/Human_Ressources.png";
+import operationalExcellenceImg from "@/assets/Operational_Excellence.png";
+import innovationImg from "@/assets/Innovation_Project_Management.png";
+import sustainableImg from "@/assets/Sustainable_Solutions.png";
 
 const THEMES = [
-  { key: "ACCOMPAGNEMENT CLIENT", label: "Customer Support", icon: Headphones },
-  { key: "CORPORATE PERCEPTION", label: "Corporate Perception", icon: Building2 },
-  { key: "EXPERTISE INFORMATIQUE", label: "IT Expertise", icon: Cpu },
-  { key: "PARTENAIRE", label: "Partnership", icon: Handshake },
-  { key: "Ressources Humaines", label: "Human Resources", icon: Users },
-  { key: "EXCELLENCE OPÉRATIONNELLE", label: "Operational Excellence", icon: Settings },
-  { key: "GESTION DE PROJETS ET INNOVATION", label: "Innovation & Project Management", icon: Lightbulb },
-  { key: "SOLUTIONS DURABLES", label: "Sustainable Solutions", icon: Leaf },
+  { key: "ACCOMPAGNEMENT CLIENT", label: "Customer Support", image: customerSupportImg },
+  { key: "CORPORATE PERCEPTION", label: "Corporate Perception", image: corporatePerceptionImg },
+  { key: "EXPERTISE INFORMATIQUE", label: "IT Expertise", image: itExpertiseImg },
+  { key: "PARTENAIRE", label: "Partnership", image: partnershipImg },
+  { key: "Ressources Humaines", label: "Human Resources", image: humanResourcesImg },
+  { key: "EXCELLENCE OPÉRATIONNELLE", label: "Operational Excellence", image: operationalExcellenceImg },
+  { key: "GESTION DE PROJETS ET INNOVATION", label: "Innovation & Project Management", image: innovationImg },
+  { key: "SOLUTIONS DURABLES", label: "Sustainable Solutions", image: sustainableImg },
 ];
 
 const ThemeSelection = () => {
@@ -169,7 +168,7 @@ const ThemeSelection = () => {
 
 /* --- Oval bubble component (like the reference image) --- */
 interface ThemeBubbleProps {
-  theme: { key: string; label: string; icon: React.ElementType };
+  theme: { key: string; label: string; image: string };
   isHovered: boolean;
   onHover: () => void;
   onLeave: () => void;
@@ -177,7 +176,6 @@ interface ThemeBubbleProps {
 }
 
 const ThemeBubble = ({ theme, isHovered, onHover, onLeave, onClick }: ThemeBubbleProps) => {
-  const Icon = theme.icon;
   return (
     <button
       onClick={onClick}
@@ -186,10 +184,10 @@ const ThemeBubble = ({ theme, isHovered, onHover, onLeave, onClick }: ThemeBubbl
       className="group relative flex w-[200px] flex-col items-center gap-2 transition-transform duration-300"
       style={{ transform: isHovered ? "scale(1.08)" : "scale(1)" }}
     >
-      {/* Icon circle with glow */}
+      {/* Custom image icon */}
       <div className="relative z-10 -mb-5">
         <div
-          className="flex h-14 w-14 items-center justify-center rounded-full border transition-all duration-300"
+          className="flex h-16 w-16 items-center justify-center rounded-full border overflow-hidden transition-all duration-300"
           style={{
             borderColor: isHovered ? "hsla(200,80%,60%,0.6)" : "hsla(200,80%,60%,0.25)",
             background: isHovered
@@ -200,9 +198,13 @@ const ThemeBubble = ({ theme, isHovered, onHover, onLeave, onClick }: ThemeBubbl
               : "0 0 10px hsla(200,80%,50%,0.1), inset 0 1px 1px hsla(0,0%,100%,0.08)",
           }}
         >
-          <Icon
-            className="h-7 w-7 transition-colors duration-300"
-            style={{ color: isHovered ? "hsl(0,0%,100%)" : "hsl(200,70%,75%)" }}
+          <img
+            src={theme.image}
+            alt={theme.label}
+            className="h-10 w-10 object-contain transition-all duration-300"
+            style={{
+              filter: isHovered ? "brightness(1.3)" : "brightness(1)",
+            }}
           />
         </div>
       </div>
