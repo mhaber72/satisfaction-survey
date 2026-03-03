@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 import customerSupportImg from "@/assets/Customer_Support.png";
 import corporatePerceptionImg from "@/assets/Corporate_Perception.png";
@@ -25,15 +24,14 @@ const THEMES = [
 ];
 
 const ThemeSelection = () => {
-  const [search, setSearch] = useState("");
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const navigate = useNavigate();
+  const { isAdmin, allowedThemes } = useAuth();
 
-  const filtered = THEMES.filter(
-    (t) =>
-      t.label.toLowerCase().includes(search.toLowerCase()) ||
-      t.key.toLowerCase().includes(search.toLowerCase())
-  );
+  // Admin sees all; users see only allowed themes
+  const filtered = isAdmin
+    ? THEMES
+    : THEMES.filter((t) => allowedThemes.includes(t.key));
 
   return (
     <div className="relative min-h-screen overflow-hidden select-none">
