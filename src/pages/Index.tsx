@@ -52,7 +52,6 @@ const Index = () => {
         from += pageSize;
       }
       return allData;
-      return allData;
     },
   });
 
