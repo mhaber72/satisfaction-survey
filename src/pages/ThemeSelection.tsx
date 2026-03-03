@@ -206,12 +206,12 @@ const ThemeBubble = ({ theme, isHovered, onHover, onLeave, onClick }: ThemeBubbl
       onClick={onClick}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
-      className="group relative flex w-[220px] flex-col items-center transition-transform duration-300"
+      className="group relative flex w-[280px] flex-col items-center transition-transform duration-300"
       style={{ transform: isHovered ? "scale(1.08)" : "scale(1)" }}
     >
       {/* Ellipse with icon + label together */}
       <div
-        className="flex h-[140px] w-[220px] flex-col items-center justify-center gap-1 overflow-hidden transition-all duration-300"
+        className="flex h-[180px] w-[280px] flex-col items-center justify-center gap-1 overflow-hidden transition-all duration-300"
         style={{
           borderRadius: "50%",
           border: `1px solid ${isHovered ? "hsla(200,80%,60%,0.6)" : "hsla(200,80%,60%,0.25)"}`,
@@ -227,7 +227,7 @@ const ThemeBubble = ({ theme, isHovered, onHover, onLeave, onClick }: ThemeBubbl
         <img
           src={theme.image}
           alt={theme.label}
-          className="h-16 w-16 object-contain transition-all duration-300"
+          className="h-32 w-32 object-contain transition-all duration-300"
           style={{ filter: isHovered ? "brightness(1.3)" : "brightness(1)" }}
         />
         <span
