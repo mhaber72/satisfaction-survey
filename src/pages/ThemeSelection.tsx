@@ -11,6 +11,7 @@ import humanResourcesImg from "@/assets/Human_Ressources.png";
 import operationalExcellenceImg from "@/assets/Operational_Excellence.png";
 import innovationImg from "@/assets/Innovation_Project_Management.png";
 import sustainableImg from "@/assets/Sustainable_Solutions.png";
+import logoIdl from "@/assets/logo-idl.png";
 
 const THEMES = [
   { key: "ACCOMPAGNEMENT CLIENT", label: "Customer Support", image: customerSupportImg },
@@ -88,6 +89,9 @@ const ThemeSelection = () => {
           }}
         />
       ))}
+
+      {/* Logo top-left */}
+      <img src={logoIdl} alt="IDL Logo" className="absolute left-6 top-6 z-20 h-12 w-auto" />
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-4 py-10">
         {/* Header decoration */}
