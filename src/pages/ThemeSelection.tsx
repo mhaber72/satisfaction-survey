@@ -106,7 +106,7 @@ const ThemeSelection = () => {
         <h1 className="mb-1 text-center text-4xl font-bold tracking-tight text-white md:text-5xl"
           style={{ textShadow: "0 0 40px hsla(200,80%,50%,0.3)" }}
         >
-          Automated Response Selection
+          Customer Satisfaction Survey
         </h1>
         <p className="mb-10 text-center text-base text-[hsl(200,60%,70%)]">
           Seleccione un tema para explorar los datos
