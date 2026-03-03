@@ -36,35 +36,41 @@ const ThemeSelection = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden select-none">
-      {/* Multi-layer background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[hsl(210,85%,8%)] via-[hsl(210,75%,18%)] to-[hsl(200,65%,22%)]" />
-      {/* Radial light burst */}
+      {/* Deep oceanic background */}
+      <div className="absolute inset-0" style={{
+        background: "radial-gradient(ellipse 120% 80% at 50% 50%, hsl(205,70%,18%) 0%, hsl(210,80%,10%) 50%, hsl(215,85%,6%) 100%)"
+      }} />
+      {/* Central glow */}
       <div className="pointer-events-none absolute inset-0" style={{
-        background: "radial-gradient(ellipse 80% 50% at 50% 40%, hsla(200,80%,45%,0.18) 0%, transparent 70%)"
+        background: "radial-gradient(ellipse 60% 50% at 50% 50%, hsla(200,80%,40%,0.15) 0%, transparent 70%)"
+      }} />
+      {/* Subtle vignette */}
+      <div className="pointer-events-none absolute inset-0" style={{
+        background: "radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, hsla(215,90%,4%,0.6) 100%)"
       }} />
       {/* Grid pattern overlay */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.04]" style={{
+      <div className="pointer-events-none absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: "linear-gradient(hsla(200,80%,70%,1) 1px, transparent 1px), linear-gradient(90deg, hsla(200,80%,70%,1) 1px, transparent 1px)",
         backgroundSize: "60px 60px"
       }} />
       {/* Floating particles */}
-      {[...Array(12)].map((_, i) => (
+      {[...Array(20)].map((_, i) => (
         <div
           key={i}
           className="pointer-events-none absolute rounded-full bg-[hsl(200,80%,60%)]"
           style={{
             width: `${2 + Math.random() * 3}px`,
             height: `${2 + Math.random() * 3}px`,
-            left: `${10 + Math.random() * 80}%`,
-            top: `${10 + Math.random() * 80}%`,
-            opacity: 0.15 + Math.random() * 0.25,
+            left: `${5 + Math.random() * 90}%`,
+            top: `${5 + Math.random() * 90}%`,
+            opacity: 0.1 + Math.random() * 0.2,
             animation: `pulse ${3 + Math.random() * 4}s ease-in-out infinite`,
             animationDelay: `${Math.random() * 3}s`,
           }}
         />
       ))}
 
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-4 py-10">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-4 py-10">
         {/* Header decoration */}
         <div className="mb-2 flex items-center gap-4">
           <div className="h-px w-16 bg-gradient-to-r from-transparent to-[hsl(200,70%,50%)]" />
@@ -84,7 +90,7 @@ const ThemeSelection = () => {
         </p>
 
         {/* Search Bar - glass pill */}
-        <div className="mb-14 flex w-full max-w-md items-center gap-2 rounded-full border border-white/20 bg-white/[0.07] px-5 py-2 shadow-[0_4px_30px_hsla(200,80%,40%,0.12)] backdrop-blur-xl">
+        <div className="mb-16 flex w-full max-w-md items-center gap-2 rounded-full border border-white/20 bg-white/[0.07] px-5 py-2 shadow-[0_4px_30px_hsla(200,80%,40%,0.12)] backdrop-blur-xl">
           <Search className="h-4 w-4 text-white/40" />
           <Input
             value={search}
@@ -103,10 +109,10 @@ const ThemeSelection = () => {
           </button>
         </div>
 
-        {/* Theme Bubbles - 3-3-2 layout like the image */}
-        <div className="flex w-full max-w-4xl flex-col items-center gap-8">
+        {/* Theme Bubbles - dispersed layout with more spacing */}
+        <div className="flex w-full max-w-5xl flex-col items-center gap-14">
           {/* Row 1: 3 items */}
-          <div className="flex flex-wrap justify-center gap-6">
+          <div className="flex flex-wrap justify-center gap-16">
             {filtered.slice(0, 3).map((theme, i) => (
               <ThemeBubble
                 key={theme.key}
@@ -119,7 +125,7 @@ const ThemeSelection = () => {
             ))}
           </div>
           {/* Row 2: 3 items */}
-          <div className="flex flex-wrap justify-center gap-6">
+          <div className="flex flex-wrap justify-center gap-16">
             {filtered.slice(3, 6).map((theme, i) => (
               <ThemeBubble
                 key={theme.key}
@@ -132,7 +138,7 @@ const ThemeSelection = () => {
             ))}
           </div>
           {/* Row 3: 2 items */}
-          <div className="flex flex-wrap justify-center gap-6">
+          <div className="flex flex-wrap justify-center gap-16">
             {filtered.slice(6, 8).map((theme, i) => (
               <ThemeBubble
                 key={theme.key}
