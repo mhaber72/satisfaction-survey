@@ -17,18 +17,18 @@
     "loading": "Entrando..."
   },
   "themeSelection": {
-    "subtitle": "Survey Analytics",
-    "title": "Customer Satisfaction Survey",
+    "subtitle": "Análise de Pesquisas",
+    "title": "Pesquisa de Satisfação do Cliente",
     "description": "Selecione um tema para explorar os dados",
     "viewAll": "Ver todos os dados →",
-    "customerSupport": "Customer Support",
-    "corporatePerception": "Corporate Perception",
-    "itExpertise": "IT Expertise",
-    "partnership": "Partnership",
-    "humanResources": "Human Resources",
-    "operationalExcellence": "Operational Excellence",
-    "innovationProjectMgmt": "Innovation & Project Management",
-    "sustainableSolutions": "Sustainable Solutions"
+    "customerSupport": "Acompanhamento ao Cliente",
+    "corporatePerception": "Percepção Corporativa",
+    "itExpertise": "Expertise em TI",
+    "partnership": "Parceria",
+    "humanResources": "Recursos Humanos",
+    "operationalExcellence": "Excelência Operacional",
+    "innovationProjectMgmt": "Inovação e Gestão de Projetos",
+    "sustainableSolutions": "Soluções Sustentáveis"
   },
   "themeDetail": {
     "filteredByTheme": "Dados filtrados por tema",
