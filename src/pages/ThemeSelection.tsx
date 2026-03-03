@@ -187,7 +187,7 @@ const ThemeBubble = ({ theme, isHovered, onHover, onLeave, onClick }: ThemeBubbl
       {/* Custom image icon */}
       <div className="relative z-10 -mb-5">
         <div
-          className="flex h-16 w-16 items-center justify-center rounded-full border overflow-hidden transition-all duration-300"
+          className="flex h-20 w-20 items-center justify-center rounded-full border overflow-hidden transition-all duration-300"
           style={{
             borderColor: isHovered ? "hsla(200,80%,60%,0.6)" : "hsla(200,80%,60%,0.25)",
             background: isHovered
@@ -201,7 +201,7 @@ const ThemeBubble = ({ theme, isHovered, onHover, onLeave, onClick }: ThemeBubbl
           <img
             src={theme.image}
             alt={theme.label}
-            className="h-10 w-10 object-contain transition-all duration-300"
+            className="h-14 w-14 object-contain transition-all duration-300"
             style={{
               filter: isHovered ? "brightness(1.3)" : "brightness(1)",
             }}
