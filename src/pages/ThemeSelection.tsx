@@ -154,7 +154,7 @@ const ThemeBubble = ({ label, image, isHovered, onHover, onLeave, onClick }: The
     </div>
     {/* Label overlapping bottom of ellipse */}
     <span
-      className="absolute bottom-[-4px] z-10 text-center text-[15px] font-bold leading-tight transition-colors duration-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]"
+      className="absolute bottom-[18px] z-10 text-center text-[15px] font-bold leading-tight transition-colors duration-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]"
       style={{ color: isHovered ? "hsl(0,0%,100%)" : "hsl(200,40%,80%)" }}
     >
       {label}
