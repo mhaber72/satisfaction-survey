@@ -6,11 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, BarChart3, Users, TrendingUp, FileText } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const ThemeDetail = () => {
   const { theme } = useParams<{ theme: string }>();
   const navigate = useNavigate();
   const decodedTheme = decodeURIComponent(theme || "");
+  const { t } = useTranslation();
 
   const { data: records, isLoading } = useQuery({
     queryKey: ["pesquisa-theme", decodedTheme],
@@ -46,29 +48,22 @@ const ThemeDetail = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[hsl(210,80%,15%)] via-[hsl(210,70%,25%)] to-[hsl(200,60%,30%)]">
       <div className="mx-auto max-w-7xl px-6 py-8">
-        {/* Header */}
         <div className="mb-8 flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-white hover:bg-white/10"
-            onClick={() => navigate("/")}
-          >
+          <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" onClick={() => navigate("/")}>
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div>
             <h1 className="text-3xl font-bold text-white">{decodedTheme}</h1>
-            <p className="text-white/60">Datos filtrados por tema</p>
+            <p className="text-white/60">{t("themeDetail.filteredByTheme")}</p>
           </div>
         </div>
 
-        {/* KPI Cards */}
         <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { label: "Registros", value: total, icon: FileText },
-            { label: "Score Medio", value: avgScore, icon: BarChart3 },
-            { label: "Clientes", value: uniqueClients, icon: Users },
-            { label: "Preguntas", value: uniqueQuestions, icon: TrendingUp },
+            { label: t("themeDetail.records"), value: total, icon: FileText },
+            { label: t("themeDetail.avgScore"), value: avgScore, icon: BarChart3 },
+            { label: t("themeDetail.clients"), value: uniqueClients, icon: Users },
+            { label: t("themeDetail.questions"), value: uniqueQuestions, icon: TrendingUp },
           ].map((kpi) => (
             <Card key={kpi.label} className="border-white/10 bg-white/5 backdrop-blur-md">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -82,28 +77,27 @@ const ThemeDetail = () => {
           ))}
         </div>
 
-        {/* Data Table */}
         <Card className="border-white/10 bg-white/5 backdrop-blur-md">
           <CardHeader>
-            <CardTitle className="text-white">Datos</CardTitle>
+            <CardTitle className="text-white">{t("themeDetail.data")}</CardTitle>
           </CardHeader>
           <CardContent>
             {isLoading ? (
-              <p className="text-white/60">Cargando...</p>
+              <p className="text-white/60">{t("themeDetail.loading")}</p>
             ) : total === 0 ? (
-              <p className="py-12 text-center text-white/60">Sin datos para este tema.</p>
+              <p className="py-12 text-center text-white/60">{t("themeDetail.noData")}</p>
             ) : (
               <div className="max-h-[500px] overflow-auto">
                 <Table>
                   <TableHeader>
                     <TableRow className="border-white/10 hover:bg-white/5">
-                      <TableHead className="text-white/60">País</TableHead>
-                      <TableHead className="text-white/60">Cliente</TableHead>
-                      <TableHead className="text-white/60">Nombre</TableHead>
-                      <TableHead className="text-white/60">Tipo</TableHead>
-                      <TableHead className="text-white/60">Score</TableHead>
-                      <TableHead className="text-white/60">Importancia</TableHead>
-                      <TableHead className="text-white/60">Pregunta</TableHead>
+                      <TableHead className="text-white/60">{t("themeDetail.country")}</TableHead>
+                      <TableHead className="text-white/60">{t("themeDetail.client")}</TableHead>
+                      <TableHead className="text-white/60">{t("themeDetail.name")}</TableHead>
+                      <TableHead className="text-white/60">{t("themeDetail.type")}</TableHead>
+                      <TableHead className="text-white/60">{t("themeDetail.score")}</TableHead>
+                      <TableHead className="text-white/60">{t("themeDetail.importance")}</TableHead>
+                      <TableHead className="text-white/60">{t("themeDetail.question")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>

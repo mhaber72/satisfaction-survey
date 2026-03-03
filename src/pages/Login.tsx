@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import logoIdl from "@/assets/logo-idl.png";
 
 const Login = () => {
@@ -13,6 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,15 +43,20 @@ const Login = () => {
         backgroundSize: "28px 28px"
       }} />
 
+      {/* Language switcher top-right */}
+      <div className="absolute right-4 top-4 z-20">
+        <LanguageSwitcher />
+      </div>
+
       <Card className="relative z-10 w-full max-w-md border-[hsla(200,80%,60%,0.25)] bg-[hsla(210,70%,15%,0.8)] backdrop-blur-xl">
         <CardHeader className="items-center">
           <img src={logoIdl} alt="Logo" className="mb-4 h-16 w-auto" />
-          <CardTitle className="text-2xl text-white">Iniciar Sesión</CardTitle>
+          <CardTitle className="text-2xl text-white">{t("login.title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-[hsl(200,60%,70%)]">Email</Label>
+              <Label htmlFor="email" className="text-[hsl(200,60%,70%)]">{t("login.email")}</Label>
               <Input
                 id="email"
                 type="email"
@@ -56,11 +64,11 @@ const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="border-[hsla(200,80%,60%,0.3)] bg-[hsla(210,70%,15%,0.5)] text-white placeholder:text-[hsl(200,40%,50%)]"
-                placeholder="tu@email.com"
+                placeholder={t("login.emailPlaceholder")}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-[hsl(200,60%,70%)]">Contraseña</Label>
+              <Label htmlFor="password" className="text-[hsl(200,60%,70%)]">{t("login.password")}</Label>
               <Input
                 id="password"
                 type="password"
@@ -76,7 +84,7 @@ const Login = () => {
               disabled={loading}
               className="w-full bg-[hsl(200,80%,45%)] text-white hover:bg-[hsl(200,80%,55%)]"
             >
-              {loading ? "Entrando..." : "Entrar"}
+              {loading ? t("login.loading") : t("login.submit")}
             </Button>
           </form>
         </CardContent>
