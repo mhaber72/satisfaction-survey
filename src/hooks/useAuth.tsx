@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User, Session } from "@supabase/supabase-js";
+import i18n from "@/i18n";
 
 interface AuthContextType {
   user: User | null;
@@ -40,6 +41,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       .eq("user_id", userId)
       .maybeSingle();
     setProfile(profileData);
+
+    // Set language from profile
+    if (profileData?.language) {
+      i18n.changeLanguage(profileData.language);
+    }
 
     // Fetch roles
     const { data: roles } = await supabase

@@ -92,7 +92,8 @@
     "userCreated": "User created",
     "userUpdated": "User updated",
     "userDeleted": "User deleted",
-    "confirmDelete": "Delete this user?"
+    "confirmDelete": "Delete this user?",
+    "language": "Language"
   },
   "adminProfiles": {
     "title": "Access Profiles",

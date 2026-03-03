@@ -92,7 +92,8 @@
     "userCreated": "Utilisateur créé",
     "userUpdated": "Utilisateur mis à jour",
     "userDeleted": "Utilisateur supprimé",
-    "confirmDelete": "Supprimer cet utilisateur ?"
+    "confirmDelete": "Supprimer cet utilisateur ?",
+    "language": "Langue"
   },
   "adminProfiles": {
     "title": "Profils d'accès",
