@@ -14,7 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      pesquisa_satisfacao: {
+        Row: {
+          activity: string | null
+          answer_delay: string | null
+          answered: number | null
+          applicability: number | null
+          client_name: string | null
+          contact: string | null
+          context: string | null
+          country: string | null
+          created_at: string
+          firstname: string | null
+          id: number
+          importance: number | null
+          lastname: string | null
+          progress: number | null
+          question: string | null
+          question_comment: string | null
+          score: number | null
+          theme: string | null
+          theme_comment: string | null
+          type: string | null
+        }
+        Insert: {
+          activity?: string | null
+          answer_delay?: string | null
+          answered?: number | null
+          applicability?: number | null
+          client_name?: string | null
+          contact?: string | null
+          context?: string | null
+          country?: string | null
+          created_at?: string
+          firstname?: string | null
+          id?: never
+          importance?: number | null
+          lastname?: string | null
+          progress?: number | null
+          question?: string | null
+          question_comment?: string | null
+          score?: number | null
+          theme?: string | null
+          theme_comment?: string | null
+          type?: string | null
+        }
+        Update: {
+          activity?: string | null
+          answer_delay?: string | null
+          answered?: number | null
+          applicability?: number | null
+          client_name?: string | null
+          contact?: string | null
+          context?: string | null
+          country?: string | null
+          created_at?: string
+          firstname?: string | null
+          id?: never
+          importance?: number | null
+          lastname?: string | null
+          progress?: number | null
+          question?: string | null
+          question_comment?: string | null
+          score?: number | null
+          theme?: string | null
+          theme_comment?: string | null
+          type?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
