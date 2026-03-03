@@ -112,25 +112,6 @@ const ThemeSelection = () => {
           Seleccione un tema para explorar los datos
         </p>
 
-        {/* Search Bar - glass pill */}
-        <div className="mb-16 flex w-full max-w-md items-center gap-2 rounded-full border border-white/20 bg-white/[0.07] px-5 py-2 shadow-[0_4px_30px_hsla(200,80%,40%,0.12)] backdrop-blur-xl">
-          <Search className="h-4 w-4 text-white/40" />
-          <Input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search..."
-            className="h-8 border-0 bg-transparent text-sm text-white placeholder:text-white/30 focus-visible:ring-0 focus-visible:ring-offset-0"
-          />
-          <button
-            className="rounded-md bg-white/20 px-4 py-1 text-xs font-semibold text-white transition hover:bg-white/30"
-            onClick={() => {
-              if (filtered.length === 1)
-                navigate(`/theme/${encodeURIComponent(filtered[0].key)}`);
-            }}
-          >
-            Search
-          </button>
-        </div>
 
         {/* Theme Bubbles - dispersed layout with more spacing */}
         <div className="flex w-full max-w-5xl flex-col items-center gap-14">
