@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import bgPesquisa from "@/assets/bg-pesquisa.png";
 
 import customerSupportImg from "@/assets/Customer_Support.png";
 import corporatePerceptionImg from "@/assets/Corporate_Perception.png";
@@ -36,23 +37,10 @@ const ThemeSelection = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden select-none">
-      {/* Deep oceanic background */}
-      <div className="absolute inset-0" style={{
-        background: "radial-gradient(ellipse 120% 80% at 50% 50%, hsl(205,70%,18%) 0%, hsl(210,80%,10%) 50%, hsl(215,85%,6%) 100%)"
-      }} />
-      {/* Central glow */}
-      <div className="pointer-events-none absolute inset-0" style={{
-        background: "radial-gradient(ellipse 60% 50% at 50% 50%, hsla(200,80%,40%,0.15) 0%, transparent 70%)"
-      }} />
-      {/* Subtle vignette */}
-      <div className="pointer-events-none absolute inset-0" style={{
-        background: "radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, hsla(215,90%,4%,0.6) 100%)"
-      }} />
-      {/* Grid pattern overlay */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: "linear-gradient(hsla(200,80%,70%,1) 1px, transparent 1px), linear-gradient(90deg, hsla(200,80%,70%,1) 1px, transparent 1px)",
-        backgroundSize: "60px 60px"
-      }} />
+      {/* Background image from reference */}
+      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${bgPesquisa})` }} />
+      {/* Dark overlay for contrast */}
+      <div className="absolute inset-0 bg-[hsl(210,80%,8%)]/40" />
       {/* Floating particles */}
       {[...Array(20)].map((_, i) => (
         <div
