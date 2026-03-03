@@ -91,7 +91,7 @@ const ThemeSelection = () => {
       ))}
 
       {/* Logo top-left */}
-      <img src={logoIdl} alt="IDL Logo" className="absolute left-6 top-6 z-20 h-12 w-auto" />
+      <img src={logoIdl} alt="IDL Logo" className="absolute left-20 top-12 z-20 h-24 w-auto" />
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-4 py-10">
         {/* Header decoration */}
