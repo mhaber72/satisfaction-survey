@@ -147,10 +147,20 @@ Deno.serve(async (req) => {
     if (action === "list_users") {
       const { data: profiles } = await supabaseAdmin
         .from("profiles")
-        .select("*, user_roles(role), access_profiles(name)")
+        .select("*, access_profiles(name)")
         .order("created_at", { ascending: false });
 
-      return new Response(JSON.stringify({ users: profiles }), {
+      // Fetch roles separately since there's no FK
+      const { data: allRoles } = await supabaseAdmin
+        .from("user_roles")
+        .select("user_id, role");
+
+      const enriched = (profiles ?? []).map((p: any) => ({
+        ...p,
+        user_roles: (allRoles ?? []).filter((r: any) => r.user_id === p.user_id),
+      }));
+
+      return new Response(JSON.stringify({ users: enriched }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
