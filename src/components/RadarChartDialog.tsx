@@ -19,32 +19,39 @@ const THEME_COLORS: Record<string, string> = {
 };
 
 const QUESTION_SHORT_LABELS: Record<string, string> = {
-  "direction générale": "Relation with Top Mngt",
+  // ACCOMPAGNEMENT CLIENT
+  "direction générale d'ID Logistics": "Relation with Top Mngt",
   "Contract Manager": "Relation with ID Mngt",
-  "équipes opérationnelles": "Relation Ops",
-  "projets et ambitions": "Strategy understanding",
-  "démarrages de nouvelles": "Start-up",
-  "amélioration continue": "Continuous improvement",
-  "prestation d'ID Logistics": "Ops. Performance & Quick answers",
+  "équipes opérationnelles et les responsables": "Relation Ops",
+  "projets et ambitions de votre entreprise": "Strategy understanding",
+  // EXCELLENCE OPÉRATIONNELLE
+  "démarrages de nouvelles activité": "Start-up",
+  "amélioration continue menée": "Continuous improvement",
+  "Êtes-vous satisfait de la prestation d'ID Logistics": "Ops. Performance & Quick answers",
   "qualité de service d'ID Logistics par vos propres": "Operationnal quality",
-  "optimiser votre transport": "Truck loading optimization",
-  "outils informatiques à disposition": "Use of IT tools",
+  "optimiser votre transport et votre remplissage": "Truck loading optimization",
+  // EXPERTISE INFORMATIQUE
+  "bien utiliser les outils informatiques": "Use of IT tools",
   "faire évoluer nos outils": "IT evolution",
-  "solutions applicatives": "IT development",
-  "projets d'innovation": "Innovation",
-  "nouvelles technologies": "New technologies / process",
+  "solutions applicatives métier": "IT development",
+  // GESTION DE PROJETS ET INNOVATION
+  "projets d'innovation mis en œuvre": "Innovation",
+  "nouvelles technologies, projets structurants": "New technologies / process",
   "démarche innovation par rapport": "Innovation VS Competition",
+  // PARTENAIRE
   "solutions, des réalisations": "Share other solutions",
   "par rapport à vos autres prestataires": "ID vs Competition",
-  "réponses suite à l'enquête": "Survey follow-up",
+  "réponses suite à l'enquête de satisfaction": "Survey follow-up",
+  // RESSOURCES HUMAINES
   "politique de rémunération": "Wages policy",
-  "climat social": "Social atmosphere",
-  "diversité, l'inclusion": "Diversity, inclusion and disability",
-  "gestion RH": "HR management",
+  "climat social de votre": "Social atmosphere",
+  "diversité, l'inclusion, le handicap": "Diversity, inclusion and disability",
+  "gestion RH de notre personnel": "HR management",
+  // SOLUTIONS DURABLES
   "hygiène et la propreté": "Hygiene",
-  "normes de sécurité": "Security standards",
+  "normes de sécurité au travail": "Security standards",
   "intégrité de vos marchandises": "Transport conditions",
-  "objectifs RSE": "CSR Policy",
+  "objectifs RSE notamment en matière": "CSR Policy",
 };
 
 // Explicit order matching the reference chart (clockwise from top)
@@ -77,9 +84,18 @@ const QUESTION_DISPLAY_ORDER: string[] = [
   "Survey follow-up",
 ];
 
+function normalizeText(text: string): string {
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[\u2018\u2019\u2032]/g, "'")
+    .toLowerCase();
+}
+
 function getShortLabel(question: string): string {
+  const normalized = normalizeText(question);
   for (const [keyword, label] of Object.entries(QUESTION_SHORT_LABELS)) {
-    if (question.includes(keyword)) return label;
+    if (normalized.includes(normalizeText(keyword))) return label;
   }
   return question.length > 25 ? question.slice(0, 25) + "…" : question;
 }
