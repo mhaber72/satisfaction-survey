@@ -138,7 +138,7 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
         {/* Global NPS Card */}
         <Card className="border-white/10 bg-white/5 backdrop-blur-md">
           <CardContent className="flex flex-col items-center justify-center py-10">
-            <GlobalNPSGauge records={filteredRecords} prevRecords={prevYearRecords} prevYear={prevYear} />
+            <GlobalNPSGauge records={filteredRecords} prevRecords={prevYearRecords} prevYear={prevYear} selectedYear={selectedYear} />
           </CardContent>
         </Card>
       </div>
@@ -193,7 +193,7 @@ function NPSBar({ client, nps, maxAbs }: { client: string; nps: number; maxAbs: 
   );
 }
 
-function GlobalNPSGauge({ records, prevRecords, prevYear }: { records: any[] | undefined; prevRecords: any[]; prevYear: string }) {
+function GlobalNPSGauge({ records, prevRecords, prevYear, selectedYear }: { records: any[] | undefined; prevRecords: any[]; prevYear: string; selectedYear: string }) {
   const stats = useMemo(() => computeGlobalNPS(records), [records]);
   const prevStats = useMemo(() => computeGlobalNPS(prevRecords), [prevRecords]);
 
@@ -204,23 +204,22 @@ function GlobalNPSGauge({ records, prevRecords, prevYear }: { records: any[] | u
 
   const size = 240;
   const strokeOuter = 40;
-  const gap = 6; // gap in degrees between segments
+  const gap = 6;
   const rOuter = (size - strokeOuter) / 2;
   const cx = size / 2;
   const cy = size / 2;
-  const startAngle = 135;
+  const startAngle = 135; // bottom-left, opening at bottom
   const totalArc = 270;
+  const usableArc = totalArc - gap * 2;
 
-  // Order: green (promoters) top-right, orange (passives) top-left, red (detractors) bottom-left
-  const usableArc = totalArc - gap * 2; // subtract gaps
-  const promoterSweep = total ? (promoterPct / 100) * usableArc : 0;
-  const passiveSweep = total ? (passivePct / 100) * usableArc : 0;
-  const detractorSweep = total ? (detractorPct / 100) * usableArc : 0;
+  // Clockwise from opening: red (bottom-left) → orange (top-left) → green (top-right)
+  const redSweep = total ? (detractorPct / 100) * usableArc : 0;
+  const orangeSweep = total ? (passivePct / 100) * usableArc : 0;
+  const greenSweep = total ? (promoterPct / 100) * usableArc : 0;
 
-  // Reverse order: start from end going backwards so green is top-right
-  const greenStart = startAngle + totalArc - promoterSweep;
-  const orangeStart = greenStart - gap - passiveSweep;
-  const redStart = orangeStart - gap - detractorSweep;
+  const redStart = startAngle;
+  const orangeStart = redStart + redSweep + gap;
+  const greenStart = orangeStart + orangeSweep + gap;
 
   function arcPath(r: number, startDeg: number, sweepDeg: number) {
     if (sweepDeg <= 0) return "";
@@ -239,41 +238,42 @@ function GlobalNPSGauge({ records, prevRecords, prevYear }: { records: any[] | u
     return { x: cx + r * Math.cos(mid), y: cy + r * Math.sin(mid) };
   }
 
-  const pLabel = labelPos(greenStart, promoterSweep, rOuter);
-  const paLabel = labelPos(orangeStart, passiveSweep, rOuter);
-  const dLabel = labelPos(redStart, detractorSweep, rOuter);
+  const gLabel = labelPos(greenStart, greenSweep, rOuter);
+  const oLabel = labelPos(orangeStart, orangeSweep, rOuter);
+  const dLabel = labelPos(redStart, redSweep, rOuter);
 
   return (
     <div className="flex flex-col items-center">
-      <svg width={size} height={size + 10} viewBox={`0 0 ${size} ${size + 10}`}>
+      <svg width={size} height={size + 30} viewBox={`0 0 ${size} ${size + 30}`}>
         {total > 0 && (
           <>
-            {promoterSweep > 0.5 && (
-              <path d={arcPath(rOuter, greenStart, promoterSweep)} fill="none" stroke="rgba(134,239,172,0.5)" strokeWidth={strokeOuter} strokeLinecap="butt" />
+            {greenSweep > 0.5 && (
+              <path d={arcPath(rOuter, greenStart, greenSweep)} fill="none" stroke="rgba(134,239,172,0.5)" strokeWidth={strokeOuter} strokeLinecap="butt" />
             )}
-            {passiveSweep > 0.5 && (
-              <path d={arcPath(rOuter, orangeStart, passiveSweep)} fill="none" stroke="rgba(253,186,116,0.5)" strokeWidth={strokeOuter} strokeLinecap="butt" />
+            {orangeSweep > 0.5 && (
+              <path d={arcPath(rOuter, orangeStart, orangeSweep)} fill="none" stroke="rgba(253,186,116,0.5)" strokeWidth={strokeOuter} strokeLinecap="butt" />
             )}
-            {detractorSweep > 0.5 && (
-              <path d={arcPath(rOuter, redStart, detractorSweep)} fill="none" stroke="rgba(252,165,165,0.5)" strokeWidth={strokeOuter} strokeLinecap="butt" />
+            {redSweep > 0.5 && (
+              <path d={arcPath(rOuter, redStart, redSweep)} fill="none" stroke="rgba(252,165,165,0.5)" strokeWidth={strokeOuter} strokeLinecap="butt" />
             )}
-            {/* Labels on arcs */}
-            {promoterSweep > 8 && (
-              <text x={pLabel.x} y={pLabel.y} textAnchor="middle" dominantBaseline="central" fill="#166534" fontSize="16" fontWeight="700">{stats.promoters}</text>
+            {greenSweep > 8 && (
+              <text x={gLabel.x} y={gLabel.y} textAnchor="middle" dominantBaseline="central" fill="#166534" fontSize="16" fontWeight="700">{stats.promoters}</text>
             )}
-            {passiveSweep > 8 && (
-              <text x={paLabel.x} y={paLabel.y} textAnchor="middle" dominantBaseline="central" fill="#c2410c" fontSize="16" fontWeight="700">{stats.passives}</text>
+            {orangeSweep > 8 && (
+              <text x={oLabel.x} y={oLabel.y} textAnchor="middle" dominantBaseline="central" fill="#c2410c" fontSize="16" fontWeight="700">{stats.passives}</text>
             )}
-            {detractorSweep > 8 && (
+            {redSweep > 8 && (
               <text x={dLabel.x} y={dLabel.y} textAnchor="middle" dominantBaseline="central" fill="#dc2626" fontSize="16" fontWeight="700">{stats.detractors}</text>
             )}
           </>
         )}
-        {/* Center NPS */}
-        <text x={cx} y={cy} textAnchor="middle" dominantBaseline="central" fill="white" fontSize="48" fontWeight="800">{stats.nps}</text>
-        {/* Previous year below */}
+        {/* Center NPS value */}
+        <text x={cx} y={cy - 10} textAnchor="middle" dominantBaseline="central" fill="white" fontSize="48" fontWeight="800">{stats.nps}</text>
+        {/* NPS + year label */}
+        <text x={cx} y={cy + 24} textAnchor="middle" dominantBaseline="central" fill="white" fontSize="16" fontWeight="700">NPS {selectedYear}</text>
+        {/* Previous year */}
         {prevRecords.length > 0 && (
-          <text x={cx} y={size - 2} textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="14">{prevStats.nps} in {prevYear}</text>
+          <text x={cx} y={size + 16} textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="14">{prevStats.nps} in {prevYear}</text>
         )}
       </svg>
     </div>
