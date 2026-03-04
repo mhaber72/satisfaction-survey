@@ -99,7 +99,7 @@ const ThemeDetail = () => {
               <p className="py-12 text-center text-white/60">{t("themeDetail.noData")}</p>
             ) : (
               <div className="max-h-[500px] overflow-scroll relative scrollbar-always">
-                <table className="w-full caption-bottom text-sm">
+                <table className="w-max min-w-full caption-bottom text-sm">
                   <thead className="sticky top-0 z-10 bg-[hsl(210,70%,20%)] [&_tr]:border-b">
                     <tr className="border-b border-white/10 transition-colors">
                       <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.client")}</th>

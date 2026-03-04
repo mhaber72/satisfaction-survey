@@ -80,7 +80,7 @@ const Index = () => {
           ))}
         </div>
 
-        <Card>
+        <Card className="overflow-hidden">
           <CardHeader><CardTitle>{t("dashboard.surveyData")}</CardTitle></CardHeader>
           <CardContent>
             {isLoading ? (
@@ -92,7 +92,7 @@ const Index = () => {
               </div>
             ) : (
               <div className="max-h-[500px] overflow-scroll relative scrollbar-always">
-                <table className="w-full caption-bottom text-sm">
+                <table className="w-max min-w-full caption-bottom text-sm">
                   <thead className="sticky top-0 z-10 bg-background [&_tr]:border-b">
                     <tr className="border-b transition-colors hover:bg-muted/50">
                       <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.client")}</th>
