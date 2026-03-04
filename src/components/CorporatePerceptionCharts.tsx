@@ -208,7 +208,7 @@ function GlobalNPSGauge({ records, prevRecords, prevYear, selectedYear }: { reco
   const rOuter = (size - strokeOuter) / 2;
   const cx = size / 2;
   const cy = size / 2;
-  const startAngle = 135; // bottom-left, opening at bottom
+  const startAngle = 225; // bottom-left, opening at bottom
   const totalArc = 270;
   const usableArc = totalArc - gap * 2;
 
