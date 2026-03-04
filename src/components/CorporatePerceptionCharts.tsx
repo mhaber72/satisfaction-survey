@@ -10,6 +10,7 @@ interface Props {
 }
 
 const QUESTION_1 = "Dans quelle mesure recommanderiez-vous ID Logistics à vos collègues, partenaires commerciaux ou clients ?";
+const QUESTION_2 = "Si vous aviez de nouvelles activités à prester, pourriez-vous les confier, dans le cadre d'un AO et sous réserve de compétitivité, à IDL ?";
 
 function computeNPSByClient(records: any[] | undefined) {
   if (!records) return [];
@@ -89,6 +90,23 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
     return prevYearRecords.filter((r) => r.question === QUESTION_1 && r.score != null).length;
   }, [prevYearRecords]);
 
+  // Question 2: "Contrataria ID para nuevo servicio?" - SIM (score=1) / NÃO (score=0)
+  const q2Stats = useMemo(() => {
+    if (!filteredRecords) return { yes: 0, no: 0 };
+    const q2 = filteredRecords.filter((r) => r.question === QUESTION_2 && r.score != null);
+    const yes = q2.filter((r) => Number(r.score) === 1).length;
+    const no = q2.filter((r) => Number(r.score) === 0).length;
+    return { yes, no };
+  }, [filteredRecords]);
+
+  const q2PrevStats = useMemo(() => {
+    if (!prevYearRecords.length) return null;
+    const q2 = prevYearRecords.filter((r) => r.question === QUESTION_2 && r.score != null);
+    const yes = q2.filter((r) => Number(r.score) === 1).length;
+    const no = q2.filter((r) => Number(r.score) === 0).length;
+    return { yes, no };
+  }, [prevYearRecords]);
+
   if (isLoading) {
     return <p className="text-white/60">Loading...</p>;
   }
@@ -129,7 +147,7 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
       </Card>
 
       {/* KPI Cards */}
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Clients Card */}
         <Card className="border-white/10 bg-white/5 backdrop-blur-md">
           <CardContent className="flex flex-col items-center justify-center py-10">
@@ -164,6 +182,31 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
                 {answersPrevYear} in {prevYear}
               </p>
             )}
+          </CardContent>
+        </Card>
+
+        {/* Q2 - Contrataria Card */}
+        <Card className="border-white/10 bg-white/5 backdrop-blur-md">
+          <CardContent className="flex flex-col items-center justify-center py-10">
+            <p className="text-lg font-bold text-blue-300 text-center mb-6 leading-tight">
+              Contrataria ID para um novo serviço ou operação?
+            </p>
+            <div className="flex items-start gap-8">
+              <div className="flex flex-col items-center">
+                <span className="text-blue-400 font-bold text-lg">SIM</span>
+                <span className="text-4xl font-bold text-green-400">{q2Stats.yes}</span>
+                {q2PrevStats && (
+                  <span className="text-sm text-white/50 mt-1">{q2PrevStats.yes} in {prevYear}</span>
+                )}
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-blue-400 font-bold text-lg">NÃO</span>
+                <span className="text-4xl font-bold text-red-400">{q2Stats.no}</span>
+                {q2PrevStats && (
+                  <span className="text-sm text-white/50 mt-1">{q2PrevStats.no} in {prevYear}</span>
+                )}
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
