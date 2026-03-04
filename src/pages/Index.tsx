@@ -91,37 +91,37 @@ const Index = () => {
                 <p>{t("dashboard.noData")}</p>
               </div>
             ) : (
-              <div className="overflow-auto max-h-[500px]">
-                <Table>
-                  <TableHeader className="sticky top-0 z-10 bg-background">
-                    <TableRow>
-                      <TableHead className="whitespace-nowrap">{t("dashboard.client")}</TableHead>
-                      <TableHead className="whitespace-nowrap">{t("dashboard.name")}</TableHead>
-                      <TableHead className="whitespace-nowrap">{t("dashboard.theme")}</TableHead>
-                      <TableHead className="whitespace-nowrap">{t("dashboard.themeComment")}</TableHead>
-                      <TableHead className="whitespace-nowrap">{t("dashboard.question")}</TableHead>
-                      <TableHead className="whitespace-nowrap">{t("dashboard.applicability")}</TableHead>
-                      <TableHead className="whitespace-nowrap">{t("dashboard.importance")}</TableHead>
-                      <TableHead className="whitespace-nowrap">{t("dashboard.score")}</TableHead>
-                      <TableHead className="whitespace-nowrap">{t("dashboard.questionComment")}</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
+              <div className="overflow-auto max-h-[500px] relative">
+                <table className="w-full caption-bottom text-sm">
+                  <thead className="sticky top-0 z-10 bg-background [&_tr]:border-b">
+                    <tr className="border-b transition-colors hover:bg-muted/50">
+                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.client")}</th>
+                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.name")}</th>
+                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.theme")}</th>
+                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.themeComment")}</th>
+                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.question")}</th>
+                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.applicability")}</th>
+                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.importance")}</th>
+                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.score")}</th>
+                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.questionComment")}</th>
+                    </tr>
+                  </thead>
+                  <tbody className="[&_tr:last-child]:border-0">
                     {filtered?.map((r) => (
-                      <TableRow key={r.id}>
-                         <TableCell className="whitespace-nowrap">{r.client_name}</TableCell>
-                         <TableCell className="whitespace-nowrap">{r.firstname} {r.lastname}</TableCell>
-                         <TableCell className="whitespace-nowrap">{r.theme}</TableCell>
-                         <TableCell>{r.theme_comment}</TableCell>
-                         <TableCell>{r.question}</TableCell>
-                         <TableCell>{r.applicability}</TableCell>
-                         <TableCell>{r.importance}</TableCell>
-                         <TableCell>{r.score}</TableCell>
-                         <TableCell>{r.question_comment}</TableCell>
-                      </TableRow>
+                      <tr key={r.id} className="border-b transition-colors hover:bg-muted/50">
+                         <td className="p-4 align-middle whitespace-nowrap">{r.client_name}</td>
+                         <td className="p-4 align-middle whitespace-nowrap">{r.firstname} {r.lastname}</td>
+                         <td className="p-4 align-middle whitespace-nowrap">{r.theme}</td>
+                         <td className="p-4 align-middle whitespace-nowrap">{r.theme_comment}</td>
+                         <td className="p-4 align-middle whitespace-nowrap">{r.question}</td>
+                         <td className="p-4 align-middle whitespace-nowrap">{r.applicability}</td>
+                         <td className="p-4 align-middle whitespace-nowrap">{r.importance}</td>
+                         <td className="p-4 align-middle whitespace-nowrap">{r.score}</td>
+                         <td className="p-4 align-middle whitespace-nowrap">{r.question_comment}</td>
+                      </tr>
                     ))}
-                  </TableBody>
-                </Table>
+                  </tbody>
+                </table>
               </div>
             )}
           </CardContent>
