@@ -65,9 +65,23 @@ const AdminImport = () => {
     setImporting(true);
     try {
       const data = await file.arrayBuffer();
-      const wb = XLSX.read(data);
-      const ws = wb.Sheets[wb.SheetNames[0]];
-      const jsonRows = XLSX.utils.sheet_to_json<Record<string, any>>(ws);
+      const wb = new ExcelJS.Workbook();
+      await wb.xlsx.load(data);
+      const ws = wb.worksheets[0];
+      const headers: string[] = [];
+      ws.getRow(1).eachCell((cell, colNumber) => {
+        headers[colNumber - 1] = String(cell.value ?? "").trim();
+      });
+      const jsonRows: Record<string, any>[] = [];
+      ws.eachRow((row, rowNumber) => {
+        if (rowNumber === 1) return;
+        const obj: Record<string, any> = {};
+        row.eachCell((cell, colNumber) => {
+          const key = headers[colNumber - 1];
+          if (key) obj[key] = cell.value;
+        });
+        jsonRows.push(obj);
+      });
       const mapped = jsonRows.map((row) => {
         const out: Record<string, any> = { survey_year: Number(selectedYear) };
         for (const [excelCol, dbCol] of Object.entries(COLUMN_MAP)) {
