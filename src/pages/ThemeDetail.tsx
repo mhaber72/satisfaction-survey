@@ -98,7 +98,8 @@ const ThemeDetail = () => {
             ) : total === 0 ? (
               <p className="py-12 text-center text-white/60">{t("themeDetail.noData")}</p>
             ) : (
-              <div className="max-h-[500px] overflow-auto relative">
+              <div className="max-h-[500px] overflow-y-auto relative">
+               <div className="overflow-x-auto">
                 <table className="w-full caption-bottom text-sm">
                   <thead className="sticky top-0 z-10 bg-[hsl(210,70%,20%)] [&_tr]:border-b">
                     <tr className="border-b border-white/10 transition-colors">
@@ -129,6 +130,7 @@ const ThemeDetail = () => {
                     ))}
                   </tbody>
                 </table>
+               </div>
               </div>
             )}
           </CardContent>
