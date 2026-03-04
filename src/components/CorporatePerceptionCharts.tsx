@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Users } from "lucide-react";
+import { Users, MessageCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -79,6 +79,16 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
     return new Set(prevYearRecords.map((r) => r.client_name).filter(Boolean)).size;
   }, [prevYearRecords]);
 
+  const answersCurrentYear = useMemo(() => {
+    if (!filteredRecords) return 0;
+    return filteredRecords.filter((r) => r.question === QUESTION_1 && r.score != null).length;
+  }, [filteredRecords]);
+
+  const answersPrevYear = useMemo(() => {
+    if (!prevYearRecords.length) return null;
+    return prevYearRecords.filter((r) => r.question === QUESTION_1 && r.score != null).length;
+  }, [prevYearRecords]);
+
   if (isLoading) {
     return <p className="text-white/60">Loading...</p>;
   }
@@ -119,7 +129,7 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
       </Card>
 
       {/* KPI Cards */}
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
         {/* Clients Card */}
         <Card className="border-white/10 bg-white/5 backdrop-blur-md">
           <CardContent className="flex flex-col items-center justify-center py-10">
@@ -139,6 +149,21 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
         <Card className="border-white/10 bg-white/5 backdrop-blur-md">
           <CardContent className="flex flex-col items-center justify-center py-10">
             <GlobalNPSGauge records={filteredRecords} prevRecords={prevYearRecords} prevYear={prevYear} selectedYear={selectedYear} />
+          </CardContent>
+        </Card>
+
+        {/* Answers Card */}
+        <Card className="border-white/10 bg-white/5 backdrop-blur-md">
+          <CardContent className="flex flex-col items-center justify-center py-10">
+            <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full border-2 border-blue-400/50">
+              <MessageCircle className="h-10 w-10 text-blue-400" />
+            </div>
+            <p className="text-4xl font-bold text-white">{answersCurrentYear} answers</p>
+            {answersPrevYear !== null && (
+              <p className="text-lg text-white/50 mt-2">
+                {answersPrevYear} in {prevYear}
+              </p>
+            )}
           </CardContent>
         </Card>
       </div>
