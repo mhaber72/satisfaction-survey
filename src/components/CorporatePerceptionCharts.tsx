@@ -94,19 +94,23 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
   }, [prevYearRecords]);
 
   // Question 2: "Contrataria ID para nuevo servicio?" - SIM (score=1) / NÃO (score=0)
+  // IMPORTANT: only count records where score is explicitly 0 or 1, ignore null/blank
+  const isExplicitScore = (score: any, val: number) =>
+    score !== null && score !== undefined && String(score).trim() !== "" && Number(score) === val;
+
   const q2Stats = useMemo(() => {
     if (!filteredRecords) return { yes: 0, no: 0 };
-    const q2 = filteredRecords.filter((r) => r.question === QUESTION_2 && r.score != null);
-    const yes = q2.filter((r) => Number(r.score) === 1).length;
-    const no = q2.filter((r) => Number(r.score) === 0).length;
+    const q2 = filteredRecords.filter((r) => r.question === QUESTION_2);
+    const yes = q2.filter((r) => isExplicitScore(r.score, 1)).length;
+    const no = q2.filter((r) => isExplicitScore(r.score, 0)).length;
     return { yes, no };
   }, [filteredRecords]);
 
   const q2PrevStats = useMemo(() => {
     if (!prevYearRecords.length) return null;
-    const q2 = prevYearRecords.filter((r) => r.question === QUESTION_2 && r.score != null);
-    const yes = q2.filter((r) => Number(r.score) === 1).length;
-    const no = q2.filter((r) => Number(r.score) === 0).length;
+    const q2 = prevYearRecords.filter((r) => r.question === QUESTION_2);
+    const yes = q2.filter((r) => isExplicitScore(r.score, 1)).length;
+    const no = q2.filter((r) => isExplicitScore(r.score, 0)).length;
     return { yes, no };
   }, [prevYearRecords]);
 
@@ -114,7 +118,7 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
   const noClientBreakdown = useMemo(() => {
     if (!filteredRecords) return [];
     const noRecords = filteredRecords.filter(
-      (r) => r.question === QUESTION_2 && Number(r.score) === 0
+      (r) => r.question === QUESTION_2 && isExplicitScore(r.score, 0)
     );
     const byClient: Record<string, number> = {};
     noRecords.forEach((r) => {
