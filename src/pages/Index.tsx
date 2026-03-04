@@ -5,6 +5,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Database, BarChart3, Users, FileSpreadsheet } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import RadarChartDialog from "@/components/RadarChartDialog";
+import DataFilters from "@/components/DataFilters";
+import { useDataFilters } from "@/hooks/useDataFilters";
 
 const Index = () => {
   const { t } = useTranslation();
@@ -27,12 +29,13 @@ const Index = () => {
     },
   });
 
-  const totalRecords = records?.length ?? 0;
+  const { filters, onFilterChange, filtered } = useDataFilters(records);
+
+  const totalRecords = filtered?.length ?? 0;
   const avgScore = (() => {
-    if (!records?.length) return "—";
-    const valid = records.filter((r) => r.score != null && r.score !== 0 && r.answered === 1 && r.theme?.toUpperCase() !== "CORPORATE PERCEPTION");
+    if (!filtered?.length) return "—";
+    const valid = filtered.filter((r) => r.score != null && r.score !== 0 && r.answered === 1 && r.theme?.toUpperCase() !== "CORPORATE PERCEPTION");
     if (!valid.length) return "—";
-    // Group by client, compute per-client average, then average of averages
     const byClient: Record<string, number[]> = {};
     valid.forEach((r) => {
       const key = r.client_name ?? "__unknown__";
@@ -42,8 +45,8 @@ const Index = () => {
     const clientAvgs = Object.values(byClient).map((scores) => scores.reduce((a, b) => a + b, 0) / scores.length);
     return (clientAvgs.reduce((a, b) => a + b, 0) / clientAvgs.length).toFixed(2);
   })();
-  const uniqueClients = new Set(records?.map((r) => r.client_name)).size;
-  const uniqueThemes = new Set(records?.map((r) => r.theme)).size;
+  const uniqueClients = new Set(filtered?.map((r) => r.client_name)).size;
+  const uniqueThemes = new Set(filtered?.map((r) => r.theme)).size;
 
   return (
     <div className="min-h-screen bg-background p-6">
@@ -54,6 +57,8 @@ const Index = () => {
             <p className="text-muted-foreground">{t("dashboard.subtitle")}</p>
           </div>
         </div>
+
+        <DataFilters records={records} filters={filters} onFilterChange={onFilterChange} showTheme />
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
@@ -66,7 +71,7 @@ const Index = () => {
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">{kpi.label}</CardTitle>
                 <div className="flex items-center gap-1">
-                  {kpi.key === "avgScore" && <RadarChartDialog records={records} />}
+                  {kpi.key === "avgScore" && <RadarChartDialog records={filtered} />}
                   <kpi.icon className="h-4 w-4 text-muted-foreground" />
                 </div>
               </CardHeader>
@@ -100,7 +105,7 @@ const Index = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {records?.map((r) => (
+                    {filtered?.map((r) => (
                       <TableRow key={r.id}>
                         <TableCell>{r.country}</TableCell>
                         <TableCell className="max-w-[150px] truncate">{r.client_name}</TableCell>

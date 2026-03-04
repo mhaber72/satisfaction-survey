@@ -132,6 +132,13 @@
     "formatTitle": "Formato esperado",
     "formatDesc": "El archivo Excel debe contener las siguientes columnas:"
   },
+  "filters": {
+    "year": "Año",
+    "client": "Cliente",
+    "name": "Nombre",
+    "theme": "Tema",
+    "all": "Todos"
+  },
   "language": {
     "en": "English",
     "fr": "Français",
