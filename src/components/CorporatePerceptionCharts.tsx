@@ -202,15 +202,28 @@ function GlobalNPSGauge({ records, prevRecords, prevYear }: { records: any[] | u
   const passivePct = total ? (stats.passives / total) * 100 : 0;
   const detractorPct = total ? (stats.detractors / total) * 100 : 0;
 
-  const size = 200;
-  const stroke = 28;
-  const r = (size - stroke) / 2;
+  const size = 240;
+  const strokeOuter = 40;
+  const gap = 6; // gap in degrees between segments
+  const rOuter = (size - strokeOuter) / 2;
   const cx = size / 2;
   const cy = size / 2;
   const startAngle = 135;
   const totalArc = 270;
 
-  function arcPath(startDeg: number, sweepDeg: number) {
+  // Order: green (promoters) top-right, orange (passives) top-left, red (detractors) bottom-left
+  const usableArc = totalArc - gap * 2; // subtract gaps
+  const promoterSweep = total ? (promoterPct / 100) * usableArc : 0;
+  const passiveSweep = total ? (passivePct / 100) * usableArc : 0;
+  const detractorSweep = total ? (detractorPct / 100) * usableArc : 0;
+
+  // Reverse order: start from end going backwards so green is top-right
+  const greenStart = startAngle + totalArc - promoterSweep;
+  const orangeStart = greenStart - gap - passiveSweep;
+  const redStart = orangeStart - gap - detractorSweep;
+
+  function arcPath(r: number, startDeg: number, sweepDeg: number) {
+    if (sweepDeg <= 0) return "";
     const s = ((startDeg - 90) * Math.PI) / 180;
     const e = ((startDeg + sweepDeg - 90) * Math.PI) / 180;
     const x1 = cx + r * Math.cos(s);
@@ -221,52 +234,48 @@ function GlobalNPSGauge({ records, prevRecords, prevYear }: { records: any[] | u
     return `M ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2}`;
   }
 
-  function labelPos(startDeg: number, sweepDeg: number) {
+  function labelPos(startDeg: number, sweepDeg: number, r: number) {
     const mid = ((startDeg + sweepDeg / 2 - 90) * Math.PI) / 180;
-    return { x: cx + (r + 2) * Math.cos(mid), y: cy + (r + 2) * Math.sin(mid) };
+    return { x: cx + r * Math.cos(mid), y: cy + r * Math.sin(mid) };
   }
 
-  const promoterStart = startAngle;
-  const promoterSweep = (promoterPct / 100) * totalArc;
-  const passiveStart = promoterStart + promoterSweep;
-  const passiveSweep = (passivePct / 100) * totalArc;
-  const detractorStart = passiveStart + passiveSweep;
-  const detractorSweep = (detractorPct / 100) * totalArc;
-
-  const pLabel = labelPos(promoterStart, promoterSweep);
-  const paLabel = labelPos(passiveStart, passiveSweep);
-  const dLabel = labelPos(detractorStart, detractorSweep);
+  const pLabel = labelPos(greenStart, promoterSweep, rOuter);
+  const paLabel = labelPos(orangeStart, passiveSweep, rOuter);
+  const dLabel = labelPos(redStart, detractorSweep, rOuter);
 
   return (
     <div className="flex flex-col items-center">
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+      <svg width={size} height={size + 10} viewBox={`0 0 ${size} ${size + 10}`}>
         {total > 0 && (
           <>
             {promoterSweep > 0.5 && (
-              <path d={arcPath(promoterStart, promoterSweep)} fill="none" stroke="#86efac" strokeWidth={stroke} strokeLinecap="round" />
+              <path d={arcPath(rOuter, greenStart, promoterSweep)} fill="none" stroke="rgba(134,239,172,0.5)" strokeWidth={strokeOuter} strokeLinecap="butt" />
             )}
             {passiveSweep > 0.5 && (
-              <path d={arcPath(passiveStart, passiveSweep)} fill="none" stroke="#fdba74" strokeWidth={stroke} strokeLinecap="round" />
+              <path d={arcPath(rOuter, orangeStart, passiveSweep)} fill="none" stroke="rgba(253,186,116,0.5)" strokeWidth={strokeOuter} strokeLinecap="butt" />
             )}
             {detractorSweep > 0.5 && (
-              <path d={arcPath(detractorStart, detractorSweep)} fill="none" stroke="#fca5a5" strokeWidth={stroke} strokeLinecap="round" />
+              <path d={arcPath(rOuter, redStart, detractorSweep)} fill="none" stroke="rgba(252,165,165,0.5)" strokeWidth={strokeOuter} strokeLinecap="butt" />
             )}
-            {promoterSweep > 5 && (
-              <text x={pLabel.x} y={pLabel.y} textAnchor="middle" dominantBaseline="central" className="fill-green-700 text-sm font-bold">{stats.promoters}</text>
+            {/* Labels on arcs */}
+            {promoterSweep > 8 && (
+              <text x={pLabel.x} y={pLabel.y} textAnchor="middle" dominantBaseline="central" fill="#166534" fontSize="16" fontWeight="700">{stats.promoters}</text>
             )}
-            {passiveSweep > 5 && (
-              <text x={paLabel.x} y={paLabel.y} textAnchor="middle" dominantBaseline="central" className="fill-orange-700 text-sm font-bold">{stats.passives}</text>
+            {passiveSweep > 8 && (
+              <text x={paLabel.x} y={paLabel.y} textAnchor="middle" dominantBaseline="central" fill="#c2410c" fontSize="16" fontWeight="700">{stats.passives}</text>
             )}
-            {detractorSweep > 5 && (
-              <text x={dLabel.x} y={dLabel.y} textAnchor="middle" dominantBaseline="central" className="fill-red-600 text-sm font-bold">{stats.detractors}</text>
+            {detractorSweep > 8 && (
+              <text x={dLabel.x} y={dLabel.y} textAnchor="middle" dominantBaseline="central" fill="#dc2626" fontSize="16" fontWeight="700">{stats.detractors}</text>
             )}
           </>
         )}
-        <text x={cx} y={cy} textAnchor="middle" dominantBaseline="central" className="fill-white text-4xl font-bold">{stats.nps}</text>
+        {/* Center NPS */}
+        <text x={cx} y={cy} textAnchor="middle" dominantBaseline="central" fill="white" fontSize="48" fontWeight="800">{stats.nps}</text>
+        {/* Previous year below */}
+        {prevRecords.length > 0 && (
+          <text x={cx} y={size - 2} textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="14">{prevStats.nps} in {prevYear}</text>
+        )}
       </svg>
-      {prevRecords.length > 0 && (
-        <p className="text-base text-white/50 mt-1">{prevStats.nps} in {prevYear}</p>
-      )}
     </div>
   );
 }
