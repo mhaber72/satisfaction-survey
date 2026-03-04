@@ -70,10 +70,7 @@ const Index = () => {
             <Card key={kpi.key}>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">{kpi.label}</CardTitle>
-                <div className="flex items-center gap-1">
-                  
-                  <kpi.icon className="h-4 w-4 text-muted-foreground" />
-                </div>
+                <kpi.icon className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent><p className="text-2xl font-bold">{kpi.value}</p></CardContent>
             </Card>
