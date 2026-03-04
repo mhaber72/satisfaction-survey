@@ -67,74 +67,80 @@ const ThemeDetail = () => {
           </div>
         </div>
 
-        <div className="mb-6">
-          <DataFilters records={records} filters={filters} onFilterChange={onFilterChange} />
-        </div>
+        {isCorporatePerception ? (
+          <CorporatePerceptionCharts records={records} isLoading={isLoading} />
+        ) : (
+          <>
+            <div className="mb-6">
+              <DataFilters records={records} filters={filters} onFilterChange={onFilterChange} />
+            </div>
 
-        <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            { label: t("themeDetail.records"), value: total, icon: FileText },
-            { label: t("themeDetail.avgScore"), value: avgScore, icon: BarChart3 },
-            { label: t("themeDetail.clients"), value: uniqueClients, icon: Users },
-            { label: t("themeDetail.questions"), value: uniqueQuestions, icon: TrendingUp },
-          ].map((kpi) => (
-            <Card key={kpi.label} className="border-white/10 bg-white/5 backdrop-blur-md">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-white/60">{kpi.label}</CardTitle>
-                <kpi.icon className="h-4 w-4 text-white/40" />
+            <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                { label: t("themeDetail.records"), value: total, icon: FileText },
+                { label: t("themeDetail.avgScore"), value: avgScore, icon: BarChart3 },
+                { label: t("themeDetail.clients"), value: uniqueClients, icon: Users },
+                { label: t("themeDetail.questions"), value: uniqueQuestions, icon: TrendingUp },
+              ].map((kpi) => (
+                <Card key={kpi.label} className="border-white/10 bg-white/5 backdrop-blur-md">
+                  <CardHeader className="flex flex-row items-center justify-between pb-2">
+                    <CardTitle className="text-sm font-medium text-white/60">{kpi.label}</CardTitle>
+                    <kpi.icon className="h-4 w-4 text-white/40" />
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-2xl font-bold text-white">{kpi.value}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <Card className="border-white/10 bg-white/5 backdrop-blur-md">
+              <CardHeader>
+                <CardTitle className="text-white">{t("themeDetail.data")}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold text-white">{kpi.value}</p>
+                {isLoading ? (
+                  <p className="text-white/60">{t("themeDetail.loading")}</p>
+                ) : total === 0 ? (
+                  <p className="py-12 text-center text-white/60">{t("themeDetail.noData")}</p>
+                ) : (
+                  <div className="max-h-[380px] overflow-scroll relative scrollbar-always">
+                    <table className="w-max min-w-full caption-bottom text-sm">
+                      <thead className="sticky top-0 z-10 bg-[hsl(210,70%,20%)] [&_tr]:border-b">
+                        <tr className="border-b border-white/10 transition-colors">
+                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.client")}</th>
+                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.name")}</th>
+                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.theme")}</th>
+                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.themeComment")}</th>
+                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.question")}</th>
+                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.applicability")}</th>
+                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.importance")}</th>
+                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.score")}</th>
+                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.questionComment")}</th>
+                        </tr>
+                      </thead>
+                      <tbody className="[&_tr:last-child]:border-0">
+                        {filtered?.map((r) => (
+                          <tr key={r.id} className="border-b border-white/5 transition-colors hover:bg-white/5">
+                            <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.client_name}</td>
+                            <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.firstname} {r.lastname}</td>
+                            <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.theme}</td>
+                            <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.theme_comment}</td>
+                            <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.question}</td>
+                            <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.applicability}</td>
+                            <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.importance}</td>
+                            <td className="p-4 align-middle font-medium whitespace-nowrap text-white">{r.score}</td>
+                            <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.question_comment}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </CardContent>
             </Card>
-          ))}
-        </div>
-
-        <Card className="border-white/10 bg-white/5 backdrop-blur-md">
-          <CardHeader>
-            <CardTitle className="text-white">{t("themeDetail.data")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {isLoading ? (
-              <p className="text-white/60">{t("themeDetail.loading")}</p>
-            ) : total === 0 ? (
-              <p className="py-12 text-center text-white/60">{t("themeDetail.noData")}</p>
-            ) : (
-              <div className="max-h-[380px] overflow-scroll relative scrollbar-always">
-                <table className="w-max min-w-full caption-bottom text-sm">
-                  <thead className="sticky top-0 z-10 bg-[hsl(210,70%,20%)] [&_tr]:border-b">
-                    <tr className="border-b border-white/10 transition-colors">
-                      <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.client")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.name")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.theme")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.themeComment")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.question")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.applicability")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.importance")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.score")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.questionComment")}</th>
-                    </tr>
-                  </thead>
-                  <tbody className="[&_tr:last-child]:border-0">
-                    {filtered?.map((r) => (
-                      <tr key={r.id} className="border-b border-white/5 transition-colors hover:bg-white/5">
-                        <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.client_name}</td>
-                        <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.firstname} {r.lastname}</td>
-                        <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.theme}</td>
-                        <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.theme_comment}</td>
-                        <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.question}</td>
-                        <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.applicability}</td>
-                        <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.importance}</td>
-                        <td className="p-4 align-middle font-medium whitespace-nowrap text-white">{r.score}</td>
-                        <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.question_comment}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+          </>
+        )}
       </div>
     </div>
   );
