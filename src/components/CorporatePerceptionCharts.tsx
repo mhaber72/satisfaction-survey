@@ -106,7 +106,7 @@ function NPSBar({ client, nps, maxAbs }: { client: string; nps: number; maxAbs: 
       </span>
       <div
         className="h-6 rounded-sm bg-red-500"
-        style={{ width: `${barWidth}%`, maxWidth: "60%" }}
+        style={{ width: `${barWidth}%` }}
       />
       <span className="text-white/80 text-sm font-semibold truncate">
         {client}
