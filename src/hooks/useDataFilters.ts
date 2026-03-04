@@ -2,34 +2,34 @@ import { useState, useMemo, useCallback, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 
 export function useDataFilters(records: any[] | undefined) {
-  const [filters, setFilters] = useState<Record<string, string>>({});
+  const [filters, setFilters] = useState<Record<string, string[]>>({});
   const { allowedThemes, isAdmin } = useAuth();
 
   // Auto-select the most recent year when records load
   useEffect(() => {
     if (!records?.length) return;
     const years = [...new Set(records.map((r) => r.survey_year).filter(Boolean))].sort((a: number, b: number) => b - a);
-    if (years.length > 0 && !filters.year) {
-      setFilters((prev) => ({ ...prev, year: String(years[0]) }));
+    if (years.length > 0 && (!filters.year || filters.year.length === 0)) {
+      setFilters((prev) => ({ ...prev, year: [String(years[0])] }));
     }
   }, [records]);
 
-  const onFilterChange = useCallback((key: string, value: string) => {
-    setFilters((prev) => ({ ...prev, [key]: value === "all" ? "" : value }));
+  const onFilterChange = useCallback((key: string, values: string[]) => {
+    setFilters((prev) => ({ ...prev, [key]: values }));
   }, []);
 
   const filtered = useMemo(() => {
     if (!records) return records;
     return records.filter((r) => {
       if (!isAdmin && allowedThemes.length > 0 && !allowedThemes.includes(r.theme)) return false;
-      if (filters.year && String(r.survey_year) !== filters.year) return false;
-      if (filters.client && r.client_name !== filters.client) return false;
-      if (filters.name) {
+      if (filters.year?.length && !filters.year.includes(String(r.survey_year))) return false;
+      if (filters.client?.length && !filters.client.includes(r.client_name)) return false;
+      if (filters.name?.length) {
         const fullName = [r.firstname, r.lastname].filter(Boolean).join(" ");
-        if (fullName !== filters.name) return false;
+        if (!filters.name.includes(fullName)) return false;
       }
-      if (filters.theme && r.theme !== filters.theme) return false;
-      if (filters.score && String(r.score) !== filters.score) return false;
+      if (filters.theme?.length && !filters.theme.includes(r.theme)) return false;
+      if (filters.score?.length && !filters.score.includes(String(r.score))) return false;
       return true;
     });
   }, [records, filters, allowedThemes, isAdmin]);
