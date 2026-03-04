@@ -9,6 +9,7 @@ import { ArrowLeft, BarChart3, Users, TrendingUp, FileText } from "lucide-react"
 import { useTranslation } from "react-i18next";
 import DataFilters from "@/components/DataFilters";
 import { useDataFilters } from "@/hooks/useDataFilters";
+import CorporatePerceptionCharts from "@/components/CorporatePerceptionCharts";
 
 const ThemeDetail = () => {
   const { theme } = useParams<{ theme: string }>();
