@@ -109,15 +109,15 @@ const Index = () => {
                   <TableBody>
                     {filtered?.map((r) => (
                       <TableRow key={r.id}>
-                        <TableCell className="max-w-[150px] truncate">{r.client_name}</TableCell>
-                        <TableCell className="whitespace-nowrap">{r.firstname} {r.lastname}</TableCell>
-                        <TableCell className="max-w-[200px] truncate">{r.theme}</TableCell>
-                        <TableCell className="max-w-[250px] truncate">{r.theme_comment}</TableCell>
-                        <TableCell className="max-w-[250px] truncate">{r.question}</TableCell>
-                        <TableCell>{r.applicability}</TableCell>
-                        <TableCell>{r.importance}</TableCell>
-                        <TableCell>{r.score}</TableCell>
-                        <TableCell className="max-w-[300px] truncate">{r.question_comment}</TableCell>
+                         <TableCell className="whitespace-nowrap">{r.client_name}</TableCell>
+                         <TableCell className="whitespace-nowrap">{r.firstname} {r.lastname}</TableCell>
+                         <TableCell className="whitespace-nowrap">{r.theme}</TableCell>
+                         <TableCell>{r.theme_comment}</TableCell>
+                         <TableCell>{r.question}</TableCell>
+                         <TableCell>{r.applicability}</TableCell>
+                         <TableCell>{r.importance}</TableCell>
+                         <TableCell>{r.score}</TableCell>
+                         <TableCell>{r.question_comment}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

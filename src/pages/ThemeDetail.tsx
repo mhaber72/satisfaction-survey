@@ -116,15 +116,15 @@ const ThemeDetail = () => {
                   <TableBody>
                     {filtered?.map((r) => (
                       <TableRow key={r.id} className="border-white/5 hover:bg-white/5">
-                        <TableCell className="max-w-[150px] truncate text-white/80">{r.client_name}</TableCell>
+                        <TableCell className="whitespace-nowrap text-white/80">{r.client_name}</TableCell>
                         <TableCell className="whitespace-nowrap text-white/80">{r.firstname} {r.lastname}</TableCell>
-                        <TableCell className="max-w-[150px] truncate text-white/80">{r.theme}</TableCell>
-                        <TableCell className="max-w-[250px] truncate text-white/80">{r.theme_comment}</TableCell>
-                        <TableCell className="max-w-[250px] truncate text-white/80">{r.question}</TableCell>
+                        <TableCell className="whitespace-nowrap text-white/80">{r.theme}</TableCell>
+                        <TableCell className="text-white/80">{r.theme_comment}</TableCell>
+                        <TableCell className="text-white/80">{r.question}</TableCell>
                         <TableCell className="text-white/80">{r.applicability}</TableCell>
                         <TableCell className="text-white/80">{r.importance}</TableCell>
                         <TableCell className="font-medium text-white">{r.score}</TableCell>
-                        <TableCell className="max-w-[250px] truncate text-white/80">{r.question_comment}</TableCell>
+                        <TableCell className="text-white/80">{r.question_comment}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
