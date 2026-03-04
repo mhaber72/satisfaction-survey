@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Database, BarChart3, Users, FileSpreadsheet } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import RadarChartDialog from "@/components/RadarChartDialog";
+
 import DataFilters from "@/components/DataFilters";
 import { useDataFilters } from "@/hooks/useDataFilters";
 
