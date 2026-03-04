@@ -1,0 +1,1 @@
+CREATE POLICY "Allow authenticated delete access" ON public.pesquisa_satisfacao FOR DELETE TO authenticated USING (true);

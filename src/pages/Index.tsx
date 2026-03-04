@@ -1,29 +1,14 @@
-import { useState, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import * as XLSX from "xlsx";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { toast } from "sonner";
-import { Upload, Database, BarChart3, Users, FileSpreadsheet } from "lucide-react";
+import { Database, BarChart3, Users, FileSpreadsheet } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-const COLUMN_MAP: Record<string, string> = {
-  COUNTRY: "country", CONTACT: "contact", CLIENT_NAME: "client_name",
-  FIRSTNAME: "firstname", LASTNAME: "lastname", TYPE: "type",
-  ACTIVITY: "activity", CONTEXT: "context", ANSWERED: "answered",
-  PROGRESS: "progress", ANSWER_DELAY: "answer_delay", THEME: "theme",
-  THEME_COMMENT: "theme_comment", QUESTION: "question",
-  APPLICABILITY: "applicability", IMPORTANCE: "importance",
-  SCORE: "score", QUESTION_COMMENT: "question_comment",
-};
-
 const Index = () => {
-  const [importing, setImporting] = useState(false);
   const { t } = useTranslation();
 
-  const { data: records, refetch, isLoading } = useQuery({
+  const { data: records, isLoading } = useQuery({
     queryKey: ["pesquisa"],
     queryFn: async () => {
       let allData: any[] = [];
@@ -48,41 +33,6 @@ const Index = () => {
   const uniqueClients = new Set(records?.map((r) => r.client_name)).size;
   const uniqueThemes = new Set(records?.map((r) => r.theme)).size;
 
-  const handleFileUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setImporting(true);
-    try {
-      const data = await file.arrayBuffer();
-      const wb = XLSX.read(data);
-      const ws = wb.Sheets[wb.SheetNames[0]];
-      const jsonRows = XLSX.utils.sheet_to_json<Record<string, any>>(ws);
-      const mapped = jsonRows.map((row) => {
-        const out: Record<string, any> = {};
-        for (const [excelCol, dbCol] of Object.entries(COLUMN_MAP)) {
-          const val = row[excelCol];
-          if (val !== undefined && val !== null && val !== "") out[dbCol] = val;
-        }
-        return out;
-      });
-      const batchSize = 200;
-      let inserted = 0;
-      for (let i = 0; i < mapped.length; i += batchSize) {
-        const batch = mapped.slice(i, i + batchSize);
-        const { error } = await supabase.from("pesquisa_satisfacao").insert(batch);
-        if (error) throw error;
-        inserted += batch.length;
-      }
-      toast.success(t("dashboard.recordsImported", { count: inserted }));
-      refetch();
-    } catch (err: any) {
-      toast.error(t("dashboard.importError") + err.message);
-    } finally {
-      setImporting(false);
-      e.target.value = "";
-    }
-  }, [refetch, t]);
-
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="mx-auto max-w-7xl space-y-6">
@@ -91,15 +41,6 @@ const Index = () => {
             <h1 className="text-3xl font-bold text-foreground">{t("dashboard.title")}</h1>
             <p className="text-muted-foreground">{t("dashboard.subtitle")}</p>
           </div>
-          <label>
-            <input type="file" accept=".xlsx,.xls,.csv" className="hidden" onChange={handleFileUpload} disabled={importing} />
-            <Button asChild variant="default" disabled={importing}>
-              <span className="cursor-pointer">
-                <Upload className="mr-2 h-4 w-4" />
-                {importing ? t("dashboard.importing") : t("dashboard.importExcel")}
-              </span>
-            </Button>
-          </label>
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
