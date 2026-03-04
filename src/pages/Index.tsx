@@ -30,9 +30,17 @@ const Index = () => {
   const totalRecords = records?.length ?? 0;
   const avgScore = (() => {
     if (!records?.length) return "—";
-    const withScore = records.filter((r) => r.score != null && r.score !== 0 && r.answered === 1 && r.theme?.toUpperCase() !== "CORPORATE PERCEPTION");
-    if (!withScore.length) return "—";
-    return (withScore.reduce((s, r) => s + Number(r.score), 0) / withScore.length).toFixed(2);
+    const valid = records.filter((r) => r.score != null && r.score !== 0 && r.answered === 1 && r.theme?.toUpperCase() !== "CORPORATE PERCEPTION");
+    if (!valid.length) return "—";
+    // Group by client, compute per-client average, then average of averages
+    const byClient: Record<string, number[]> = {};
+    valid.forEach((r) => {
+      const key = r.client_name ?? "__unknown__";
+      if (!byClient[key]) byClient[key] = [];
+      byClient[key].push(Number(r.score));
+    });
+    const clientAvgs = Object.values(byClient).map((scores) => scores.reduce((a, b) => a + b, 0) / scores.length);
+    return (clientAvgs.reduce((a, b) => a + b, 0) / clientAvgs.length).toFixed(2);
   })();
   const uniqueClients = new Set(records?.map((r) => r.client_name)).size;
   const uniqueThemes = new Set(records?.map((r) => r.theme)).size;
