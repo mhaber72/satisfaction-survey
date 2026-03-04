@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Database, BarChart3, Users, FileSpreadsheet } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import RadarChartDialog from "@/components/RadarChartDialog";
+
 import DataFilters from "@/components/DataFilters";
 import { useDataFilters } from "@/hooks/useDataFilters";
 
@@ -71,7 +71,7 @@ const Index = () => {
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">{kpi.label}</CardTitle>
                 <div className="flex items-center gap-1">
-                  {kpi.key === "avgScore" && <RadarChartDialog records={filtered} />}
+                  
                   <kpi.icon className="h-4 w-4 text-muted-foreground" />
                 </div>
               </CardHeader>
