@@ -41,7 +41,7 @@ const ThemeDetail = () => {
   const total = records?.length ?? 0;
   const avgScore = (() => {
     if (!records?.length) return "—";
-    const withScore = records.filter((r) => r.score != null && r.score !== 0);
+    const withScore = records.filter((r) => r.score != null && r.score !== 0 && r.answered === 1);
     if (!withScore.length) return "—";
     return (withScore.reduce((s, r) => s + Number(r.score), 0) / withScore.length).toFixed(2);
   })();
