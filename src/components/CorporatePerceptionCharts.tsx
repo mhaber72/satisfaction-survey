@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Users, MessageCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -41,6 +43,7 @@ function computeNPSByClient(records: any[] | undefined) {
 
 export default function CorporatePerceptionCharts({ records, isLoading }: Props) {
   const { t } = useTranslation();
+  const [showNoClients, setShowNoClients] = useState(false);
 
   const availableYears = useMemo(() => {
     if (!records) return [];
@@ -106,6 +109,22 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
     const no = q2.filter((r) => Number(r.score) === 0).length;
     return { yes, no };
   }, [prevYearRecords]);
+
+  // Breakdown of "No" answers by client
+  const noClientBreakdown = useMemo(() => {
+    if (!filteredRecords) return [];
+    const noRecords = filteredRecords.filter(
+      (r) => r.question === QUESTION_2 && Number(r.score) === 0
+    );
+    const byClient: Record<string, number> = {};
+    noRecords.forEach((r) => {
+      const client = r.client_name ?? "Unknown";
+      byClient[client] = (byClient[client] || 0) + 1;
+    });
+    return Object.entries(byClient)
+      .map(([client, count]) => ({ client, count }))
+      .sort((a, b) => b.count - a.count);
+  }, [filteredRecords]);
 
   if (isLoading) {
     return <p className="text-white/60">Loading...</p>;
@@ -201,7 +220,13 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
               </div>
               <div className="flex flex-col items-center">
                 <span className="text-blue-400 font-bold text-lg">NÃO</span>
-                <span className="text-4xl font-bold text-red-400">{q2Stats.no}</span>
+                <span
+                  className="text-4xl font-bold text-red-400 cursor-pointer hover:underline"
+                  onClick={() => q2Stats.no > 0 && setShowNoClients(true)}
+                  title="Clique para ver detalhes"
+                >
+                  {q2Stats.no}
+                </span>
                 {q2PrevStats && (
                   <span className="text-sm text-white/50 mt-1">{q2PrevStats.no} in {prevYear}</span>
                 )}
@@ -210,6 +235,31 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
           </CardContent>
         </Card>
       </div>
+
+      {/* Dialog: No clients breakdown */}
+      <Dialog open={showNoClients} onOpenChange={setShowNoClients}>
+        <DialogContent className="border-white/10 bg-[hsl(210,70%,15%)] text-white max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-white">Clients who answered "No" ({selectedYear})</DialogTitle>
+          </DialogHeader>
+          <Table>
+            <TableHeader>
+              <TableRow className="border-white/10">
+                <TableHead className="text-white/60">Client</TableHead>
+                <TableHead className="text-white/60 text-right">Count</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {noClientBreakdown.map((row) => (
+                <TableRow key={row.client} className="border-white/5">
+                  <TableCell className="text-white/80">{row.client}</TableCell>
+                  <TableCell className="text-white font-bold text-right">{row.count}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
