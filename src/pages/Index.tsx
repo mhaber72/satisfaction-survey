@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Database, BarChart3, Users, FileSpreadsheet } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import RadarChartDialog from "@/components/RadarChartDialog";
 
 const Index = () => {
   const { t } = useTranslation();
@@ -48,15 +49,18 @@ const Index = () => {
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { label: t("dashboard.totalRecords"), value: totalRecords, icon: Database },
-            { label: t("dashboard.avgScore"), value: avgScore, icon: BarChart3 },
-            { label: t("dashboard.clients"), value: uniqueClients, icon: Users },
-            { label: t("dashboard.themes"), value: uniqueThemes, icon: FileSpreadsheet },
+            { label: t("dashboard.totalRecords"), value: totalRecords, icon: Database, key: "totalRecords" },
+            { label: t("dashboard.avgScore"), value: avgScore, icon: BarChart3, key: "avgScore" },
+            { label: t("dashboard.clients"), value: uniqueClients, icon: Users, key: "clients" },
+            { label: t("dashboard.themes"), value: uniqueThemes, icon: FileSpreadsheet, key: "themes" },
           ].map((kpi) => (
-            <Card key={kpi.label}>
+            <Card key={kpi.key}>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">{kpi.label}</CardTitle>
-                <kpi.icon className="h-4 w-4 text-muted-foreground" />
+                <div className="flex items-center gap-1">
+                  {kpi.key === "avgScore" && <RadarChartDialog records={records} />}
+                  <kpi.icon className="h-4 w-4 text-muted-foreground" />
+                </div>
               </CardHeader>
               <CardContent><p className="text-2xl font-bold">{kpi.value}</p></CardContent>
             </Card>
