@@ -29,21 +29,9 @@ const Index = () => {
   const totalRecords = records?.length ?? 0;
   const avgScore = (() => {
     if (!records?.length) return "—";
-    // Group by person (contact) and exclude those with 100% zero/null scores
-    const byPerson = new Map<string, any[]>();
-    records.forEach((r) => {
-      const key = r.contact || `${r.firstname}_${r.lastname}`;
-      if (!byPerson.has(key)) byPerson.set(key, []);
-      byPerson.get(key)!.push(r);
-    });
-    const validRecords = records.filter((r) => {
-      const key = r.contact || `${r.firstname}_${r.lastname}`;
-      const personRecords = byPerson.get(key)!;
-      const allZero = personRecords.every((pr) => !pr.score || Number(pr.score) === 0);
-      return !allZero;
-    });
-    if (!validRecords.length) return "—";
-    return (validRecords.reduce((s, r) => s + (Number(r.score) || 0), 0) / validRecords.length).toFixed(2);
+    const withScore = records.filter((r) => r.score != null && r.score !== 0);
+    if (!withScore.length) return "—";
+    return (withScore.reduce((s, r) => s + Number(r.score), 0) / withScore.length).toFixed(2);
   })();
   const uniqueClients = new Set(records?.map((r) => r.client_name)).size;
   const uniqueThemes = new Set(records?.map((r) => r.theme)).size;
