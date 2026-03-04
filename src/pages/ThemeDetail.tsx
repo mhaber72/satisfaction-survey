@@ -29,6 +29,7 @@ const ThemeDetail = () => {
           .from("pesquisa_satisfacao")
           .select("*")
           .eq("theme", decodedTheme)
+          .eq("answered", 1)
           .order("id", { ascending: true })
           .range(from, from + pageSize - 1);
         if (error) throw error;
