@@ -10,7 +10,7 @@ interface Props {
 }
 
 const QUESTION_1 = "Dans quelle mesure recommanderiez-vous ID Logistics à vos collègues, partenaires commerciaux ou clients ?";
-const QUESTION_2 = "Si vous aviez de nouvelles activités à prester, pourriez-vous les confier, dans le cadre d'un AO et sous réserve de compétitivité, à IDL ?";
+const QUESTION_2 = "Si vous aviez de nouvelles activités à prester, pourriez-vous les confier, dans le cadre d\u2019un AO et sous réserve de compétitivité, à IDL ?";
 
 function computeNPSByClient(records: any[] | undefined) {
   if (!records) return [];
