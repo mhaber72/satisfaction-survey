@@ -83,6 +83,7 @@ export type Database = {
           question: string | null
           question_comment: string | null
           score: number | null
+          survey_year: number | null
           theme: string | null
           theme_comment: string | null
           type: string | null
@@ -105,6 +106,7 @@ export type Database = {
           question?: string | null
           question_comment?: string | null
           score?: number | null
+          survey_year?: number | null
           theme?: string | null
           theme_comment?: string | null
           type?: string | null
@@ -127,6 +129,7 @@ export type Database = {
           question?: string | null
           question_comment?: string | null
           score?: number | null
+          survey_year?: number | null
           theme?: string | null
           theme_comment?: string | null
           type?: string | null

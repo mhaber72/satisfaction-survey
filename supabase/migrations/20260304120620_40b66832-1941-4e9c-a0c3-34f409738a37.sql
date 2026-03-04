@@ -1,0 +1,1 @@
+ALTER TABLE public.pesquisa_satisfacao ADD COLUMN survey_year integer;
