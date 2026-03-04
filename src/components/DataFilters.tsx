@@ -1,17 +1,11 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import MultiSelectFilter from "@/components/MultiSelectFilter";
 
 interface DataFiltersProps {
   records: any[] | undefined;
-  filters: {
-    year?: string;
-    client?: string;
-    name?: string;
-    theme?: string;
-    score?: string;
-  };
-  onFilterChange: (key: string, value: string) => void;
+  filters: Record<string, string[]>;
+  onFilterChange: (key: string, values: string[]) => void;
   showTheme?: boolean;
 }
 
@@ -34,79 +28,58 @@ const DataFilters = ({ records, filters, onFilterChange, showTheme = false }: Da
     <div className="flex flex-wrap gap-4">
       <div className="flex flex-col gap-1">
         <label className="text-xs font-medium text-muted-foreground">{t("filters.year")}</label>
-        <Select value={filters.year || "all"} onValueChange={(v) => onFilterChange("year", v)}>
-          <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder={t("filters.year")} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{t("filters.all")}</SelectItem>
-            {options.years.map((y) => (
-              <SelectItem key={y} value={String(y)}>{y}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <MultiSelectFilter
+          label={t("filters.year")}
+          options={options.years}
+          selected={filters.year || []}
+          onChange={(v) => onFilterChange("year", v)}
+          width="w-[150px]"
+        />
       </div>
 
       <div className="flex flex-col gap-1">
         <label className="text-xs font-medium text-muted-foreground">{t("filters.client")}</label>
-        <Select value={filters.client || "all"} onValueChange={(v) => onFilterChange("client", v)}>
-          <SelectTrigger className="w-[200px]">
-            <SelectValue placeholder={t("filters.client")} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{t("filters.all")}</SelectItem>
-            {options.clients.map((c) => (
-              <SelectItem key={c} value={c}>{c}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <MultiSelectFilter
+          label={t("filters.client")}
+          options={options.clients}
+          selected={filters.client || []}
+          onChange={(v) => onFilterChange("client", v)}
+          width="w-[200px]"
+        />
       </div>
 
       <div className="flex flex-col gap-1">
         <label className="text-xs font-medium text-muted-foreground">{t("filters.name")}</label>
-        <Select value={filters.name || "all"} onValueChange={(v) => onFilterChange("name", v)}>
-          <SelectTrigger className="w-[200px]">
-            <SelectValue placeholder={t("filters.name")} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{t("filters.all")}</SelectItem>
-            {options.names.map((n) => (
-              <SelectItem key={n} value={n}>{n}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <MultiSelectFilter
+          label={t("filters.name")}
+          options={options.names}
+          selected={filters.name || []}
+          onChange={(v) => onFilterChange("name", v)}
+          width="w-[200px]"
+        />
       </div>
 
       <div className="flex flex-col gap-1">
         <label className="text-xs font-medium text-muted-foreground">Score</label>
-        <Select value={filters.score || "all"} onValueChange={(v) => onFilterChange("score", v)}>
-          <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder="Score" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{t("filters.all")}</SelectItem>
-            {options.scores.map((s) => (
-              <SelectItem key={s} value={String(s)}>{s}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <MultiSelectFilter
+          label="Score"
+          options={options.scores}
+          selected={filters.score || []}
+          onChange={(v) => onFilterChange("score", v)}
+          width="w-[150px]"
+        />
       </div>
-
 
       {showTheme && (
         <div className="flex flex-col gap-1">
           <label className="text-xs font-medium text-muted-foreground">{t("filters.theme")}</label>
-          <Select value={filters.theme || "all"} onValueChange={(v) => onFilterChange("theme", v)}>
-            <SelectTrigger className="w-[220px]">
-              <SelectValue placeholder={t("filters.theme")} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">{t("filters.all")}</SelectItem>
-              {options.themes.map((th) => (
-                <SelectItem key={th} value={th}>{th}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <MultiSelectFilter
+            label={t("filters.theme")}
+            options={options.themes}
+            selected={filters.theme || []}
+            onChange={(v) => onFilterChange("theme", v)}
+            width="w-[220px]"
+          />
         </div>
       )}
     </div>
