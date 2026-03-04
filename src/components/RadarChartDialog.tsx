@@ -157,7 +157,7 @@ const RadarChartDialog = ({ records }: RadarChartDialogProps) => {
       if (!ctx) return;
 
       const dpr = window.devicePixelRatio || 1;
-      const size = 900;
+      const size = 1200;
       canvas.width = size * dpr;
       canvas.height = size * dpr;
       canvas.style.width = `${size}px`;
@@ -166,7 +166,7 @@ const RadarChartDialog = ({ records }: RadarChartDialogProps) => {
 
       const cx = size / 2;
       const cy = size / 2;
-      const maxR = 310;
+      const maxR = 420;
       const n = radarData.length;
       const maxVal = 5;
 
@@ -182,7 +182,7 @@ const RadarChartDialog = ({ records }: RadarChartDialogProps) => {
         ctx.stroke();
         if (step % 2 === 0) {
           ctx.fillStyle = "#9ca3af";
-          ctx.font = "10px sans-serif";
+          ctx.font = "11px sans-serif";
           ctx.textAlign = "center";
           ctx.fillText(((step / 9) * maxVal).toFixed(2), cx, cy - r + 12);
         }
@@ -274,7 +274,7 @@ const RadarChartDialog = ({ records }: RadarChartDialogProps) => {
         const label = `${d.shortLabel} (${cur} / ${prev})`;
 
         ctx.save();
-        ctx.font = "10px sans-serif";
+        ctx.font = "12px sans-serif";
         ctx.fillStyle = "#374151";
         const angleDeg = ((angle * 180) / Math.PI + 360) % 360;
         if (angleDeg > 80 && angleDeg < 100) {
@@ -303,7 +303,7 @@ const RadarChartDialog = ({ records }: RadarChartDialogProps) => {
           <RadarIcon className="h-4 w-4" />
         </button>
       </DialogTrigger>
-      <DialogContent className="max-w-[960px] max-h-[95vh] overflow-auto p-6">
+      <DialogContent className="max-w-[100vw] w-[100vw] h-[100vh] max-h-[100vh] overflow-auto p-6 rounded-none">
         <DialogHeader>
           <div className="flex items-center justify-between w-full gap-4">
             <DialogTitle>{t("dashboard.avgByQuestion", "Average Score by Question")}</DialogTitle>
