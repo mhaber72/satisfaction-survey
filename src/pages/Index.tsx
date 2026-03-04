@@ -93,7 +93,7 @@ const Index = () => {
             ) : (
               <div className="overflow-auto max-h-[500px]">
                 <Table>
-                  <TableHeader>
+                  <TableHeader className="sticky top-0 z-10 bg-background">
                     <TableRow>
                       <TableHead className="whitespace-nowrap">{t("dashboard.client")}</TableHead>
                       <TableHead className="whitespace-nowrap">{t("dashboard.name")}</TableHead>
