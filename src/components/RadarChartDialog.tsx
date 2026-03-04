@@ -47,14 +47,34 @@ const QUESTION_SHORT_LABELS: Record<string, string> = {
   "objectifs RSE": "CSR Policy",
 };
 
-const THEME_ORDER = [
-  "ACCOMPAGNEMENT CLIENT",
-  "EXCELLENCE OPÉRATIONNELLE",
-  "EXPERTISE INFORMATIQUE",
-  "GESTION DE PROJETS ET INNOVATION",
-  "PARTENAIRE",
-  "RESSOURCES HUMAINES",
-  "SOLUTIONS DURABLES",
+// Explicit order matching the reference chart (clockwise from top)
+const QUESTION_DISPLAY_ORDER: string[] = [
+  "Relation with Top Mngt",
+  "Relation with ID Mngt",
+  "Relation Ops",
+  "Strategy understanding",
+  "Start-up",
+  "Continuous improvement",
+  "Ops. Performance & Quick answers",
+  "Operationnal quality",
+  "Truck loading optimization",
+  "Use of IT tools",
+  "IT evolution",
+  "IT development",
+  "Innovation",
+  "New technologies / process",
+  "Innovation VS Competition",
+  "Share other solutions",
+  "ID vs Competition",
+  "Survey follow-up",
+  "Wages policy",
+  "Social atmosphere",
+  "Diversity, inclusion and disability",
+  "HR management",
+  "Hygiene",
+  "Security standards",
+  "Transport conditions",
+  "CSR Policy",
 ];
 
 function getShortLabel(question: string): string {
@@ -143,10 +163,11 @@ const RadarChartDialog = ({ records }: RadarChartDialogProps) => {
         count,
       }))
       .sort((a, b) => {
-        const ai = THEME_ORDER.indexOf(a.theme.toUpperCase());
-        const bi = THEME_ORDER.indexOf(b.theme.toUpperCase());
-        if (ai !== bi) return ai - bi;
-        return a.question.localeCompare(b.question);
+        const ai = QUESTION_DISPLAY_ORDER.indexOf(a.shortLabel);
+        const bi = QUESTION_DISPLAY_ORDER.indexOf(b.shortLabel);
+        const aSortKey = ai === -1 ? 999 : ai;
+        const bSortKey = bi === -1 ? 999 : bi;
+        return aSortKey - bSortKey;
       });
   }, [records, selectedYear]);
 
