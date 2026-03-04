@@ -130,6 +130,7 @@ const ThemeDetail = () => {
                     ))}
                   </tbody>
                 </table>
+               </div>
               </div>
             )}
           </CardContent>

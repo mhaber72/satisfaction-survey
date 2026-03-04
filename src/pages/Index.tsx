@@ -123,6 +123,7 @@ const Index = () => {
                     ))}
                   </tbody>
                 </table>
+               </div>
               </div>
             )}
           </CardContent>
