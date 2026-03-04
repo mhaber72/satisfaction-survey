@@ -104,6 +104,7 @@ const ThemeDetail = () => {
                     <TableRow className="border-white/10 hover:bg-white/5">
                       <TableHead className="whitespace-nowrap text-white/60">{t("dashboard.client")}</TableHead>
                       <TableHead className="whitespace-nowrap text-white/60">{t("dashboard.name")}</TableHead>
+                      <TableHead className="whitespace-nowrap text-white/60">{t("dashboard.theme")}</TableHead>
                       <TableHead className="whitespace-nowrap text-white/60">{t("dashboard.themeComment")}</TableHead>
                       <TableHead className="whitespace-nowrap text-white/60">{t("dashboard.question")}</TableHead>
                       <TableHead className="whitespace-nowrap text-white/60">{t("dashboard.applicability")}</TableHead>
@@ -117,6 +118,7 @@ const ThemeDetail = () => {
                       <TableRow key={r.id} className="border-white/5 hover:bg-white/5">
                         <TableCell className="max-w-[150px] truncate text-white/80">{r.client_name}</TableCell>
                         <TableCell className="whitespace-nowrap text-white/80">{r.firstname} {r.lastname}</TableCell>
+                        <TableCell className="max-w-[150px] truncate text-white/80">{r.theme}</TableCell>
                         <TableCell className="max-w-[250px] truncate text-white/80">{r.theme_comment}</TableCell>
                         <TableCell className="max-w-[250px] truncate text-white/80">{r.question}</TableCell>
                         <TableCell className="text-white/80">{r.applicability}</TableCell>
