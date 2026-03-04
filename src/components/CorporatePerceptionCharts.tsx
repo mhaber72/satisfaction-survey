@@ -119,7 +119,8 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
       </Card>
 
       {/* KPI Cards */}
-      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {/* Clients Card */}
         <Card className="border-white/10 bg-white/5 backdrop-blur-md">
           <CardContent className="flex flex-col items-center justify-center py-10">
             <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full border-2 border-blue-400/50">
@@ -131,6 +132,13 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
                 {clientsPrevYear} in {prevYear}
               </p>
             )}
+          </CardContent>
+        </Card>
+
+        {/* Global NPS Card */}
+        <Card className="border-white/10 bg-white/5 backdrop-blur-md">
+          <CardContent className="flex flex-col items-center justify-center py-10">
+            <GlobalNPSGauge records={filteredRecords} prevRecords={prevYearRecords} prevYear={prevYear} />
           </CardContent>
         </Card>
       </div>
@@ -183,4 +191,97 @@ function NPSBar({ client, nps, maxAbs }: { client: string; nps: number; maxAbs: 
       </span>
     </div>
   );
+}
+
+function GlobalNPSGauge({ records, prevRecords, prevYear }: { records: any[] | undefined; prevRecords: any[]; prevYear: string }) {
+  const stats = useMemo(() => computeGlobalNPS(records), [records]);
+  const prevStats = useMemo(() => computeGlobalNPS(prevRecords), [prevRecords]);
+
+  const total = stats.promoters + stats.passives + stats.detractors;
+  const promoterPct = total ? (stats.promoters / total) * 100 : 0;
+  const passivePct = total ? (stats.passives / total) * 100 : 0;
+  const detractorPct = total ? (stats.detractors / total) * 100 : 0;
+
+  const size = 200;
+  const stroke = 28;
+  const r = (size - stroke) / 2;
+  const cx = size / 2;
+  const cy = size / 2;
+  const startAngle = 135;
+  const totalArc = 270;
+
+  function arcPath(startDeg: number, sweepDeg: number) {
+    const s = ((startDeg - 90) * Math.PI) / 180;
+    const e = ((startDeg + sweepDeg - 90) * Math.PI) / 180;
+    const x1 = cx + r * Math.cos(s);
+    const y1 = cy + r * Math.sin(s);
+    const x2 = cx + r * Math.cos(e);
+    const y2 = cy + r * Math.sin(e);
+    const large = sweepDeg > 180 ? 1 : 0;
+    return `M ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2}`;
+  }
+
+  function labelPos(startDeg: number, sweepDeg: number) {
+    const mid = ((startDeg + sweepDeg / 2 - 90) * Math.PI) / 180;
+    return { x: cx + (r + 2) * Math.cos(mid), y: cy + (r + 2) * Math.sin(mid) };
+  }
+
+  const promoterStart = startAngle;
+  const promoterSweep = (promoterPct / 100) * totalArc;
+  const passiveStart = promoterStart + promoterSweep;
+  const passiveSweep = (passivePct / 100) * totalArc;
+  const detractorStart = passiveStart + passiveSweep;
+  const detractorSweep = (detractorPct / 100) * totalArc;
+
+  const pLabel = labelPos(promoterStart, promoterSweep);
+  const paLabel = labelPos(passiveStart, passiveSweep);
+  const dLabel = labelPos(detractorStart, detractorSweep);
+
+  return (
+    <div className="flex flex-col items-center">
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+        {total > 0 && (
+          <>
+            {promoterSweep > 0.5 && (
+              <path d={arcPath(promoterStart, promoterSweep)} fill="none" stroke="#86efac" strokeWidth={stroke} strokeLinecap="round" />
+            )}
+            {passiveSweep > 0.5 && (
+              <path d={arcPath(passiveStart, passiveSweep)} fill="none" stroke="#fdba74" strokeWidth={stroke} strokeLinecap="round" />
+            )}
+            {detractorSweep > 0.5 && (
+              <path d={arcPath(detractorStart, detractorSweep)} fill="none" stroke="#fca5a5" strokeWidth={stroke} strokeLinecap="round" />
+            )}
+            {promoterSweep > 5 && (
+              <text x={pLabel.x} y={pLabel.y} textAnchor="middle" dominantBaseline="central" className="fill-green-700 text-sm font-bold">{stats.promoters}</text>
+            )}
+            {passiveSweep > 5 && (
+              <text x={paLabel.x} y={paLabel.y} textAnchor="middle" dominantBaseline="central" className="fill-orange-700 text-sm font-bold">{stats.passives}</text>
+            )}
+            {detractorSweep > 5 && (
+              <text x={dLabel.x} y={dLabel.y} textAnchor="middle" dominantBaseline="central" className="fill-red-600 text-sm font-bold">{stats.detractors}</text>
+            )}
+          </>
+        )}
+        <text x={cx} y={cy} textAnchor="middle" dominantBaseline="central" className="fill-white text-4xl font-bold">{stats.nps}</text>
+      </svg>
+      {prevRecords.length > 0 && (
+        <p className="text-base text-white/50 mt-1">{prevStats.nps} in {prevYear}</p>
+      )}
+    </div>
+  );
+}
+
+function computeGlobalNPS(records: any[] | undefined) {
+  if (!records || !records.length) return { nps: 0, promoters: 0, passives: 0, detractors: 0 };
+  const q1 = records.filter((r) => r.question === QUESTION_1 && r.score != null);
+  let promoters = 0, passives = 0, detractors = 0;
+  q1.forEach((r) => {
+    const s = Number(r.score);
+    if (s >= 9) promoters++;
+    else if (s >= 7) passives++;
+    else detractors++;
+  });
+  const total = promoters + passives + detractors;
+  const nps = total ? Math.round(((promoters - detractors) / total) * 100) : 0;
+  return { nps, promoters, passives, detractors };
 }
