@@ -58,16 +58,32 @@ export default function MultiSelectFilter({ label, options, selected, onChange, 
           </div>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-2" align="start" style={{ width: "var(--radix-popover-trigger-width)", minWidth: 200 }}>
-        {options.length > 8 && (
-          <Input
-            placeholder="Search..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="mb-2 h-8 text-sm"
-          />
-        )}
-        <ScrollArea className="max-h-[250px]">
+      <PopoverContent className="p-2" align="start" style={{ width: "var(--radix-popover-trigger-width)", minWidth: 220 }}>
+        <Input
+          placeholder="Search..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="mb-2 h-8 text-sm"
+        />
+        <div className="flex items-center gap-2 mb-2 px-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-6 text-xs px-2"
+            onClick={() => onChange(filtered.map((o) => String(o)))}
+          >
+            Select all
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-6 text-xs px-2"
+            onClick={() => onChange([])}
+          >
+            Clear all
+          </Button>
+        </div>
+        <div className="max-h-[250px] overflow-y-auto">
           <div className="flex flex-col gap-0.5">
             {filtered.map((opt) => {
               const val = String(opt);
@@ -89,7 +105,7 @@ export default function MultiSelectFilter({ label, options, selected, onChange, 
               <p className="text-xs text-muted-foreground text-center py-2">No results</p>
             )}
           </div>
-        </ScrollArea>
+        </div>
       </PopoverContent>
     </Popover>
   );
