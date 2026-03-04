@@ -47,12 +47,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       i18n.changeLanguage(profileData.language);
     }
 
-    // Fetch roles
-    const { data: roles } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", userId);
-    const admin = roles?.some((r: any) => r.role === "admin") ?? false;
+    // Use server-side SECURITY DEFINER function for admin check
+    const { data: adminCheck } = await supabase
+      .rpc("has_role", { _user_id: userId, _role: "admin" });
+    const admin = adminCheck === true;
     setIsAdmin(admin);
 
     // If admin, allow all themes
