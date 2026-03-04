@@ -80,7 +80,7 @@ const Index = () => {
           ))}
         </div>
 
-        <Card>
+        <Card className="overflow-hidden">
           <CardHeader><CardTitle>{t("dashboard.surveyData")}</CardTitle></CardHeader>
           <CardContent>
             {isLoading ? (
