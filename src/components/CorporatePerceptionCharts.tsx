@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -62,6 +63,22 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
 
   const npsData = useMemo(() => computeNPSByClient(filteredRecords), [filteredRecords]);
 
+  const prevYear = selectedYear ? String(Number(selectedYear) - 1) : "";
+  const prevYearRecords = useMemo(() => {
+    if (!records || !prevYear) return [];
+    return records.filter((r) => String(r.survey_year) === prevYear);
+  }, [records, prevYear]);
+
+  const clientsCurrentYear = useMemo(() => {
+    if (!filteredRecords) return 0;
+    return new Set(filteredRecords.map((r) => r.client_name).filter(Boolean)).size;
+  }, [filteredRecords]);
+
+  const clientsPrevYear = useMemo(() => {
+    if (!prevYearRecords.length) return null;
+    return new Set(prevYearRecords.map((r) => r.client_name).filter(Boolean)).size;
+  }, [prevYearRecords]);
+
   if (isLoading) {
     return <p className="text-white/60">Loading...</p>;
   }
@@ -74,31 +91,50 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
   const rightCol = npsData.slice(mid);
 
   return (
-    <Card className="border-white/10 bg-white/5 backdrop-blur-md">
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="text-white text-lg">NPS Score by Client</CardTitle>
-        <Select value={selectedYear} onValueChange={setSelectedYear}>
-          <SelectTrigger className="w-[130px] border-white/20 bg-white/10 text-white">
-            <SelectValue placeholder={t("dashboard.year")} />
-          </SelectTrigger>
-          <SelectContent className="border-white/20 bg-[hsl(215,85%,12%)]">
-            {availableYears.map((y) => (
-              <SelectItem key={y} value={String(y)} className="text-white">{y}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </CardHeader>
-      <CardContent>
-        {!npsData.length ? (
-          <p className="text-white/60 text-center py-12">No data available</p>
-        ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <NPSColumn data={leftCol} maxAbs={maxAbs} />
-            <NPSColumn data={rightCol} maxAbs={maxAbs} />
-          </div>
-        )}
-      </CardContent>
-    </Card>
+    <div className="space-y-6">
+      <Card className="border-white/10 bg-white/5 backdrop-blur-md">
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle className="text-white text-lg">NPS Score by Client</CardTitle>
+          <Select value={selectedYear} onValueChange={setSelectedYear}>
+            <SelectTrigger className="w-[130px] border-white/20 bg-white/10 text-white">
+              <SelectValue placeholder={t("dashboard.year")} />
+            </SelectTrigger>
+            <SelectContent className="border-white/20 bg-[hsl(215,85%,12%)]">
+              {availableYears.map((y) => (
+                <SelectItem key={y} value={String(y)} className="text-white">{y}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </CardHeader>
+        <CardContent>
+          {!npsData.length ? (
+            <p className="text-white/60 text-center py-12">No data available</p>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <NPSColumn data={leftCol} maxAbs={maxAbs} />
+              <NPSColumn data={rightCol} maxAbs={maxAbs} />
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="border-white/10 bg-white/5 backdrop-blur-md">
+          <CardContent className="flex flex-col items-center justify-center py-6">
+            <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full border-2 border-blue-400/50">
+              <Users className="h-8 w-8 text-blue-400" />
+            </div>
+            <p className="text-3xl font-bold text-white">{clientsCurrentYear} clients</p>
+            {clientsPrevYear !== null && (
+              <p className="text-sm text-white/50 mt-1">
+                {clientsPrevYear} in {prevYear}
+              </p>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   );
 }
 
