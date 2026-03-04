@@ -9,6 +9,7 @@ interface DataFiltersProps {
     client?: string;
     name?: string;
     theme?: string;
+    score?: string;
   };
   onFilterChange: (key: string, value: string) => void;
   showTheme?: boolean;
@@ -18,14 +19,15 @@ const DataFilters = ({ records, filters, onFilterChange, showTheme = false }: Da
   const { t } = useTranslation();
 
   const options = useMemo(() => {
-    if (!records?.length) return { years: [], clients: [], names: [], themes: [] };
+    if (!records?.length) return { years: [], clients: [], names: [], themes: [], scores: [] };
 
     const years = [...new Set(records.map((r) => r.survey_year).filter(Boolean))].sort((a, b) => b - a);
     const clients = [...new Set(records.map((r) => r.client_name).filter(Boolean))].sort();
     const names = [...new Set(records.map((r) => [r.firstname, r.lastname].filter(Boolean).join(" ")).filter(Boolean))].sort();
     const themes = [...new Set(records.map((r) => r.theme).filter(Boolean))].sort();
+    const scores = [...new Set(records.map((r) => r.score).filter((s) => s != null))].sort((a, b) => a - b);
 
-    return { years, clients, names, themes };
+    return { years, clients, names, themes, scores };
   }, [records]);
 
   return (
@@ -74,6 +76,22 @@ const DataFilters = ({ records, filters, onFilterChange, showTheme = false }: Da
           </SelectContent>
         </Select>
       </div>
+
+      <div className="flex flex-col gap-1">
+        <label className="text-xs font-medium text-muted-foreground">Score</label>
+        <Select value={filters.score || "all"} onValueChange={(v) => onFilterChange("score", v)}>
+          <SelectTrigger className="w-[150px]">
+            <SelectValue placeholder="Score" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{t("filters.all")}</SelectItem>
+            {options.scores.map((s) => (
+              <SelectItem key={s} value={String(s)}>{s}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
 
       {showTheme && (
         <div className="flex flex-col gap-1">

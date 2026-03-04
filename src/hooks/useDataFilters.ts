@@ -29,6 +29,7 @@ export function useDataFilters(records: any[] | undefined) {
         if (fullName !== filters.name) return false;
       }
       if (filters.theme && r.theme !== filters.theme) return false;
+      if (filters.score && String(r.score) !== filters.score) return false;
       return true;
     });
   }, [records, filters, allowedThemes, isAdmin]);
