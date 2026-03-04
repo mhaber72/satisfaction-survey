@@ -100,7 +100,7 @@ const ThemeDetail = () => {
             ) : (
               <div className="max-h-[500px] overflow-auto">
                 <Table>
-                  <TableHeader>
+                  <TableHeader className="sticky top-0 z-10 bg-[hsl(210,70%,20%)]">
                     <TableRow className="border-white/10 hover:bg-white/5">
                       <TableHead className="whitespace-nowrap text-white/60">{t("dashboard.client")}</TableHead>
                       <TableHead className="whitespace-nowrap text-white/60">{t("dashboard.name")}</TableHead>
