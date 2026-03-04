@@ -4,6 +4,7 @@
     "dashboard": "Dashboard",
     "users": "Users",
     "accessProfiles": "Access Profiles",
+    "importData": "Import Data",
     "navigation": "Navigation",
     "administration": "Administration",
     "signOut": "Sign Out"
@@ -112,6 +113,24 @@
     "profileSaved": "Profile saved",
     "profileDeleted": "Profile deleted",
     "confirmDelete": "Delete this profile?"
+  },
+  "adminImport": {
+    "title": "Data Import",
+    "currentData": "Current Data",
+    "totalRecords": "Total records",
+    "clearAll": "Clear all data",
+    "clearing": "Clearing...",
+    "confirmClear": "Are you sure you want to clear all survey data?",
+    "dataCleared": "Data cleared successfully",
+    "importTitle": "Import Survey",
+    "surveyYear": "Survey Year",
+    "selectYearFirst": "Select the survey year first",
+    "importExcel": "Import Excel",
+    "importing": "Importing...",
+    "recordsImported": "{{count}} records imported successfully!",
+    "importError": "Import error: ",
+    "formatTitle": "Expected format",
+    "formatDesc": "The Excel file must contain the following columns:"
   },
   "language": {
     "en": "English",

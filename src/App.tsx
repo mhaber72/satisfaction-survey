@@ -12,6 +12,7 @@ import ThemeDetail from "./pages/ThemeDetail";
 import Index from "./pages/Index";
 import AdminUsers from "./pages/AdminUsers";
 import AdminProfiles from "./pages/AdminProfiles";
+import AdminImport from "./pages/AdminImport";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/dashboard" element={<ProtectedRoute><AppLayout><Index /></AppLayout></ProtectedRoute>} />
             <Route path="/admin/users" element={<ProtectedRoute adminOnly><AppLayout><AdminUsers /></AppLayout></ProtectedRoute>} />
             <Route path="/admin/profiles" element={<ProtectedRoute adminOnly><AppLayout><AdminProfiles /></AppLayout></ProtectedRoute>} />
+            <Route path="/admin/import" element={<ProtectedRoute adminOnly><AppLayout><AdminImport /></AppLayout></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

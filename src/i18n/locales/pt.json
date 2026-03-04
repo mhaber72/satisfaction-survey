@@ -4,6 +4,7 @@
     "dashboard": "Dashboard",
     "users": "Usuários",
     "accessProfiles": "Perfis de Acesso",
+    "importData": "Importar Dados",
     "navigation": "Navegação",
     "administration": "Administração",
     "signOut": "Sair"
@@ -112,6 +113,24 @@
     "profileSaved": "Perfil salvo",
     "profileDeleted": "Perfil excluído",
     "confirmDelete": "Excluir este perfil?"
+  },
+  "adminImport": {
+    "title": "Importação de Dados",
+    "currentData": "Dados Atuais",
+    "totalRecords": "Total de registros",
+    "clearAll": "Limpar todos os dados",
+    "clearing": "Limpando...",
+    "confirmClear": "Tem certeza que deseja limpar todos os dados da pesquisa?",
+    "dataCleared": "Dados limpos com sucesso",
+    "importTitle": "Importar Pesquisa",
+    "surveyYear": "Ano da Pesquisa",
+    "selectYearFirst": "Selecione o ano da pesquisa primeiro",
+    "importExcel": "Importar Excel",
+    "importing": "Importando...",
+    "recordsImported": "{{count}} registros importados com sucesso!",
+    "importError": "Erro na importação: ",
+    "formatTitle": "Formato esperado",
+    "formatDesc": "O arquivo Excel deve conter as seguintes colunas:"
   },
   "language": {
     "en": "English",
