@@ -67,6 +67,10 @@
     "theme": "Tema",
     "score": "Score",
     "importance": "Importância",
+    "themeComment": "Comentário do Tema",
+    "question": "Pergunta",
+    "applicability": "Aplicabilidade",
+    "questionComment": "Comentário da Pergunta",
     "recordsImported": "{{count}} registros importados com sucesso!",
     "importError": "Erro na importação: "
   },
