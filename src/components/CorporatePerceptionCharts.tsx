@@ -119,15 +119,15 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
       </Card>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="border-white/10 bg-white/5 backdrop-blur-md">
-          <CardContent className="flex flex-col items-center justify-center py-6">
-            <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full border-2 border-blue-400/50">
-              <Users className="h-8 w-8 text-blue-400" />
+          <CardContent className="flex flex-col items-center justify-center py-10">
+            <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full border-2 border-blue-400/50">
+              <Users className="h-10 w-10 text-blue-400" />
             </div>
-            <p className="text-3xl font-bold text-white">{clientsCurrentYear} clients</p>
+            <p className="text-4xl font-bold text-white">{clientsCurrentYear} clients</p>
             {clientsPrevYear !== null && (
-              <p className="text-sm text-white/50 mt-1">
+              <p className="text-base text-white/50 mt-2">
                 {clientsPrevYear} in {prevYear}
               </p>
             )}
