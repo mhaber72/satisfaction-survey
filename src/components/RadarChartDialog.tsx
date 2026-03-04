@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Radar as RadarIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -7,18 +8,16 @@ interface RadarChartDialogProps {
   records: any[] | undefined;
 }
 
-// Theme colors matching the reference image
 const THEME_COLORS: Record<string, string> = {
-  "ACCOMPAGNEMENT CLIENT": "#8B0000",       // dark red
-  "EXCELLENCE OPÉRATIONNELLE": "#4A4A4A",   // dark gray
-  "EXPERTISE INFORMATIQUE": "#2563EB",      // blue
-  "GESTION DE PROJETS ET INNOVATION": "#7C3AED", // purple
-  "SOLUTIONS DURABLES": "#22C55E",          // green
-  "RESSOURCES HUMAINES": "#F59E0B",         // amber
-  "PARTENAIRE": "#F97316",                  // orange
+  "ACCOMPAGNEMENT CLIENT": "#8B0000",
+  "EXCELLENCE OPÉRATIONNELLE": "#4A4A4A",
+  "EXPERTISE INFORMATIQUE": "#2563EB",
+  "GESTION DE PROJETS ET INNOVATION": "#7C3AED",
+  "SOLUTIONS DURABLES": "#22C55E",
+  "RESSOURCES HUMAINES": "#F59E0B",
+  "PARTENAIRE": "#F97316",
 };
 
-// Short labels for questions (mapped by keywords)
 const QUESTION_SHORT_LABELS: Record<string, string> = {
   "direction générale": "Relation with Top Mngt",
   "Contract Manager": "Relation with ID Mngt",
@@ -48,6 +47,16 @@ const QUESTION_SHORT_LABELS: Record<string, string> = {
   "objectifs RSE": "CSR Policy",
 };
 
+const THEME_ORDER = [
+  "ACCOMPAGNEMENT CLIENT",
+  "EXCELLENCE OPÉRATIONNELLE",
+  "EXPERTISE INFORMATIQUE",
+  "GESTION DE PROJETS ET INNOVATION",
+  "PARTENAIRE",
+  "RESSOURCES HUMAINES",
+  "SOLUTIONS DURABLES",
+];
+
 function getShortLabel(question: string): string {
   for (const [keyword, label] of Object.entries(QUESTION_SHORT_LABELS)) {
     if (question.includes(keyword)) return label;
@@ -63,61 +72,83 @@ interface QuestionData {
   question: string;
   shortLabel: string;
   avg: number;
+  prevAvg: number | null;
   theme: string;
   color: string;
   count: number;
+}
+
+function computeAvgByQuestion(records: any[]): Map<string, { avg: number; theme: string; count: number }> {
+  const filtered = records.filter(
+    (r) =>
+      r.score != null &&
+      r.score !== 0 &&
+      r.answered === 1 &&
+      r.theme?.toUpperCase() !== "CORPORATE PERCEPTION" &&
+      r.question
+  );
+  const byQ = new Map<string, { scores: number[]; theme: string }>();
+  filtered.forEach((r) => {
+    const q = r.question!;
+    if (!byQ.has(q)) byQ.set(q, { scores: [], theme: r.theme || "" });
+    byQ.get(q)!.scores.push(Number(r.score));
+  });
+  const result = new Map<string, { avg: number; theme: string; count: number }>();
+  byQ.forEach(({ scores, theme }, q) => {
+    result.set(q, {
+      avg: parseFloat((scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(2)),
+      theme,
+      count: scores.length,
+    });
+  });
+  return result;
 }
 
 const RadarChartDialog = ({ records }: RadarChartDialogProps) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
 
-  const radarData: QuestionData[] = useMemo(() => {
+  const availableYears = useMemo(() => {
     if (!records?.length) return [];
+    const years = new Set(records.filter((r) => r.survey_year != null).map((r) => r.survey_year as number));
+    return Array.from(years).sort((a, b) => b - a);
+  }, [records]);
 
-    const filtered = records.filter(
-      (r) =>
-        r.score != null &&
-        r.score !== 0 &&
-        r.answered === 1 &&
-        r.theme?.toUpperCase() !== "CORPORATE PERCEPTION" &&
-        r.question
-    );
+  const [selectedYear, setSelectedYear] = useState<number | null>(null);
 
-    const byQuestion = new Map<string, { scores: number[]; theme: string }>();
-    filtered.forEach((r) => {
-      const q = r.question!;
-      if (!byQuestion.has(q)) byQuestion.set(q, { scores: [], theme: r.theme || "" });
-      byQuestion.get(q)!.scores.push(Number(r.score));
-    });
+  // Set default year when data loads
+  useMemo(() => {
+    if (availableYears.length > 0 && selectedYear === null) {
+      setSelectedYear(availableYears[0]);
+    }
+  }, [availableYears]);
 
-    // Group by theme, then sort within each theme
-    const themeOrder = [
-      "ACCOMPAGNEMENT CLIENT",
-      "EXCELLENCE OPÉRATIONNELLE",
-      "EXPERTISE INFORMATIQUE",
-      "GESTION DE PROJETS ET INNOVATION",
-      "PARTENAIRE",
-      "RESSOURCES HUMAINES",
-      "SOLUTIONS DURABLES",
-    ];
+  const radarData: QuestionData[] = useMemo(() => {
+    if (!records?.length || selectedYear === null) return [];
 
-    return Array.from(byQuestion.entries())
-      .map(([question, { scores, theme }]) => ({
+    const currentYearRecords = records.filter((r) => r.survey_year === selectedYear);
+    const prevYearRecords = records.filter((r) => r.survey_year === selectedYear - 1);
+
+    const currentAvg = computeAvgByQuestion(currentYearRecords);
+    const prevAvg = prevYearRecords.length > 0 ? computeAvgByQuestion(prevYearRecords) : null;
+
+    return Array.from(currentAvg.entries())
+      .map(([question, { avg, theme, count }]) => ({
         question,
         shortLabel: getShortLabel(question),
-        avg: parseFloat((scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(2)),
+        avg,
+        prevAvg: prevAvg?.get(question)?.avg ?? null,
         theme,
         color: getThemeColor(theme),
-        count: scores.length,
+        count,
       }))
       .sort((a, b) => {
-        const ai = themeOrder.indexOf(a.theme.toUpperCase());
-        const bi = themeOrder.indexOf(b.theme.toUpperCase());
+        const ai = THEME_ORDER.indexOf(a.theme.toUpperCase());
+        const bi = THEME_ORDER.indexOf(b.theme.toUpperCase());
         if (ai !== bi) return ai - bi;
         return a.question.localeCompare(b.question);
       });
-  }, [records]);
+  }, [records, selectedYear]);
 
   const canvasRef = useCallback(
     (canvas: HTMLCanvasElement | null) => {
@@ -141,7 +172,7 @@ const RadarChartDialog = ({ records }: RadarChartDialogProps) => {
 
       ctx.clearRect(0, 0, size, size);
 
-      // Draw grid circles
+      // Grid circles
       for (let step = 1; step <= 9; step++) {
         const r = (step / 9) * maxR;
         ctx.beginPath();
@@ -149,120 +180,112 @@ const RadarChartDialog = ({ records }: RadarChartDialogProps) => {
         ctx.strokeStyle = "#d1d5db";
         ctx.lineWidth = 0.5;
         ctx.stroke();
-        // Labels
         if (step % 2 === 0) {
-          const val = ((step / 9) * maxVal).toFixed(2);
           ctx.fillStyle = "#9ca3af";
           ctx.font = "10px sans-serif";
           ctx.textAlign = "center";
-          ctx.fillText(val, cx, cy - r + 12);
+          ctx.fillText(((step / 9) * maxVal).toFixed(2), cx, cy - r + 12);
         }
       }
 
-      // Draw axis lines
+      // Axis lines
       for (let i = 0; i < n; i++) {
         const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
-        const ex = cx + maxR * Math.cos(angle);
-        const ey = cy + maxR * Math.sin(angle);
         ctx.beginPath();
         ctx.moveTo(cx, cy);
-        ctx.lineTo(ex, ey);
+        ctx.lineTo(cx + maxR * Math.cos(angle), cy + maxR * Math.sin(angle));
         ctx.strokeStyle = "#e5e7eb";
         ctx.lineWidth = 0.5;
         ctx.stroke();
       }
 
-      // Draw filled theme sectors
-      const themeGroups: { theme: string; startIdx: number; endIdx: number; color: string }[] = [];
+      // Filled theme sectors — filled to CURRENT YEAR avg per question
+      const themeGroups: { startIdx: number; endIdx: number; color: string }[] = [];
       let currentTheme = radarData[0].theme;
       let startIdx = 0;
       for (let i = 1; i <= n; i++) {
         if (i === n || radarData[i].theme !== currentTheme) {
-          themeGroups.push({ theme: currentTheme, startIdx, endIdx: i - 1, color: radarData[startIdx].color });
-          if (i < n) {
-            currentTheme = radarData[i].theme;
-            startIdx = i;
-          }
+          themeGroups.push({ startIdx, endIdx: i - 1, color: radarData[startIdx].color });
+          if (i < n) { currentTheme = radarData[i].theme; startIdx = i; }
         }
       }
 
+      // Draw colored filled areas based on current year avg
       themeGroups.forEach(({ startIdx: si, endIdx: ei, color }) => {
         ctx.beginPath();
         ctx.moveTo(cx, cy);
         for (let i = si; i <= ei; i++) {
           const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
-          const ex = cx + maxR * Math.cos(angle);
-          const ey = cy + maxR * Math.sin(angle);
-          ctx.lineTo(ex, ey);
+          const r = (radarData[i].avg / maxVal) * maxR;
+          ctx.lineTo(cx + r * Math.cos(angle), cy + r * Math.sin(angle));
         }
-        // Close to next axis or back
+        // Last edge
         const lastAngle = (Math.PI * 2 * (ei + 1)) / n - Math.PI / 2;
-        ctx.lineTo(cx + maxR * Math.cos(lastAngle), cy + maxR * Math.sin(lastAngle));
+        const lastR = (radarData[ei].avg / maxVal) * maxR;
+        ctx.lineTo(cx + lastR * Math.cos(lastAngle), cy + lastR * Math.sin(lastAngle));
         ctx.lineTo(cx, cy);
         ctx.closePath();
-        ctx.fillStyle = color + "66"; // 40% opacity
+        ctx.fillStyle = color + "88";
         ctx.fill();
       });
 
-      // Draw score polygon (red line)
-      ctx.beginPath();
-      radarData.forEach((d, i) => {
-        const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
-        const r = (d.avg / maxVal) * maxR;
-        const x = cx + r * Math.cos(angle);
-        const y = cy + r * Math.sin(angle);
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      });
-      ctx.closePath();
-      ctx.strokeStyle = "#DC2626";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      // Draw score dots
-      radarData.forEach((d, i) => {
-        const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
-        const r = (d.avg / maxVal) * maxR;
-        const x = cx + r * Math.cos(angle);
-        const y = cy + r * Math.sin(angle);
+      // Red line — PREVIOUS YEAR avg
+      const hasPrev = radarData.some((d) => d.prevAvg !== null);
+      if (hasPrev) {
         ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = "#DC2626";
-        ctx.fill();
-        ctx.strokeStyle = "#fff";
-        ctx.lineWidth = 1;
+        radarData.forEach((d, i) => {
+          if (d.prevAvg === null) return;
+          const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
+          const r = (d.prevAvg / maxVal) * maxR;
+          const x = cx + r * Math.cos(angle);
+          const y = cy + r * Math.sin(angle);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.closePath();
+        ctx.strokeStyle = "#DC2626";
+        ctx.lineWidth = 2;
         ctx.stroke();
-      });
 
-      // Draw labels
+        // Red dots
+        radarData.forEach((d, i) => {
+          if (d.prevAvg === null) return;
+          const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
+          const r = (d.prevAvg / maxVal) * maxR;
+          ctx.beginPath();
+          ctx.arc(cx + r * Math.cos(angle), cy + r * Math.sin(angle), 4, 0, Math.PI * 2);
+          ctx.fillStyle = "#DC2626";
+          ctx.fill();
+          ctx.strokeStyle = "#fff";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        });
+      }
+
+      // Labels with current avg (and prev avg if available)
       radarData.forEach((d, i) => {
         const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
         const labelR = maxR + 18;
         const x = cx + labelR * Math.cos(angle);
         const y = cy + labelR * Math.sin(angle);
 
-        const label = `${d.shortLabel} (${d.avg.toFixed(2).replace(".", ",")})`;
+        const cur = d.avg.toFixed(2).replace(".", ",");
+        const prev = d.prevAvg !== null ? d.prevAvg.toFixed(2).replace(".", ",") : "—";
+        const label = `${d.shortLabel} (${cur} / ${prev})`;
 
         ctx.save();
         ctx.font = "10px sans-serif";
         ctx.fillStyle = "#374151";
-
-        // Determine text alignment based on position
         const angleDeg = ((angle * 180) / Math.PI + 360) % 360;
         if (angleDeg > 80 && angleDeg < 100) {
-          ctx.textAlign = "center";
-          ctx.textBaseline = "top";
+          ctx.textAlign = "center"; ctx.textBaseline = "top";
         } else if (angleDeg > 260 && angleDeg < 280) {
-          ctx.textAlign = "center";
-          ctx.textBaseline = "bottom";
+          ctx.textAlign = "center"; ctx.textBaseline = "bottom";
         } else if (angleDeg >= 100 && angleDeg <= 260) {
-          ctx.textAlign = "right";
-          ctx.textBaseline = "middle";
+          ctx.textAlign = "right"; ctx.textBaseline = "middle";
         } else {
-          ctx.textAlign = "left";
-          ctx.textBaseline = "middle";
+          ctx.textAlign = "left"; ctx.textBaseline = "middle";
         }
-
         ctx.fillText(label, x, y);
         ctx.restore();
       });
@@ -282,7 +305,24 @@ const RadarChartDialog = ({ records }: RadarChartDialogProps) => {
       </DialogTrigger>
       <DialogContent className="max-w-[960px] max-h-[95vh] overflow-auto p-6">
         <DialogHeader>
-          <DialogTitle>{t("dashboard.avgByQuestion", "Average Score by Question")}</DialogTitle>
+          <div className="flex items-center justify-between w-full gap-4">
+            <DialogTitle>{t("dashboard.avgByQuestion", "Average Score by Question")}</DialogTitle>
+            {availableYears.length > 0 && (
+              <Select
+                value={String(selectedYear)}
+                onValueChange={(v) => setSelectedYear(Number(v))}
+              >
+                <SelectTrigger className="w-28">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableYears.map((y) => (
+                    <SelectItem key={y} value={String(y)}>{y}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          </div>
         </DialogHeader>
 
         {/* Legend */}
@@ -295,6 +335,12 @@ const RadarChartDialog = ({ records }: RadarChartDialogProps) => {
               </span>
             </div>
           ))}
+          <div className="flex items-center gap-1.5">
+            <div className="w-6 h-0.5 bg-red-600 rounded" />
+            <span className="text-xs text-muted-foreground">
+              {selectedYear ? `${selectedYear - 1}` : "Previous year"}
+            </span>
+          </div>
         </div>
 
         {radarData.length === 0 ? (
