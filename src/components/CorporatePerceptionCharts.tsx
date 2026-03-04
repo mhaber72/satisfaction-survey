@@ -128,7 +128,7 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
             </div>
             <p className="text-4xl font-bold text-white">{clientsCurrentYear} clients</p>
             {clientsPrevYear !== null && (
-              <p className="text-base text-white/50 mt-2">
+              <p className="text-lg text-white/50 mt-2">
                 {clientsPrevYear} in {prevYear}
               </p>
             )}
@@ -273,7 +273,7 @@ function GlobalNPSGauge({ records, prevRecords, prevYear, selectedYear }: { reco
         <text x={cx} y={cy + 24} textAnchor="middle" dominantBaseline="central" fill="white" fontSize="16" fontWeight="700">NPS {selectedYear}</text>
         {/* Previous year */}
         {prevRecords.length > 0 && (
-          <text x={cx} y={cy + 58} textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="14">{prevStats.nps} in {prevYear}</text>
+          <text x={cx} y={cy + 64} textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="16">{prevStats.nps} in {prevYear}</text>
         )}
       </svg>
     </div>
