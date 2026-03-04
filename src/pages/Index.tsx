@@ -28,7 +28,7 @@ const Index = () => {
 
   const totalRecords = records?.length ?? 0;
   const avgScore = records?.length
-    ? (records.reduce((s, r) => s + (Number(r.score) || 0), 0) / records.filter(r => r.score != null).length).toFixed(2)
+    ? (records.reduce((s, r) => s + (Number(r.score) || 0), 0) / records.length).toFixed(2)
     : "—";
   const uniqueClients = new Set(records?.map((r) => r.client_name)).size;
   const uniqueThemes = new Set(records?.map((r) => r.theme)).size;
