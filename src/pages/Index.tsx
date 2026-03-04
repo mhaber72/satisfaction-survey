@@ -91,8 +91,7 @@ const Index = () => {
                 <p>{t("dashboard.noData")}</p>
               </div>
             ) : (
-              <div className="max-h-[500px] overflow-y-auto relative">
-               <div className="overflow-x-auto">
+              <div className="max-h-[500px] overflow-scroll relative scrollbar-always">
                 <table className="w-full caption-bottom text-sm">
                   <thead className="sticky top-0 z-10 bg-background [&_tr]:border-b">
                     <tr className="border-b transition-colors hover:bg-muted/50">
@@ -123,7 +122,6 @@ const Index = () => {
                     ))}
                   </tbody>
                 </table>
-               </div>
               </div>
             )}
           </CardContent>
