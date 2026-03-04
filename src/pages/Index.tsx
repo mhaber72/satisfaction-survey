@@ -95,25 +95,29 @@ const Index = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t("dashboard.country")}</TableHead>
-                      <TableHead>{t("dashboard.client")}</TableHead>
-                      <TableHead>{t("dashboard.name")}</TableHead>
-                      <TableHead>{t("dashboard.type")}</TableHead>
-                      <TableHead>{t("dashboard.theme")}</TableHead>
-                      <TableHead>{t("dashboard.score")}</TableHead>
-                      <TableHead>{t("dashboard.importance")}</TableHead>
+                      <TableHead className="whitespace-nowrap">{t("dashboard.client")}</TableHead>
+                      <TableHead className="whitespace-nowrap">{t("dashboard.name")}</TableHead>
+                      <TableHead className="whitespace-nowrap">{t("dashboard.theme")}</TableHead>
+                      <TableHead className="whitespace-nowrap">{t("dashboard.themeComment")}</TableHead>
+                      <TableHead className="whitespace-nowrap">{t("dashboard.question")}</TableHead>
+                      <TableHead className="whitespace-nowrap">{t("dashboard.applicability")}</TableHead>
+                      <TableHead className="whitespace-nowrap">{t("dashboard.importance")}</TableHead>
+                      <TableHead className="whitespace-nowrap">{t("dashboard.score")}</TableHead>
+                      <TableHead className="whitespace-nowrap">{t("dashboard.questionComment")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filtered?.map((r) => (
                       <TableRow key={r.id}>
-                        <TableCell>{r.country}</TableCell>
                         <TableCell className="max-w-[150px] truncate">{r.client_name}</TableCell>
-                        <TableCell>{r.firstname} {r.lastname}</TableCell>
-                        <TableCell>{r.type}</TableCell>
+                        <TableCell className="whitespace-nowrap">{r.firstname} {r.lastname}</TableCell>
                         <TableCell className="max-w-[200px] truncate">{r.theme}</TableCell>
-                        <TableCell>{r.score}</TableCell>
+                        <TableCell className="max-w-[250px] truncate">{r.theme_comment}</TableCell>
+                        <TableCell className="max-w-[250px] truncate">{r.question}</TableCell>
+                        <TableCell>{r.applicability}</TableCell>
                         <TableCell>{r.importance}</TableCell>
+                        <TableCell>{r.score}</TableCell>
+                        <TableCell className="max-w-[300px] truncate">{r.question_comment}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
