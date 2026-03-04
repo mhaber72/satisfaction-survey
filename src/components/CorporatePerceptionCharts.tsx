@@ -88,7 +88,7 @@ function NPSBar({ client, nps, maxAbs }: { client: string; nps: number; maxAbs: 
         <span className="text-white/80 text-sm font-semibold text-right min-w-[160px] truncate">
           {client}
         </span>
-        <div className="w-[200px] flex items-center gap-2">
+        <div className="w-[350px] flex items-center gap-2">
           <div
             className="h-6 rounded-sm bg-green-500"
             style={{ width: `${barPct}%` }}
@@ -104,7 +104,7 @@ function NPSBar({ client, nps, maxAbs }: { client: string; nps: number; maxAbs: 
       <span className="text-white/80 text-sm font-semibold truncate min-w-[160px]">
         {client}
       </span>
-      <div className="w-[200px] flex items-center gap-2 justify-end flex-row-reverse">
+      <div className="w-[350px] flex items-center gap-2 justify-end flex-row-reverse">
         <div
           className="h-6 rounded-sm bg-red-500"
           style={{ width: `${barPct}%` }}
