@@ -103,3 +103,23 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+.scrollbar-always {
+  scrollbar-gutter: stable both-edges;
+}
+.scrollbar-always::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  display: block;
+}
+.scrollbar-always::-webkit-scrollbar-track {
+  background: hsl(0 0% 0% / 0.1);
+  border-radius: 4px;
+}
+.scrollbar-always::-webkit-scrollbar-thumb {
+  background: hsl(0 0% 50% / 0.5);
+  border-radius: 4px;
+}
+.scrollbar-always::-webkit-scrollbar-thumb:hover {
+  background: hsl(0 0% 50% / 0.7);
+}
