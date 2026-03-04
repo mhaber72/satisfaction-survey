@@ -15,7 +15,6 @@ const ThemeDetail = () => {
   const { theme } = useParams<{ theme: string }>();
   const navigate = useNavigate();
   const decodedTheme = decodeURIComponent(theme || "");
-  const isCorporatePerception = decodedTheme.toUpperCase() === "CORPORATE PERCEPTION";
   const { t } = useTranslation();
   const { t } = useTranslation();
 
