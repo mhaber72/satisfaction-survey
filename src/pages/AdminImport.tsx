@@ -82,11 +82,21 @@ const AdminImport = () => {
         });
         jsonRows.push(obj);
       });
+      const INTEGER_COLS = new Set(["answered", "progress", "applicability", "importance"]);
+      const NUMERIC_COLS = new Set(["score"]);
       const mapped = jsonRows.map((row) => {
         const out: Record<string, any> = { survey_year: Number(selectedYear) };
         for (const [excelCol, dbCol] of Object.entries(COLUMN_MAP)) {
-          const val = row[excelCol];
-          if (val !== undefined && val !== null && val !== "") out[dbCol] = val;
+          let val = row[excelCol];
+          if (val === undefined || val === null || val === "") continue;
+          if (INTEGER_COLS.has(dbCol)) {
+            val = Math.round(Number(val));
+            if (isNaN(val)) continue;
+          } else if (NUMERIC_COLS.has(dbCol)) {
+            val = Number(val);
+            if (isNaN(val)) continue;
+          }
+          out[dbCol] = val;
         }
         return out;
       });
