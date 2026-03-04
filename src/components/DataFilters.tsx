@@ -12,17 +12,46 @@ interface DataFiltersProps {
 const DataFilters = ({ records, filters, onFilterChange, showTheme = false }: DataFiltersProps) => {
   const { t } = useTranslation();
 
-  const options = useMemo(() => {
-    if (!records?.length) return { years: [], clients: [], names: [], themes: [], scores: [] };
+  // Helper: apply all filters EXCEPT the excluded key to get contextual options
+  const applyFiltersExcept = (excludeKey: string) => {
+    if (!records?.length) return [];
+    return records.filter((r) => {
+      if (excludeKey !== "year" && filters.year?.length && !filters.year.includes(String(r.survey_year))) return false;
+      if (excludeKey !== "client" && filters.client?.length && !filters.client.includes(r.client_name)) return false;
+      if (excludeKey !== "name" && filters.name?.length) {
+        const fullName = [r.firstname, r.lastname].filter(Boolean).join(" ");
+        if (!filters.name.includes(fullName)) return false;
+      }
+      if (excludeKey !== "theme" && filters.theme?.length && !filters.theme.includes(r.theme)) return false;
+      if (excludeKey !== "score" && filters.score?.length && !filters.score.includes(String(r.score))) return false;
+      return true;
+    });
+  };
 
-    const years = [...new Set(records.map((r) => r.survey_year).filter(Boolean))].sort((a, b) => b - a);
-    const clients = [...new Set(records.map((r) => r.client_name).filter(Boolean))].sort();
-    const names = [...new Set(records.map((r) => [r.firstname, r.lastname].filter(Boolean).join(" ")).filter(Boolean))].sort();
-    const themes = [...new Set(records.map((r) => r.theme).filter(Boolean))].sort();
-    const scores = [...new Set(records.map((r) => r.score).filter((s) => s != null))].sort((a, b) => a - b);
+  const yearOptions = useMemo(() => {
+    const subset = applyFiltersExcept("year");
+    return [...new Set(subset.map((r) => r.survey_year).filter(Boolean))].sort((a, b) => b - a);
+  }, [records, filters]);
 
-    return { years, clients, names, themes, scores };
-  }, [records]);
+  const clientOptions = useMemo(() => {
+    const subset = applyFiltersExcept("client");
+    return [...new Set(subset.map((r) => r.client_name).filter(Boolean))].sort();
+  }, [records, filters]);
+
+  const nameOptions = useMemo(() => {
+    const subset = applyFiltersExcept("name");
+    return [...new Set(subset.map((r) => [r.firstname, r.lastname].filter(Boolean).join(" ")).filter(Boolean))].sort();
+  }, [records, filters]);
+
+  const scoreOptions = useMemo(() => {
+    const subset = applyFiltersExcept("score");
+    return [...new Set(subset.map((r) => r.score).filter((s) => s != null))].sort((a, b) => a - b);
+  }, [records, filters]);
+
+  const themeOptions = useMemo(() => {
+    const subset = applyFiltersExcept("theme");
+    return [...new Set(subset.map((r) => r.theme).filter(Boolean))].sort();
+  }, [records, filters]);
 
   return (
     <div className="flex flex-wrap gap-4">
@@ -30,7 +59,7 @@ const DataFilters = ({ records, filters, onFilterChange, showTheme = false }: Da
         <label className="text-xs font-medium text-muted-foreground">{t("filters.year")}</label>
         <MultiSelectFilter
           label={t("filters.year")}
-          options={options.years}
+          options={yearOptions}
           selected={filters.year || []}
           onChange={(v) => onFilterChange("year", v)}
           width="w-[150px]"
@@ -41,7 +70,7 @@ const DataFilters = ({ records, filters, onFilterChange, showTheme = false }: Da
         <label className="text-xs font-medium text-muted-foreground">{t("filters.client")}</label>
         <MultiSelectFilter
           label={t("filters.client")}
-          options={options.clients}
+          options={clientOptions}
           selected={filters.client || []}
           onChange={(v) => onFilterChange("client", v)}
           width="w-[200px]"
@@ -52,7 +81,7 @@ const DataFilters = ({ records, filters, onFilterChange, showTheme = false }: Da
         <label className="text-xs font-medium text-muted-foreground">{t("filters.name")}</label>
         <MultiSelectFilter
           label={t("filters.name")}
-          options={options.names}
+          options={nameOptions}
           selected={filters.name || []}
           onChange={(v) => onFilterChange("name", v)}
           width="w-[200px]"
@@ -63,7 +92,7 @@ const DataFilters = ({ records, filters, onFilterChange, showTheme = false }: Da
         <label className="text-xs font-medium text-muted-foreground">Score</label>
         <MultiSelectFilter
           label="Score"
-          options={options.scores}
+          options={scoreOptions}
           selected={filters.score || []}
           onChange={(v) => onFilterChange("score", v)}
           width="w-[150px]"
@@ -75,7 +104,7 @@ const DataFilters = ({ records, filters, onFilterChange, showTheme = false }: Da
           <label className="text-xs font-medium text-muted-foreground">{t("filters.theme")}</label>
           <MultiSelectFilter
             label={t("filters.theme")}
-            options={options.themes}
+            options={themeOptions}
             selected={filters.theme || []}
             onChange={(v) => onFilterChange("theme", v)}
             width="w-[220px]"
