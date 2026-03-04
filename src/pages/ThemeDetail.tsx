@@ -7,6 +7,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, BarChart3, Users, TrendingUp, FileText } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import DataFilters from "@/components/DataFilters";
+import { useDataFilters } from "@/hooks/useDataFilters";
 
 const ThemeDetail = () => {
   const { theme } = useParams<{ theme: string }>();
@@ -38,15 +40,17 @@ const ThemeDetail = () => {
     enabled: !!decodedTheme,
   });
 
-  const total = records?.length ?? 0;
+  const { filters, onFilterChange, filtered } = useDataFilters(records);
+
+  const total = filtered?.length ?? 0;
   const avgScore = (() => {
-    if (!records?.length) return "—";
-    const withScore = records.filter((r) => r.score != null && r.score !== 0 && r.answered === 1);
+    if (!filtered?.length) return "—";
+    const withScore = filtered.filter((r) => r.score != null && r.score !== 0 && r.answered === 1);
     if (!withScore.length) return "—";
     return (withScore.reduce((s, r) => s + Number(r.score), 0) / withScore.length).toFixed(2);
   })();
-  const uniqueClients = new Set(records?.map((r) => r.client_name)).size;
-  const uniqueQuestions = new Set(records?.map((r) => r.question)).size;
+  const uniqueClients = new Set(filtered?.map((r) => r.client_name)).size;
+  const uniqueQuestions = new Set(filtered?.map((r) => r.question)).size;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[hsl(210,80%,15%)] via-[hsl(210,70%,25%)] to-[hsl(200,60%,30%)]">
@@ -59,6 +63,10 @@ const ThemeDetail = () => {
             <h1 className="text-3xl font-bold text-white">{decodedTheme}</h1>
             <p className="text-white/60">{t("themeDetail.filteredByTheme")}</p>
           </div>
+        </div>
+
+        <div className="mb-6">
+          <DataFilters records={records} filters={filters} onFilterChange={onFilterChange} />
         </div>
 
         <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -104,7 +112,7 @@ const ThemeDetail = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {records?.map((r) => (
+                    {filtered?.map((r) => (
                       <TableRow key={r.id} className="border-white/5 hover:bg-white/5">
                         <TableCell className="text-white/80">{r.country}</TableCell>
                         <TableCell className="max-w-[150px] truncate text-white/80">{r.client_name}</TableCell>
