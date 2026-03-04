@@ -79,7 +79,7 @@ function NPSColumn({ data, maxAbs }: { data: { client: string; nps: number }[]; 
 }
 
 function NPSBar({ client, nps, maxAbs }: { client: string; nps: number; maxAbs: number }) {
-  const barWidth = Math.max((Math.abs(nps) / maxAbs) * 100, 2);
+  const barPct = Math.max((Math.abs(nps) / maxAbs) * 100, 2);
   const isPositive = nps >= 0;
 
   if (isPositive) {
@@ -88,10 +88,10 @@ function NPSBar({ client, nps, maxAbs }: { client: string; nps: number; maxAbs: 
         <span className="text-white/80 text-sm font-semibold text-right min-w-[160px] truncate">
           {client}
         </span>
-        <div className="flex-1 flex items-center gap-2">
+        <div className="w-[200px] flex items-center gap-2">
           <div
             className="h-6 rounded-sm bg-green-500"
-            style={{ width: `${barWidth}%` }}
+            style={{ width: `${barPct}%` }}
           />
           <span className="text-white text-sm font-bold whitespace-nowrap">{nps}</span>
         </div>
@@ -100,17 +100,17 @@ function NPSBar({ client, nps, maxAbs }: { client: string; nps: number; maxAbs: 
   }
 
   return (
-    <div className="flex items-center gap-2 h-8">
-      <span className="text-white text-sm font-bold whitespace-nowrap min-w-[40px] text-right">
-        {nps}
-      </span>
-      <div
-        className="h-6 rounded-sm bg-red-500"
-        style={{ width: `${barWidth}%` }}
-      />
-      <span className="text-white/80 text-sm font-semibold truncate">
+    <div className="flex items-center gap-2 h-8 justify-end flex-row-reverse">
+      <span className="text-white/80 text-sm font-semibold truncate min-w-[160px]">
         {client}
       </span>
+      <div className="w-[200px] flex items-center gap-2 justify-end flex-row-reverse">
+        <div
+          className="h-6 rounded-sm bg-red-500"
+          style={{ width: `${barPct}%` }}
+        />
+        <span className="text-white text-sm font-bold whitespace-nowrap">{nps}</span>
+      </div>
     </div>
   );
 }
