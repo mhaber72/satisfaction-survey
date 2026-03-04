@@ -71,7 +71,7 @@ const Index = () => {
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">{kpi.label}</CardTitle>
                 <div className="flex items-center gap-1">
-                  {kpi.key === "avgScore" && <RadarChartDialog records={filtered} />}
+                  
                   <kpi.icon className="h-4 w-4 text-muted-foreground" />
                 </div>
               </CardHeader>
