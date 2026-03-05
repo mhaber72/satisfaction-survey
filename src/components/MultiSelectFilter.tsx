@@ -42,7 +42,7 @@ export default function MultiSelectFilter({ label, options, selected, onChange, 
   const displayText = selected.length === 0
     ? label
     : selected.length === 1
-      ? String(selected[0])
+      ? (renderOption ? renderOption(selected[0]) : String(selected[0]))
       : `${selected.length} selected`;
 
   return (

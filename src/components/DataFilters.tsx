@@ -110,7 +110,7 @@ const DataFilters = ({ records, filters, onFilterChange, showTheme = false, show
           selected={filters.vertical || []}
           onChange={(v) => onFilterChange("vertical", v)}
           width="w-[180px]"
-          renderOption={(id) => verticals?.find((v) => v.id === id)?.name || id}
+          renderOption={(id) => verticals?.find((v) => v.id === String(id))?.name || String(id)}
         />
       </div>
 
