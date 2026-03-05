@@ -201,6 +201,7 @@ const AllActionPlans = () => {
                       {(plan.action_statuses as any)?.name ?? "—"}
                     </span>
                   </td>
+                  <td className="p-3">{(() => { const r = plan.action_responsibles as any; return r ? `${r.first_name} ${r.last_name}` : "—"; })()}</td>
                   <td className="p-3">{fmtDate(plan.start_date)}</td>
                   <td className="p-3">{fmtDate(plan.end_date)}</td>
                   <td className="p-3">{fmtDate(plan.new_end_date)}</td>
