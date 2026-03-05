@@ -16,6 +16,7 @@ interface ActionPlan {
   completion_date: string | null;
   contract_managers: { name: string } | null;
   action_statuses: { name: string; color: string } | null;
+  action_responsibles: { first_name: string; last_name: string } | null;
 }
 
 interface Status {
