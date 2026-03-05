@@ -101,9 +101,9 @@ function addCoverSlide(pptx: PptxGenJS, clientName: string, clientLogoUrl?: stri
         path: clientLogoUrl,
         x: 0.5,
         y: 1.4,
-        w: 1.2,
-        h: 1.2,
-        rounding: true,
+        w: 2.5,
+        h: 1.0,
+        sizing: { type: "contain", w: 2.5, h: 1.0 },
       });
     } catch {
       // skip
@@ -223,12 +223,12 @@ function addContentSlide(pptx: PptxGenJS, clientName: string, clientPlans: Actio
       slide.addImage({
         path: logoUrl,
         x: 0.4,
-        y: 0.15,
-        w: 0.6,
+        y: 0.1,
+        w: 1.2,
         h: 0.6,
-        rounding: true,
+        sizing: { type: "contain", w: 1.2, h: 0.6 },
       });
-      titleX = 1.2;
+      titleX = 1.8;
     } catch {
       // skip logo if it fails
     }
