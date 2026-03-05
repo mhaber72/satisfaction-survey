@@ -74,7 +74,7 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="border-white/10 bg-[hsl(210,70%,12%)] text-white max-w-5xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="border-white/10 bg-[hsl(210,70%,12%)] text-white max-w-[95vw] w-[1400px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-white text-xl">{t("actionPlan.dashboard", "Dashboard de Planos de Ação")}</DialogTitle>
         </DialogHeader>
