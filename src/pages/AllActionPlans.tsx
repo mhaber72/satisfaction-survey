@@ -20,6 +20,8 @@ const AllActionPlans = () => {
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const [selectedYears, setSelectedYears] = useState<string[]>([]);
   const [selectedClients, setSelectedClients] = useState<string[]>([]);
+  const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
+  const [selectedResponsibles, setSelectedResponsibles] = useState<string[]>([]);
 
   const { data: plans, isLoading } = useQuery({
     queryKey: ["all_action_plans"],
