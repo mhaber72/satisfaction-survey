@@ -277,27 +277,28 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
           </div>
         </div>
 
-        {/* Bar Chart - Total by Theme and Status */}
-        <div className="border border-white/20 rounded-md overflow-hidden mt-4">
-          <div className="bg-white/10 px-6 py-2 text-center">
-            <span className="text-white font-bold text-sm tracking-wide uppercase">
-              {t("actionPlan.chartByThemeStatus", "Total de Projetos por Área e Status")}
-            </span>
+        {/* Bar Charts side by side */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
+          <div className="border border-white/20 rounded-md overflow-hidden">
+            <div className="bg-white/10 px-4 py-1.5 text-center">
+              <span className="text-white font-bold text-xs tracking-wide uppercase">
+                {t("actionPlan.chartByThemeStatus", "Total de Projetos por Área e Status")}
+              </span>
+            </div>
+            <div className="px-2 py-2">
+              <ThemeStatusChart filtered={filtered} statuses={statuses} />
+            </div>
           </div>
-          <div className="px-4 py-4">
-            <ThemeStatusChart filtered={filtered} statuses={statuses} />
-          </div>
-        </div>
 
-        {/* Bar Chart - Total by Client and Status */}
-        <div className="border border-white/20 rounded-md overflow-hidden mt-4">
-          <div className="bg-white/10 px-6 py-2 text-center">
-            <span className="text-white font-bold text-sm tracking-wide uppercase">
-              {t("actionPlan.chartByClientStatus", "Total de Projetos por Cliente e Status")}
-            </span>
-          </div>
-          <div className="px-4 py-4">
-            <ClientStatusChart filtered={filtered} statuses={statuses} />
+          <div className="border border-white/20 rounded-md overflow-hidden">
+            <div className="bg-white/10 px-4 py-1.5 text-center">
+              <span className="text-white font-bold text-xs tracking-wide uppercase">
+                {t("actionPlan.chartByClientStatus", "Total de Projetos por Cliente e Status")}
+              </span>
+            </div>
+            <div className="px-2 py-2">
+              <ClientStatusChart filtered={filtered} statuses={statuses} />
+            </div>
           </div>
         </div>
       </DialogContent>
