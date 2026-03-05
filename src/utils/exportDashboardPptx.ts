@@ -24,10 +24,10 @@ interface Status {
   color: string;
 }
 
-const BG_COLOR = "0d1f3c";
-const TEXT_COLOR = "FFFFFF";
-const MUTED_COLOR = "94a3b8";
-const HEADER_BG = "1a3a5c";
+const BG_COLOR = "FFFFFF";
+const TEXT_COLOR = "222222";
+const MUTED_COLOR = "555555";
+const HEADER_BG = "2a4a6b";
 
 function hexFromCss(color: string): string {
   return color.replace("#", "").substring(0, 6);
