@@ -11,7 +11,7 @@ function CoverPage() {
       <h1 className="text-5xl font-extrabold tracking-tight text-center leading-tight">
         CSS Analytics
       </h1>
-      <p className="text-xl text-[hsl(200,60%,70%)] text-center max-w-lg">
+      <p className="text-xl text-[hsl(200,30%,45%)] text-center max-w-lg">
         Customer Satisfaction Survey — Book Board
       </p>
       <div className="mt-8 flex items-center gap-2 text-sm text-[hsl(200,40%,50%)]">
