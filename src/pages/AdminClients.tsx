@@ -28,9 +28,17 @@ const AdminClients = () => {
   const { data: clients, isLoading } = useQuery({
     queryKey: ["clients"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("clients").select("*").order("name");
+      const { data, error } = await supabase.from("clients").select("*, verticals(name)").order("name");
       if (error) throw error;
       return data;
+    },
+  });
+
+  const { data: verticals } = useQuery({
+    queryKey: ["verticals"],
+    queryFn: async () => {
+      const { data } = await supabase.from("verticals").select("*").order("name");
+      return data || [];
     },
   });
 
