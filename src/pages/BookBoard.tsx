@@ -102,7 +102,7 @@ export default function BookBoard() {
       onKeyDown={handleKeyDown}
     >
       {/* Book container */}
-      <div className="relative w-full max-w-6xl px-16" style={{ perspective: "2000px" }}>
+      <div className="relative w-full max-w-[72rem] px-16" style={{ perspective: "2000px" }}>
         {/* Page counter */}
         <div className="absolute -top-10 left-0 right-0 flex items-center justify-center gap-3">
           <span className="text-sm text-[hsl(200,20%,40%)]">
@@ -128,7 +128,7 @@ export default function BookBoard() {
         {/* Book spread */}
         <div
           className="relative mx-auto overflow-hidden rounded-2xl shadow-2xl shadow-black/20"
-          style={{ aspectRatio: "3/2.7" }}
+          style={{ aspectRatio: "3/2.6" }}
         >
           {/* Current page (base layer) */}
           <div className="absolute inset-0 z-10">
