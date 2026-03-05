@@ -177,6 +177,13 @@ const AllActionPlans = () => {
           existingPlan={editingPlan}
         />
       )}
+
+      <ActionPlanDashboard
+        open={showDashboard}
+        onOpenChange={setShowDashboard}
+        plans={plans}
+        statuses={statuses}
+      />
     </div>
   );
 };
