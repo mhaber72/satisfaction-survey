@@ -324,16 +324,15 @@ function ClientStatusChart({ filtered, statuses }: { filtered: any[]; statuses: 
     return Object.entries(clientMap)
       .map(([client, counts]) => {
         const row: any = { client };
+        let total = 0;
         statuses.forEach((s) => {
           row[s.id] = counts[s.id] || 0;
+          total += row[s.id];
         });
+        row._total = total;
         return row;
       })
-      .sort((a, b) => {
-        const totalA = statuses.reduce((sum, s) => sum + (a[s.id] || 0), 0);
-        const totalB = statuses.reduce((sum, s) => sum + (b[s.id] || 0), 0);
-        return totalB - totalA;
-      });
+      .sort((a, b) => b._total - a._total);
   }, [filtered, statuses]);
 
   const activeStatuses = useMemo(() => {
@@ -345,9 +344,20 @@ function ClientStatusChart({ filtered, statuses }: { filtered: any[]; statuses: 
     return <p className="text-white/50 text-center py-8">Sem dados</p>;
   }
 
+  const CustomTotalLabel = (props: any) => {
+    const { x, y, width, index } = props;
+    const total = chartData[index]?._total;
+    if (!total) return null;
+    return (
+      <text x={x + width / 2} y={y - 6} textAnchor="middle" fill="rgba(255,255,255,0.9)" fontSize={11} fontWeight="bold">
+        {total}
+      </text>
+    );
+  };
+
   return (
     <ResponsiveContainer width="100%" height={Math.max(300, chartData.length * 50)}>
-      <BarChart data={chartData} layout="horizontal" margin={{ top: 20, right: 30, left: 10, bottom: 80 }}>
+      <BarChart data={chartData} layout="horizontal" margin={{ top: 30, right: 30, left: 10, bottom: 80 }}>
         <XAxis
           dataKey="client"
           tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 10 }}
@@ -371,6 +381,9 @@ function ClientStatusChart({ filtered, statuses }: { filtered: any[]; statuses: 
         {activeStatuses.map((s, i) => (
           <Bar key={s.id} dataKey={s.id} name={s.id} fill={s.color} stackId="stack" radius={i === activeStatuses.length - 1 ? [4, 4, 0, 0] : [0, 0, 0, 0]}>
             <LabelList dataKey={s.id} position="inside" fill="white" fontSize={10} formatter={(v: number) => v > 0 ? v : ""} />
+            {i === activeStatuses.length - 1 && (
+              <LabelList content={<CustomTotalLabel />} />
+            )}
           </Bar>
         ))}
       </BarChart>
