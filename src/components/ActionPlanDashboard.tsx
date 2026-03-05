@@ -222,6 +222,18 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
             <ThemeStatusChart filtered={filtered} statuses={statuses} />
           </div>
         </div>
+
+        {/* Bar Chart - Total by Client and Status */}
+        <div className="border border-white/20 rounded-md overflow-hidden mt-4">
+          <div className="bg-white/10 px-6 py-2 text-center">
+            <span className="text-white font-bold text-sm tracking-wide uppercase">
+              {t("actionPlan.chartByClientStatus", "Total de Projetos por Cliente e Status")}
+            </span>
+          </div>
+          <div className="px-4 py-4">
+            <ClientStatusChart filtered={filtered} statuses={statuses} />
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );
