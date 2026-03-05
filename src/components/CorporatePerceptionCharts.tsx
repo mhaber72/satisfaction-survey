@@ -177,10 +177,10 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
             <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full border-2 border-blue-400/50">
               <Users className="h-10 w-10 text-blue-400" />
             </div>
-            <p className="text-4xl font-bold text-white">{clientsCurrentYear} clients</p>
+            <p className="text-4xl font-bold text-white">{clientsCurrentYear} {t("corporatePerception.clients")}</p>
             {clientsPrevYear !== null && (
               <p className="text-lg text-white/50 mt-2">
-                {clientsPrevYear} in {prevYear}
+                {clientsPrevYear} {t("corporatePerception.inYear", { year: prevYear })}
               </p>
             )}
           </CardContent>
