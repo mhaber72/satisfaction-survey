@@ -125,7 +125,7 @@ const Index = () => {
                     </thead>
                     <tbody className="[&_tr:last-child]:border-0">
                       {sorted?.map((r) => (
-                        <tr key={r.id} className="border-b transition-colors hover:bg-muted/50">
+                        <tr key={r.id} className="border-b transition-colors hover:bg-muted/50 cursor-pointer" onClick={() => setSelectedRow(r)}>
                            <td className="p-4 align-middle whitespace-nowrap">{r.client_name}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.firstname} {r.lastname}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.theme}</td>
