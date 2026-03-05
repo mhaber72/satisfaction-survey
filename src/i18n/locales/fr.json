@@ -214,7 +214,11 @@
     "save": "Enregistrer",
     "saved": "Plan d'action sauvegardé",
     "saveError": "Erreur lors de la sauvegarde",
-    "noActions": "Aucun plan d'action enregistré pour cet enregistrement."
+    "noActions": "Aucun plan d'action enregistré pour cet enregistrement.",
+    "confirmTitle": "Confirmation",
+    "confirmStatusChange": "Êtes-vous sûr de vouloir changer le statut en \"{{status}}\" ?",
+    "confirmCancel": "Annuler",
+    "confirmOk": "Confirmer"
   },
   "language": {
     "en": "English",

@@ -214,7 +214,11 @@
     "save": "Salvar",
     "saved": "Plano de ação salvo",
     "saveError": "Erro ao salvar plano de ação",
-    "noActions": "Nenhum plano de ação cadastrado para este registro."
+    "noActions": "Nenhum plano de ação cadastrado para este registro.",
+    "confirmTitle": "Confirmação",
+    "confirmStatusChange": "Tem certeza que deseja alterar o status para \"{{status}}\"?",
+    "confirmCancel": "Cancelar",
+    "confirmOk": "Confirmar"
   },
   "language": {
     "en": "English",
