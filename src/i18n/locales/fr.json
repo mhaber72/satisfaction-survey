@@ -225,7 +225,8 @@
     "confirmTitle": "Confirmation",
     "confirmStatusChange": "Êtes-vous sûr de vouloir changer le statut en \"{{status}}\" ?",
     "confirmCancel": "Annuler",
-    "confirmOk": "Confirmer"
+    "confirmOk": "Confirmer",
+    "responsible": "Responsable"
   },
   "adminResponsibles": {
     "firstName": "Prénom",
