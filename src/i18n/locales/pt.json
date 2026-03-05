@@ -147,7 +147,10 @@
     "client": "Cliente",
     "name": "Nome",
     "theme": "Tema",
-    "all": "Todos"
+    "all": "Todos",
+    "actionPlan": "Plano de Ação",
+    "yes": "Sim",
+    "no": "Não"
   },
   "corporatePerception": {
     "npsTitle": "NPS por Cliente",
