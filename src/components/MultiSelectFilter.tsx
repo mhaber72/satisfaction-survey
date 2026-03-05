@@ -100,7 +100,7 @@ export default function MultiSelectFilter({ label, options, selected, onChange, 
                     checked={isChecked}
                     onCheckedChange={() => toggle(val)}
                   />
-                  <span className="truncate">{val}</span>
+                  <span className="truncate">{getLabel(opt)}</span>
                 </label>
               );
             })}
