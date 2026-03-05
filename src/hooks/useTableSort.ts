@@ -24,8 +24,8 @@ export function useTableSort<T extends Record<string, any>>(data: T[] | undefine
     const col = sort.column;
     const dir = sort.direction === "asc" ? 1 : -1;
     return [...data].sort((a, b) => {
-      const va = a[col];
-      const vb = b[col];
+      const va = col === "name" ? `${a.firstname ?? ""} ${a.lastname ?? ""}`.trim() : a[col];
+      const vb = col === "name" ? `${b.firstname ?? ""} ${b.lastname ?? ""}`.trim() : b[col];
       if (va == null && vb == null) return 0;
       if (va == null) return 1;
       if (vb == null) return -1;
