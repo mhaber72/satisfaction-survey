@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Pencil, Search, BarChart3 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Pencil, Search, BarChart3, Eye } from "lucide-react";
 import { format } from "date-fns";
 import ActionPlanForm from "@/components/ActionPlanForm";
 import ActionPlanDashboard from "@/components/ActionPlanDashboard";
@@ -13,6 +14,7 @@ import MultiSelectFilter from "@/components/MultiSelectFilter";
 const AllActionPlans = () => {
   const { t } = useTranslation();
   const [editingPlan, setEditingPlan] = useState<any>(null);
+  const [viewingPlan, setViewingPlan] = useState<any>(null);
   const [showDashboard, setShowDashboard] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
