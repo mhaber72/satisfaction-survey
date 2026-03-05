@@ -16,6 +16,7 @@ import AdminImport from "./pages/AdminImport";
 import AdminScoreColors from "./pages/AdminScoreColors";
 import AdminLookupTable from "./pages/AdminLookupTable";
 import AdminActionStatuses from "./pages/AdminActionStatuses";
+import AllActionPlans from "./pages/AllActionPlans";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
