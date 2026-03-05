@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users, Shield, LogOut, Home, Upload, Palette, UserCheck, MapPin, Building, ListChecks, ClipboardList, Briefcase, UserCog, Layers } from "lucide-react";
+import { LayoutDashboard, Users, Shield, LogOut, Home, Upload, Palette, UserCheck, MapPin, Building, ListChecks, ClipboardList, Briefcase, UserCog, Layers, BookOpen } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslation } from "react-i18next";
@@ -29,6 +29,7 @@ export function AppSidebar() {
     { title: t("nav.themes"), url: "/", icon: Home },
     { title: t("nav.dashboard"), url: "/dashboard", icon: LayoutDashboard },
     { title: t("nav.actionPlans"), url: "/action-plans", icon: ClipboardList },
+    { title: "Book Board", url: "/book-board", icon: BookOpen },
   ];
 
   const adminItems = [
