@@ -141,21 +141,20 @@ const AllActionPlans = () => {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/50">
-                <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.surveyYear")}</th>
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.client")}</th>
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.theme")}</th>
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.actionName")}</th>
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.status")}</th>
-                <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.contractManager")}</th>
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.startDate")}</th>
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.endDate")}</th>
+                <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.newEndDate")}</th>
+                <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.completionDate")}</th>
                 <th className="p-3 text-right font-medium text-muted-foreground">{t("adminLookup.actions")}</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((plan) => (
                 <tr key={plan.id} className="border-b hover:bg-muted/50 cursor-pointer" onClick={() => setViewingPlan(plan)}>
-                  <td className="p-3">{plan.survey_year ?? "—"}</td>
                   <td className="p-3">{plan.client_name ?? "—"}</td>
                   <td className="p-3 max-w-[150px] truncate">{plan.theme ?? "—"}</td>
                   <td className="p-3 max-w-[200px] truncate">{plan.action_name}</td>
@@ -168,9 +167,10 @@ const AllActionPlans = () => {
                       {(plan.action_statuses as any)?.name ?? "—"}
                     </span>
                   </td>
-                  <td className="p-3">{(plan.contract_managers as any)?.name ?? "—"}</td>
                   <td className="p-3">{fmtDate(plan.start_date)}</td>
                   <td className="p-3">{fmtDate(plan.end_date)}</td>
+                  <td className="p-3">{fmtDate(plan.new_end_date)}</td>
+                  <td className="p-3">{fmtDate(plan.completion_date)}</td>
                   <td className="p-3 text-right" onClick={(e) => e.stopPropagation()}>
                     {(() => {
                       const statusName = ((plan.action_statuses as any)?.name || "").toLowerCase();
