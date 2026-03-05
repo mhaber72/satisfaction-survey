@@ -44,11 +44,12 @@ const AdminClients = () => {
 
   const saveMutation = useMutation({
     mutationFn: async (item: ClientForm) => {
+      const payload = { name: item.name, logo_url: item.logo_url, vertical_id: item.vertical_id };
       if (item.id) {
-        const { error } = await supabase.from("clients").update({ name: item.name, logo_url: item.logo_url }).eq("id", item.id);
+        const { error } = await supabase.from("clients").update(payload).eq("id", item.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase.from("clients").insert({ name: item.name, logo_url: item.logo_url });
+        const { error } = await supabase.from("clients").insert(payload);
         if (error) throw error;
       }
     },
