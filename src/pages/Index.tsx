@@ -16,6 +16,7 @@ import { useState } from "react";
 const Index = () => {
   const { t } = useTranslation();
   const [selectedRow, setSelectedRow] = useState<any>(null);
+  const { getColor } = useScoreColors();
 
   const { data: records, isLoading } = useQuery({
     queryKey: ["pesquisa"],
