@@ -131,7 +131,7 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
   }, [filteredRecords]);
 
   if (isLoading) {
-    return <p className="text-white/60">Loading...</p>;
+    return <p className="text-white/60">{t("corporatePerception.loading")}</p>;
   }
 
   const maxAbs = Math.max(...(npsData.length ? npsData.map((d) => Math.abs(d.nps)) : [1]), 1);
