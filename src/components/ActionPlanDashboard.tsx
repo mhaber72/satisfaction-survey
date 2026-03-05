@@ -110,9 +110,10 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
             variant="outline"
             size="sm"
             className="border-orange-400/50 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 gap-2"
-            onClick={() => {
+            onClick={async () => {
               if (plans?.length) {
-                exportDashboardPptx(plans, statuses || []);
+                toast.info("Gerando PowerPoint...");
+                await exportDashboardPptx(plans, statuses || []);
                 toast.success(t("actionPlan.pptxExported", "PowerPoint exportado com sucesso!"));
               }
             }}

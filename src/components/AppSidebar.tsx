@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users, Shield, LogOut, Home, Upload, Palette, UserCheck, MapPin, Building, ListChecks, ClipboardList } from "lucide-react";
+import { LayoutDashboard, Users, Shield, LogOut, Home, Upload, Palette, UserCheck, MapPin, Building, ListChecks, ClipboardList, Briefcase } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslation } from "react-i18next";
@@ -40,6 +40,7 @@ export function AppSidebar() {
     { title: t("nav.regionalManagers"), url: "/admin/regional-managers", icon: MapPin },
     { title: t("nav.directories"), url: "/admin/directories", icon: Building },
     { title: t("nav.actionStatuses"), url: "/admin/action-statuses", icon: ListChecks },
+    { title: t("nav.clients", "Clientes"), url: "/admin/clients", icon: Briefcase },
   ];
 
   return (
