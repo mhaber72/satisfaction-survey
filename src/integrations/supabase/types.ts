@@ -80,6 +80,7 @@ export type Database = {
           pesquisa_id: number
           question_comment: string | null
           regional_manager_id: string
+          responsible_id: string | null
           start_date: string | null
           status_id: string
           survey_year: number | null
@@ -102,6 +103,7 @@ export type Database = {
           pesquisa_id: number
           question_comment?: string | null
           regional_manager_id: string
+          responsible_id?: string | null
           start_date?: string | null
           status_id: string
           survey_year?: number | null
@@ -124,6 +126,7 @@ export type Database = {
           pesquisa_id?: number
           question_comment?: string | null
           regional_manager_id?: string
+          responsible_id?: string | null
           start_date?: string | null
           status_id?: string
           survey_year?: number | null
@@ -158,6 +161,13 @@ export type Database = {
             columns: ["regional_manager_id"]
             isOneToOne: false
             referencedRelation: "regional_managers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "action_plans_responsible_id_fkey"
+            columns: ["responsible_id"]
+            isOneToOne: false
+            referencedRelation: "action_responsibles"
             referencedColumns: ["id"]
           },
           {

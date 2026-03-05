@@ -26,7 +26,7 @@ const AllActionPlans = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("action_plans")
-        .select("*, contract_managers(name), regional_managers(name), directories(name), action_statuses(name, color)")
+        .select("*, contract_managers(name), regional_managers(name), directories(name), action_statuses(name, color), action_responsibles(first_name, last_name)")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return data;
@@ -228,6 +228,11 @@ const AllActionPlans = () => {
               <DetailField label={t("actionPlan.contractManager")} value={(viewingPlan.contract_managers as any)?.name ?? "—"} />
               <DetailField label={t("actionPlan.regionalManager", "Gestor Regional")} value={(viewingPlan.regional_managers as any)?.name ?? "—"} />
               <DetailField label={t("actionPlan.directory", "Diretoria")} value={(viewingPlan.directories as any)?.name ?? "—"} />
+              <DetailField label={t("actionPlan.responsible")} value={
+                viewingPlan.action_responsibles
+                  ? `${(viewingPlan.action_responsibles as any)?.first_name} ${(viewingPlan.action_responsibles as any)?.last_name}`
+                  : "—"
+              } />
               <DetailField label={t("actionPlan.startDate")} value={fmtDate(viewingPlan.start_date)} />
               <DetailField label={t("actionPlan.endDate")} value={fmtDate(viewingPlan.end_date)} />
               <DetailField label={t("actionPlan.newEndDate", "Nova Data Fim")} value={fmtDate(viewingPlan.new_end_date)} />

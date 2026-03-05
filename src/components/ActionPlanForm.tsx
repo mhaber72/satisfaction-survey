@@ -51,6 +51,7 @@ const ActionPlanForm = ({
     contract_manager_id: "",
     regional_manager_id: "",
     directory_id: "",
+    responsible_id: "",
     action_name: "",
     action_description: "",
     start_date: null as Date | null,
@@ -66,6 +67,7 @@ const ActionPlanForm = ({
         contract_manager_id: existingPlan.contract_manager_id || "",
         regional_manager_id: existingPlan.regional_manager_id || "",
         directory_id: existingPlan.directory_id || "",
+        responsible_id: existingPlan.responsible_id || "",
         action_name: existingPlan.action_name || "",
         action_description: existingPlan.action_description || "",
         start_date: existingPlan.start_date ? new Date(existingPlan.start_date) : null,
@@ -79,6 +81,7 @@ const ActionPlanForm = ({
         contract_manager_id: "",
         regional_manager_id: "",
         directory_id: "",
+        responsible_id: "",
         action_name: "",
         action_description: "",
         start_date: null,
@@ -110,6 +113,14 @@ const ActionPlanForm = ({
     queryKey: ["directories"],
     queryFn: async () => {
       const { data } = await supabase.from("directories").select("*").order("name");
+      return data || [];
+    },
+  });
+
+  const { data: responsibles } = useQuery({
+    queryKey: ["action_responsibles"],
+    queryFn: async () => {
+      const { data } = await supabase.from("action_responsibles").select("*, directories(name)").order("first_name");
       return data || [];
     },
   });
@@ -151,6 +162,7 @@ const ActionPlanForm = ({
         contract_manager_id: form.contract_manager_id,
         regional_manager_id: form.regional_manager_id,
         directory_id: form.directory_id,
+        responsible_id: form.responsible_id || null,
         action_name: form.action_name,
         action_description: form.action_description,
         start_date: form.start_date ? format(form.start_date, "yyyy-MM-dd") : null,
@@ -270,6 +282,20 @@ const ActionPlanForm = ({
                 </SelectContent>
               </Select>
             </div>
+          </div>
+
+          <div>
+            <Label>{t("actionPlan.responsible")}</Label>
+            <Select value={form.responsible_id} onValueChange={(v) => setForm((p) => ({ ...p, responsible_id: v }))}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {responsibles?.map((r) => (
+                  <SelectItem key={r.id} value={r.id}>
+                    {r.first_name} {r.last_name} — {(r.directories as any)?.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div>

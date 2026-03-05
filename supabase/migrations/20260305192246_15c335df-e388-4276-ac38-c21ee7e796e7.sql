@@ -1,0 +1,1 @@
+ALTER TABLE public.action_plans ADD COLUMN responsible_id uuid REFERENCES public.action_responsibles(id);
