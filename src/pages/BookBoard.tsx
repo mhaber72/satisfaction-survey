@@ -6,15 +6,15 @@ import { cn } from "@/lib/utils";
 /* ─── Sample page components ─── */
 function CoverPage() {
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-6 bg-gradient-to-br from-[hsl(215,85%,12%)] to-[hsl(215,70%,20%)] text-white px-16">
+    <div className="flex h-full flex-col items-center justify-center gap-6 bg-white text-[hsl(215,85%,15%)] px-16">
       <BookOpen className="h-24 w-24 text-[hsl(200,80%,60%)] drop-shadow-lg" />
       <h1 className="text-5xl font-extrabold tracking-tight text-center leading-tight">
         CSS Analytics
       </h1>
-      <p className="text-xl text-[hsl(200,60%,70%)] text-center max-w-lg">
+      <p className="text-xl text-[hsl(200,30%,45%)] text-center max-w-lg">
         Customer Satisfaction Survey — Book Board
       </p>
-      <div className="mt-8 flex items-center gap-2 text-sm text-[hsl(200,40%,50%)]">
+      <div className="mt-8 flex items-center gap-2 text-sm text-[hsl(200,20%,60%)]">
         <ChevronRight className="h-4 w-4 animate-pulse" />
         <span>Deslize para começar</span>
       </div>
@@ -24,21 +24,21 @@ function CoverPage() {
 
 function PlaceholderPage({ number, title, description }: { number: number; title: string; description: string }) {
   return (
-    <div className="flex h-full flex-col bg-[hsl(215,85%,10%)] text-white">
+    <div className="flex h-full flex-col bg-white text-[hsl(215,85%,15%)]">
       {/* Header */}
-      <div className="border-b border-[hsla(200,80%,60%,0.15)] px-10 py-6">
-        <p className="text-sm font-medium text-[hsl(200,60%,50%)] uppercase tracking-wider">
+      <div className="border-b border-[hsl(210,30%,90%)] px-10 py-6">
+        <p className="text-sm font-medium text-[hsl(200,40%,50%)] uppercase tracking-wider">
           Página {number}
         </p>
-        <h2 className="mt-1 text-3xl font-bold">{title}</h2>
+        <h2 className="mt-1 text-3xl font-bold text-[hsl(215,85%,15%)]">{title}</h2>
       </div>
       {/* Body */}
       <div className="flex flex-1 items-center justify-center px-10 py-8">
         <div className="text-center space-y-4">
-          <div className="mx-auto h-48 w-80 rounded-xl border-2 border-dashed border-[hsla(200,80%,60%,0.2)] flex items-center justify-center">
-            <span className="text-[hsl(200,40%,50%)] text-sm">{description}</span>
+          <div className="mx-auto h-48 w-80 rounded-xl border-2 border-dashed border-[hsl(210,30%,85%)] flex items-center justify-center">
+            <span className="text-[hsl(200,20%,55%)] text-sm">{description}</span>
           </div>
-          <p className="text-sm text-[hsl(200,40%,50%)]">
+          <p className="text-sm text-[hsl(200,20%,60%)]">
             Defina o conteúdo desta página
           </p>
         </div>
@@ -97,7 +97,7 @@ export default function BookBoard() {
 
   return (
     <div
-      className="min-h-screen bg-white flex flex-col items-center justify-center p-4 outline-none"
+      className="min-h-screen bg-[hsl(210,60%,95%)] flex flex-col items-center justify-center p-4 outline-none"
       tabIndex={0}
       onKeyDown={handleKeyDown}
     >
