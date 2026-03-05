@@ -20,8 +20,10 @@ export default function MultiSelectFilter({ label, options, selected, onChange, 
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
 
+  const getLabel = (o: string | number) => renderOption ? renderOption(o) : String(o);
+
   const filtered = options.filter((o) =>
-    String(o).toLowerCase().includes(search.toLowerCase())
+    getLabel(o).toLowerCase().includes(search.toLowerCase())
   );
 
   const toggle = (val: string) => {
