@@ -534,7 +534,7 @@ function addContentSlide(pptx: PptxGenJS, clientName: string, clientPlans: Actio
   for (let i = 0; i < maxRows; i++) {
     const p = sortedPlans[i];
     const statusColor = hexFromCss((p.action_statuses as any)?.color || "#6b7280");
-    const rowBg = i % 2 === 0 ? "f0f4f8" : "e2e8f0";
+    const rowBg = i % 2 === 0 ? "FFFFFF" : "F5F5F5";
     const responsible = p.action_responsibles ? `${p.action_responsibles.first_name} ${p.action_responsibles.last_name}` : "—";
     rows.push([
       { text: (p.client_name || "—").substring(0, 20), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg } } },
