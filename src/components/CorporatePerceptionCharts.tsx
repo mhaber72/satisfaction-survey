@@ -159,7 +159,7 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
         </CardHeader>
         <CardContent>
           {!npsData.length ? (
-            <p className="text-white/60 text-center py-12">No data available</p>
+            <p className="text-white/60 text-center py-12">{t("corporatePerception.noData")}</p>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <NPSColumn data={leftCol} maxAbs={maxAbs} />
