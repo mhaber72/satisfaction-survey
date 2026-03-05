@@ -105,7 +105,7 @@ export default function BookBoard() {
       <div className="relative w-full max-w-7xl" style={{ perspective: "2000px" }}>
         {/* Page counter */}
         <div className="absolute -top-10 left-0 right-0 flex items-center justify-center gap-3">
-          <span className="text-sm text-[hsl(200,40%,50%)]">
+          <span className="text-sm text-[hsl(200,20%,40%)]">
             {currentPage + 1} / {totalPages}
           </span>
           {/* Dot indicators */}
