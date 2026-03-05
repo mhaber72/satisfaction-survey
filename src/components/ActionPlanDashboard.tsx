@@ -193,12 +193,12 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
                 </thead>
                 <tbody>
                   <tr>
-                    {statuses?.filter((s) => (statusBreakdown[s.id] || 0) > 0).map((s) => {
+                   {statuses?.filter((s) => (statusBreakdown[s.id] || 0) > 0).map((s) => {
                       const count = statusBreakdown[s.id] || 0;
                       const pct = totalActions > 0 ? ((count / totalActions) * 100).toFixed(2) : "0,00";
                       return (
                         <td key={s.id} className="px-3 py-1 text-white text-sm">
-                          {pct}%
+                          {count} ({pct}%)
                         </td>
                       );
                     })}
