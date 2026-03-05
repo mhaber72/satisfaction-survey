@@ -129,14 +129,14 @@ const Index = () => {
                     <tbody className="[&_tr:last-child]:border-0">
                       {sorted?.map((r) => (
                         <tr key={r.id} className="border-b transition-colors hover:bg-muted/50 cursor-pointer" onClick={() => setSelectedRow(r)}>
-                           <td className="p-4 align-middle whitespace-nowrap">{r.client_name}</td>
+                           <td className="p-4 align-middle whitespace-nowrap"><span className="flex items-center"><ScoreDot color={getColor(r.score)} />{r.client_name}</span></td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.firstname} {r.lastname}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.theme}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.theme_comment}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.question}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.applicability}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.importance}</td>
-                           <td className="p-4 align-middle whitespace-nowrap"><span className="flex items-center"><ScoreDot color={getColor(r.score)} />{r.score}</span></td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.score}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.question_comment}</td>
                         </tr>
                       ))}
