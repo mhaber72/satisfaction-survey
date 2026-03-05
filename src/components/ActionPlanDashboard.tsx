@@ -70,7 +70,32 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
     }).length;
   }, [filtered]);
 
-  const completionRate = totalActions > 0 ? Math.round((terminalCount / totalActions) * 100) : 0;
+  // Pendente Data Conclusão: completion_date is null/empty
+  const pendingCompletionCount = useMemo(() => {
+    return filtered.filter((p) => !p.completion_date).length;
+  }, [filtered]);
+
+  // Dentro do Prazo: completion_date <= new_end_date (if filled) or <= end_date (if new_end_date is blank)
+  const onTimeCount = useMemo(() => {
+    return filtered.filter((p) => {
+      if (!p.completion_date) return false;
+      const completion = new Date(p.completion_date);
+      const deadline = p.new_end_date ? new Date(p.new_end_date) : p.end_date ? new Date(p.end_date) : null;
+      if (!deadline) return false;
+      return completion <= deadline;
+    }).length;
+  }, [filtered]);
+
+  // Fora do Prazo: completion_date > deadline
+  const lateCount = useMemo(() => {
+    return filtered.filter((p) => {
+      if (!p.completion_date) return false;
+      const completion = new Date(p.completion_date);
+      const deadline = p.new_end_date ? new Date(p.new_end_date) : p.end_date ? new Date(p.end_date) : null;
+      if (!deadline) return false;
+      return completion > deadline;
+    }).length;
+  }, [filtered]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -184,7 +209,7 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
           </div>
 
           {/* STATUS CONCLUSÃO */}
-          <div className="border border-white/20 rounded-md overflow-hidden min-w-[250px]">
+          <div className="border border-white/20 rounded-md overflow-hidden min-w-[350px]">
             <div className="bg-white/10 px-6 py-2 text-center">
               <span className="text-white font-bold text-sm tracking-wide uppercase">{t("actionPlan.completionStatus", "Status Conclusão")}</span>
             </div>
@@ -192,17 +217,21 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
               <table className="w-full text-center">
                 <thead>
                   <tr>
-                    <th className="px-3 py-1 text-white/80 text-sm font-bold">{t("actionPlan.inProgress", "Em Andamento")}</th>
-                    <th className="px-3 py-1 text-white/80 text-sm font-bold">{t("actionPlan.completed", "Concluídas")}</th>
+                    <th className="px-3 py-1 text-white/80 text-sm font-bold">{t("actionPlan.pendingCompletion", "Pend. Data Conclusão")}</th>
+                    <th className="px-3 py-1 text-white/80 text-sm font-bold">{t("actionPlan.onTime", "Dentro do Prazo")}</th>
+                    <th className="px-3 py-1 text-white/80 text-sm font-bold">{t("actionPlan.late", "Fora do Prazo")}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td className="px-3 py-1 text-white text-sm">
-                      {totalActions > 0 ? ((inProgressCount / totalActions) * 100).toFixed(2) : "0,00"}%
+                      {totalActions > 0 ? ((pendingCompletionCount / totalActions) * 100).toFixed(2) : "0,00"}%
                     </td>
                     <td className="px-3 py-1 text-white text-sm">
-                      {totalActions > 0 ? ((terminalCount / totalActions) * 100).toFixed(2) : "0,00"}%
+                      {totalActions > 0 ? ((onTimeCount / totalActions) * 100).toFixed(2) : "0,00"}%
+                    </td>
+                    <td className="px-3 py-1 text-white text-sm">
+                      {totalActions > 0 ? ((lateCount / totalActions) * 100).toFixed(2) : "0,00"}%
                     </td>
                   </tr>
                 </tbody>
