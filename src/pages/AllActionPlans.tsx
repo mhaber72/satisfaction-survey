@@ -204,6 +204,56 @@ const AllActionPlans = () => {
         plans={plans}
         statuses={statuses}
       />
+
+      {/* Detail Dialog */}
+      <Dialog open={!!viewingPlan} onOpenChange={(o) => !o && setViewingPlan(null)}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-3">
+              {viewingPlan?.action_statuses && (
+                <span
+                  className="inline-block h-3.5 w-3.5 rounded-full shrink-0"
+                  style={{ backgroundColor: (viewingPlan.action_statuses as any)?.color || "#6b7280" }}
+                />
+              )}
+              {viewingPlan?.action_name}
+            </DialogTitle>
+          </DialogHeader>
+          {viewingPlan && (
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <DetailField label={t("actionPlan.status")} value={
+                <span className="flex items-center gap-2">
+                  <span className="inline-block h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: (viewingPlan.action_statuses as any)?.color || "#6b7280" }} />
+                  {(viewingPlan.action_statuses as any)?.name ?? "—"}
+                </span>
+              } />
+              <DetailField label={t("actionPlan.surveyYear")} value={viewingPlan.survey_year ?? "—"} />
+              <DetailField label={t("actionPlan.client")} value={viewingPlan.client_name ?? "—"} />
+              <DetailField label={t("actionPlan.theme")} value={viewingPlan.theme ?? "—"} />
+              <DetailField label={t("actionPlan.contractManager")} value={(viewingPlan.contract_managers as any)?.name ?? "—"} />
+              <DetailField label={t("actionPlan.regionalManager", "Gestor Regional")} value={(viewingPlan.regional_managers as any)?.name ?? "—"} />
+              <DetailField label={t("actionPlan.directory", "Diretoria")} value={(viewingPlan.directories as any)?.name ?? "—"} />
+              <DetailField label={t("actionPlan.startDate")} value={fmtDate(viewingPlan.start_date)} />
+              <DetailField label={t("actionPlan.endDate")} value={fmtDate(viewingPlan.end_date)} />
+              <DetailField label={t("actionPlan.newEndDate", "Nova Data Fim")} value={fmtDate(viewingPlan.new_end_date)} />
+              <DetailField label={t("actionPlan.completionDate", "Data Conclusão")} value={fmtDate(viewingPlan.completion_date)} />
+              <div className="col-span-2">
+                <DetailField label={t("actionPlan.actionDescription", "Descrição da Ação")} value={viewingPlan.action_description || "—"} />
+              </div>
+              {viewingPlan.theme_comment && (
+                <div className="col-span-2">
+                  <DetailField label={t("actionPlan.themeComment", "Comentário do Tema")} value={viewingPlan.theme_comment} />
+                </div>
+              )}
+              {viewingPlan.question_comment && (
+                <div className="col-span-2">
+                  <DetailField label={t("actionPlan.questionComment", "Comentário da Questão")} value={viewingPlan.question_comment} />
+                </div>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
