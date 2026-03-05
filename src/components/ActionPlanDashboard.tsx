@@ -478,7 +478,7 @@ function StatusDonutChart({ data, total }: { data: { name: string; value: number
   };
 
   return (
-    <ResponsiveContainer width={220} height={170}>
+    <ResponsiveContainer width={320} height={230}>
       <PieChart>
         <Pie
           data={data}
