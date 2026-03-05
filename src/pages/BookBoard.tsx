@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 /* ─── Sample page components ─── */
 function CoverPage() {
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-6 bg-gradient-to-br from-[hsl(215,85%,12%)] to-[hsl(215,70%,20%)] text-white px-16">
+    <div className="flex h-full flex-col items-center justify-center gap-6 bg-white text-[hsl(215,85%,15%)] px-16">
       <BookOpen className="h-24 w-24 text-[hsl(200,80%,60%)] drop-shadow-lg" />
       <h1 className="text-5xl font-extrabold tracking-tight text-center leading-tight">
         CSS Analytics
