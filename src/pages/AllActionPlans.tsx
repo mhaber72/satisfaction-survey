@@ -144,7 +144,7 @@ const AllActionPlans = () => {
             </thead>
             <tbody>
               {filtered.map((plan) => (
-                <tr key={plan.id} className="border-b hover:bg-muted/50">
+                <tr key={plan.id} className="border-b hover:bg-muted/50 cursor-pointer" onClick={() => setViewingPlan(plan)}>
                   <td className="p-3">{plan.survey_year ?? "—"}</td>
                   <td className="p-3">{plan.client_name ?? "—"}</td>
                   <td className="p-3 max-w-[150px] truncate">{plan.theme ?? "—"}</td>
@@ -162,15 +162,20 @@ const AllActionPlans = () => {
                   <td className="p-3">{fmtDate(plan.start_date)}</td>
                   <td className="p-3">{fmtDate(plan.end_date)}</td>
                   <td className="p-3 text-right">
-                    {(() => {
-                      const statusName = ((plan.action_statuses as any)?.name || "").toLowerCase();
-                      const isTerminal = statusName.includes("conclu") || statusName.includes("cancel");
-                      return !isTerminal ? (
-                        <Button size="icon" variant="ghost" onClick={() => setEditingPlan(plan)}>
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                      ) : null;
-                    })()}
+                    <div className="flex items-center justify-end gap-1" onClick={(e) => e.stopPropagation()}>
+                      <Button size="icon" variant="ghost" onClick={() => setViewingPlan(plan)}>
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      {(() => {
+                        const statusName = ((plan.action_statuses as any)?.name || "").toLowerCase();
+                        const isTerminal = statusName.includes("conclu") || statusName.includes("cancel");
+                        return !isTerminal ? (
+                          <Button size="icon" variant="ghost" onClick={() => setEditingPlan(plan)}>
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                        ) : null;
+                      })()}
+                    </div>
                   </td>
                 </tr>
               ))}
