@@ -122,8 +122,8 @@ const Index = () => {
                     </tbody>
                   </table>
                 </div>
-                <ScrollBar orientation="vertical" />
-                <ScrollBar orientation="horizontal" />
+                <ScrollBar orientation="vertical" className="bg-muted" forceMount />
+                <ScrollBar orientation="horizontal" className="bg-muted" forceMount />
               </ScrollArea>
             )}
           </CardContent>
