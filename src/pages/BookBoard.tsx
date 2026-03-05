@@ -206,7 +206,7 @@ export default function BookBoard() {
           onClick={goPrev}
           disabled={currentPage === 0 || !!flipping}
           className={cn(
-            "absolute left-[-60px] top-1/2 -translate-y-1/2 z-40",
+            "absolute left-[-22px] top-1/2 -translate-y-1/2 z-40",
             "h-12 w-12 rounded-full flex items-center justify-center",
             "bg-[hsl(215,85%,12%,0.05)] border border-[hsl(215,85%,12%,0.15)]",
             "text-[hsl(215,85%,20%)] hover:bg-[hsl(215,85%,12%,0.1)]",
@@ -221,7 +221,7 @@ export default function BookBoard() {
           onClick={goNext}
           disabled={currentPage === totalPages - 1 || !!flipping}
           className={cn(
-            "absolute right-[-60px] top-1/2 -translate-y-1/2 z-40",
+            "absolute right-[-22px] top-1/2 -translate-y-1/2 z-40",
             "h-12 w-12 rounded-full flex items-center justify-center",
             "bg-[hsl(215,85%,12%,0.05)] border border-[hsl(215,85%,12%,0.15)]",
             "text-[hsl(215,85%,20%)] hover:bg-[hsl(215,85%,12%,0.1)]",
