@@ -24,21 +24,21 @@ function CoverPage() {
 
 function PlaceholderPage({ number, title, description }: { number: number; title: string; description: string }) {
   return (
-    <div className="flex h-full flex-col bg-[hsl(215,85%,10%)] text-white">
+    <div className="flex h-full flex-col bg-white text-[hsl(215,85%,15%)]">
       {/* Header */}
-      <div className="border-b border-[hsla(200,80%,60%,0.15)] px-10 py-6">
-        <p className="text-sm font-medium text-[hsl(200,60%,50%)] uppercase tracking-wider">
+      <div className="border-b border-[hsl(210,30%,90%)] px-10 py-6">
+        <p className="text-sm font-medium text-[hsl(200,40%,50%)] uppercase tracking-wider">
           Página {number}
         </p>
-        <h2 className="mt-1 text-3xl font-bold">{title}</h2>
+        <h2 className="mt-1 text-3xl font-bold text-[hsl(215,85%,15%)]">{title}</h2>
       </div>
       {/* Body */}
       <div className="flex flex-1 items-center justify-center px-10 py-8">
         <div className="text-center space-y-4">
-          <div className="mx-auto h-48 w-80 rounded-xl border-2 border-dashed border-[hsla(200,80%,60%,0.2)] flex items-center justify-center">
-            <span className="text-[hsl(200,40%,50%)] text-sm">{description}</span>
+          <div className="mx-auto h-48 w-80 rounded-xl border-2 border-dashed border-[hsl(210,30%,85%)] flex items-center justify-center">
+            <span className="text-[hsl(200,20%,55%)] text-sm">{description}</span>
           </div>
-          <p className="text-sm text-[hsl(200,40%,50%)]">
+          <p className="text-sm text-[hsl(200,20%,60%)]">
             Defina o conteúdo desta página
           </p>
         </div>
