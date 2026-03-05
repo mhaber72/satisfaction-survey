@@ -162,6 +162,7 @@ const ActionPlanForm = ({
         contract_manager_id: form.contract_manager_id,
         regional_manager_id: form.regional_manager_id,
         directory_id: form.directory_id,
+        responsible_id: form.responsible_id || null,
         action_name: form.action_name,
         action_description: form.action_description,
         start_date: form.start_date ? format(form.start_date, "yyyy-MM-dd") : null,
