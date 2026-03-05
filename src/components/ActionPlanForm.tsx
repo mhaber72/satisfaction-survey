@@ -316,12 +316,28 @@ const ActionPlanForm = ({
             />
           </div>
 
-          <Button className="w-full" disabled={!isValid()} onClick={() => saveMutation.mutate()}>
+          <Button className="w-full" disabled={!isValid()} onClick={handleSave}>
             {t("actionPlan.save")}
           </Button>
         </div>
       </DialogContent>
     </Dialog>
+
+    <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{t("actionPlan.confirmTitle")}</AlertDialogTitle>
+          <AlertDialogDescription>
+            {t("actionPlan.confirmStatusChange", { status: selectedStatus?.name })}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>{t("actionPlan.confirmCancel")}</AlertDialogCancel>
+          <AlertDialogAction onClick={() => saveMutation.mutate()}>{t("actionPlan.confirmOk")}</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    </>
   );
 };
 
