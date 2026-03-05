@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 
-export function useDataFilters(records: any[] | undefined) {
+export function useDataFilters(records: any[] | undefined, pesquisaIdsWithPlans?: Set<number>) {
   const [filters, setFilters] = useState<Record<string, string[]>>({});
   const { allowedThemes, isAdmin } = useAuth();
 
@@ -44,9 +44,16 @@ export function useDataFilters(records: any[] | undefined) {
         if (wantFilled && !wantEmpty && !hasComment) return false;
         if (wantEmpty && !wantFilled && hasComment) return false;
       }
+      if (filters.action_plan?.length && pesquisaIdsWithPlans) {
+        const hasPlan = pesquisaIdsWithPlans.has(r.id);
+        const wantYes = filters.action_plan.includes("yes");
+        const wantNo = filters.action_plan.includes("no");
+        if (wantYes && !wantNo && !hasPlan) return false;
+        if (wantNo && !wantYes && hasPlan) return false;
+      }
       return true;
     });
-  }, [records, filters, allowedThemes, isAdmin]);
+  }, [records, filters, allowedThemes, isAdmin, pesquisaIdsWithPlans]);
 
   return { filters, onFilterChange, filtered };
 }
