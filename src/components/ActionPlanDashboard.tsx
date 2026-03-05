@@ -308,3 +308,72 @@ function ThemeStatusChart({ filtered, statuses }: { filtered: any[]; statuses: a
     </ResponsiveContainer>
   );
 }
+
+function ClientStatusChart({ filtered, statuses }: { filtered: any[]; statuses: any[] | undefined }) {
+  const chartData = useMemo(() => {
+    if (!filtered.length || !statuses?.length) return [];
+
+    const clientMap: Record<string, Record<string, number>> = {};
+    filtered.forEach((p) => {
+      const client = p.client_name || "N/A";
+      const statusId = p.status_id;
+      if (!clientMap[client]) clientMap[client] = {};
+      clientMap[client][statusId] = (clientMap[client][statusId] || 0) + 1;
+    });
+
+    return Object.entries(clientMap)
+      .map(([client, counts]) => {
+        const row: any = { client };
+        statuses.forEach((s) => {
+          row[s.id] = counts[s.id] || 0;
+        });
+        return row;
+      })
+      .sort((a, b) => {
+        const totalA = statuses.reduce((sum, s) => sum + (a[s.id] || 0), 0);
+        const totalB = statuses.reduce((sum, s) => sum + (b[s.id] || 0), 0);
+        return totalB - totalA;
+      });
+  }, [filtered, statuses]);
+
+  const activeStatuses = useMemo(() => {
+    if (!statuses) return [];
+    return statuses.filter((s) => chartData.some((row) => row[s.id] > 0));
+  }, [statuses, chartData]);
+
+  if (!chartData.length || !activeStatuses.length) {
+    return <p className="text-white/50 text-center py-8">Sem dados</p>;
+  }
+
+  return (
+    <ResponsiveContainer width="100%" height={Math.max(300, chartData.length * 50)}>
+      <BarChart data={chartData} layout="horizontal" margin={{ top: 20, right: 30, left: 10, bottom: 80 }}>
+        <XAxis
+          dataKey="client"
+          tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 10 }}
+          angle={-35}
+          textAnchor="end"
+          height={100}
+          interval={0}
+        />
+        <YAxis tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 12 }} allowDecimals={false} />
+        <Tooltip
+          contentStyle={{ backgroundColor: "hsl(210,70%,15%)", border: "1px solid rgba(255,255,255,0.2)", color: "white" }}
+          labelStyle={{ color: "white", fontWeight: "bold" }}
+        />
+        <Legend
+          wrapperStyle={{ paddingTop: 10 }}
+          formatter={(value: string) => {
+            const status = activeStatuses.find((s) => s.id === value);
+            return <span style={{ color: "rgba(255,255,255,0.8)" }}>{status?.name || value}</span>;
+          }}
+        />
+        {activeStatuses.map((s) => (
+          <Bar key={s.id} dataKey={s.id} name={s.id} fill={s.color} radius={[4, 4, 0, 0]}>
+            <LabelList dataKey={s.id} position="top" fill="rgba(255,255,255,0.9)" fontSize={11} formatter={(v: number) => v > 0 ? v : ""} />
+          </Bar>
+        ))}
+      </BarChart>
+    </ResponsiveContainer>
+  );
+}
