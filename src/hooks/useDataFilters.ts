@@ -73,7 +73,7 @@ export function useDataFilters(records: any[] | undefined, pesquisaIdsWithPlans?
       }
       return true;
     });
-  }, [records, filters, allowedThemes, isAdmin, pesquisaIdsWithPlans]);
+  }, [records, filters, allowedThemes, isAdmin, pesquisaIdsWithPlans, verticalClientNames]);
 
   return { filters, onFilterChange, filtered };
 }
