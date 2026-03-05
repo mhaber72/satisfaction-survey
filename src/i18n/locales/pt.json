@@ -158,6 +158,15 @@
     "count": "Quantidade",
     "loading": "Carregando..."
   },
+  "adminScoreColors": {
+    "title": "Cores dos Scores",
+    "subtitle": "Configure o indicador de cor para cada valor de score",
+    "colorsConfig": "Configuração de Cores",
+    "save": "Salvar",
+    "saved": "Cores salvas com sucesso",
+    "saveError": "Erro ao salvar cores",
+    "loading": "Carregando..."
+  },
   "language": {
     "en": "English",
     "fr": "Français",

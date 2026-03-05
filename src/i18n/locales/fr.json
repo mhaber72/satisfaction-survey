@@ -158,6 +158,15 @@
     "count": "Nombre",
     "loading": "Chargement..."
   },
+  "adminScoreColors": {
+    "title": "Couleurs des Scores",
+    "subtitle": "Configurez l'indicateur de couleur pour chaque valeur de score",
+    "colorsConfig": "Configuration des Couleurs",
+    "save": "Enregistrer",
+    "saved": "Couleurs enregistrées avec succès",
+    "saveError": "Erreur lors de l'enregistrement",
+    "loading": "Chargement..."
+  },
   "language": {
     "en": "English",
     "fr": "Français",

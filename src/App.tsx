@@ -33,6 +33,7 @@ const App = () => (
             <Route path="/admin/users" element={<ProtectedRoute adminOnly><AppLayout><AdminUsers /></AppLayout></ProtectedRoute>} />
             <Route path="/admin/profiles" element={<ProtectedRoute adminOnly><AppLayout><AdminProfiles /></AppLayout></ProtectedRoute>} />
             <Route path="/admin/import" element={<ProtectedRoute adminOnly><AppLayout><AdminImport /></AppLayout></ProtectedRoute>} />
+            <Route path="/admin/score-colors" element={<ProtectedRoute adminOnly><AppLayout><AdminScoreColors /></AppLayout></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

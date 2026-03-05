@@ -136,7 +136,7 @@ const Index = () => {
                            <td className="p-4 align-middle whitespace-nowrap">{r.question}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.applicability}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.importance}</td>
-                           <td className="p-4 align-middle whitespace-nowrap">{r.score}</td>
+                           <td className="p-4 align-middle whitespace-nowrap"><span className="flex items-center"><ScoreDot color={getColor(r.score)} />{r.score}</span></td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.question_comment}</td>
                         </tr>
                       ))}

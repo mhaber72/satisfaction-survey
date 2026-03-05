@@ -34,6 +34,7 @@ export function AppSidebar() {
     { title: t("nav.users"), url: "/admin/users", icon: Users },
     { title: t("nav.accessProfiles"), url: "/admin/profiles", icon: Shield },
     { title: t("nav.importData"), url: "/admin/import", icon: Upload },
+    { title: t("nav.scoreColors"), url: "/admin/score-colors", icon: Palette },
   ];
 
   return (
