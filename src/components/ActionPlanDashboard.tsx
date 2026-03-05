@@ -264,7 +264,7 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
             <div className="bg-white/10 px-6 py-2 text-center">
               <span className="text-white font-bold text-sm tracking-wide uppercase">{t("actionPlan.completionStatus", "Status Conclusão")}</span>
             </div>
-            <div className="flex justify-center py-4">
+            <div className="flex justify-center py-2">
               <StatusDonutChart
                 data={[
                   { name: t("actionPlan.pendingCompletion", "Pend. Data Conclusão"), value: pendingCompletionCount, color: "#f4a261" },
