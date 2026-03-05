@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import MultiSelectFilter from "@/components/MultiSelectFilter";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface DataFiltersProps {
   records: any[] | undefined;
@@ -111,6 +112,40 @@ const DataFilters = ({ records, filters, onFilterChange, showTheme = false }: Da
           />
         </div>
       )}
+
+      <div className="flex flex-col gap-1">
+        <label className="text-xs font-medium text-muted-foreground">{t("filters.themeComment", "Theme Comment")}</label>
+        <Select
+          value={filters.theme_comment?.length === 1 ? filters.theme_comment[0] : "all"}
+          onValueChange={(v) => onFilterChange("theme_comment", v === "all" ? [] : [v])}
+        >
+          <SelectTrigger className="w-[150px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{t("filters.all", "All")}</SelectItem>
+            <SelectItem value="filled">{t("filters.notEmpty", "Not Empty")}</SelectItem>
+            <SelectItem value="empty">{t("filters.empty", "Empty")}</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <label className="text-xs font-medium text-muted-foreground">{t("filters.questionComment", "Question Comment")}</label>
+        <Select
+          value={filters.question_comment?.length === 1 ? filters.question_comment[0] : "all"}
+          onValueChange={(v) => onFilterChange("question_comment", v === "all" ? [] : [v])}
+        >
+          <SelectTrigger className="w-[150px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{t("filters.all", "All")}</SelectItem>
+            <SelectItem value="filled">{t("filters.notEmpty", "Not Empty")}</SelectItem>
+            <SelectItem value="empty">{t("filters.empty", "Empty")}</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 };
