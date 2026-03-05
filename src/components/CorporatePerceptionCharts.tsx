@@ -181,28 +181,34 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
       <Card className="border-white/10 bg-white/5 backdrop-blur-md">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-white text-lg">{t("corporatePerception.npsTitle")}</CardTitle>
-          <div className="flex items-center gap-3">
-            <Select value={selectedVertical} onValueChange={setSelectedVertical}>
-              <SelectTrigger className="w-[180px] border-white/20 bg-white/10 text-white">
-                <SelectValue placeholder="Vertical" />
-              </SelectTrigger>
-              <SelectContent className="border-white/20 bg-[hsl(215,85%,12%)]">
-                <SelectItem value="all" className="text-white">{t("filters.all", "Todas")}</SelectItem>
-                {verticals?.map((v) => (
-                  <SelectItem key={v.id} value={v.id} className="text-white">{v.name}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select value={selectedYear} onValueChange={setSelectedYear}>
-              <SelectTrigger className="w-[130px] border-white/20 bg-white/10 text-white">
-                <SelectValue placeholder={t("dashboard.year")} />
-              </SelectTrigger>
-              <SelectContent className="border-white/20 bg-[hsl(215,85%,12%)]">
-                {availableYears.map((y) => (
-                  <SelectItem key={y} value={String(y)} className="text-white">{y}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="flex items-center gap-4">
+            <div className="flex flex-col gap-1">
+              <label className="text-xs font-medium text-white/60">Vertical</label>
+              <Select value={selectedVertical} onValueChange={setSelectedVertical}>
+                <SelectTrigger className="w-[180px] border-white/20 bg-white/10 text-white">
+                  <SelectValue placeholder="Vertical" />
+                </SelectTrigger>
+                <SelectContent className="border-white/20 bg-[hsl(215,85%,12%)]">
+                  <SelectItem value="all" className="text-white">{t("filters.all", "Todas")}</SelectItem>
+                  {verticals?.map((v) => (
+                    <SelectItem key={v.id} value={v.id} className="text-white">{v.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-xs font-medium text-white/60">{t("dashboard.year", "Ano")}</label>
+              <Select value={selectedYear} onValueChange={setSelectedYear}>
+                <SelectTrigger className="w-[130px] border-white/20 bg-white/10 text-white">
+                  <SelectValue placeholder={t("dashboard.year")} />
+                </SelectTrigger>
+                <SelectContent className="border-white/20 bg-[hsl(215,85%,12%)]">
+                  {availableYears.map((y) => (
+                    <SelectItem key={y} value={String(y)} className="text-white">{y}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardHeader>
         <CardContent>
