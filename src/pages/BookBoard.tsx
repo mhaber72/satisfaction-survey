@@ -118,7 +118,7 @@ export default function BookBoard() {
                   "h-2 w-2 rounded-full transition-all duration-300",
                   i === currentPage
                     ? "bg-[hsl(200,80%,60%)] scale-125"
-                    : "bg-[hsl(200,20%,30%)] hover:bg-[hsl(200,40%,45%)]"
+                    : "bg-[hsl(200,20%,80%)] hover:bg-[hsl(200,30%,60%)]"
                 )}
               />
             ))}
