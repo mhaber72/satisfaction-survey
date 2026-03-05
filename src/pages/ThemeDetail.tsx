@@ -60,7 +60,7 @@ const ThemeDetail = () => {
 
   const hasActionPlan = (id: number) => pesquisaIdsWithPlans?.has(id) ?? false;
 
-  const { filters, onFilterChange, filtered } = useDataFilters(records);
+  const { filters, onFilterChange, filtered } = useDataFilters(records, pesquisaIdsWithPlans);
   const { sorted, sort, toggle } = useTableSort(filtered);
 
   const total = filtered?.length ?? 0;
