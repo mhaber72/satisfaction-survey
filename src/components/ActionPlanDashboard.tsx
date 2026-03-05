@@ -456,3 +456,55 @@ function ClientStatusChart({ filtered, statuses }: { filtered: any[]; statuses: 
     </ResponsiveContainer>
   );
 }
+
+const RADIAN = Math.PI / 180;
+
+function StatusDonutChart({ data, total }: { data: { name: string; value: number; color: string }[]; total: number }) {
+  if (!data.length) {
+    return <p className="text-white/50 text-center py-8">Sem dados</p>;
+  }
+
+  const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, value, percent }: any) => {
+    const radius = outerRadius + 25;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    const pct = (percent * 100).toFixed(2);
+    return (
+      <text x={x} y={y} fill="rgba(255,255,255,0.9)" textAnchor={x > cx ? "start" : "end"} dominantBaseline="central" fontSize={12} fontWeight="bold">
+        {value} ({pct}%)
+      </text>
+    );
+  };
+
+  return (
+    <ResponsiveContainer width={350} height={300}>
+      <PieChart>
+        <Pie
+          data={data}
+          cx="50%"
+          cy="45%"
+          innerRadius={70}
+          outerRadius={100}
+          dataKey="value"
+          label={renderCustomLabel}
+          labelLine={{ stroke: "rgba(255,255,255,0.3)", strokeWidth: 1 }}
+          strokeWidth={2}
+          stroke="hsl(210,70%,12%)"
+        >
+          {data.map((entry, index) => (
+            <Cell key={index} fill={entry.color} />
+          ))}
+        </Pie>
+        <Legend
+          verticalAlign="bottom"
+          formatter={(value: string, entry: any) => (
+            <span style={{ color: "rgba(255,255,255,0.8)", fontSize: 12 }}>
+              {data[entry.index]?.name || value}
+            </span>
+          )}
+          payload={data.map((d) => ({ value: d.name, type: "circle" as const, color: d.color }))}
+        />
+      </PieChart>
+    </ResponsiveContainer>
+  );
+}
