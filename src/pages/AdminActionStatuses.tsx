@@ -106,7 +106,15 @@ const AdminActionStatuses = () => {
                   <tbody>
                     {items?.map((item) => (
                       <tr key={item.id} className="border-b hover:bg-muted/50">
-                        <td className="p-4">{item.name}</td>
+                        <td className="p-4">
+                          <span className="flex items-center gap-2">
+                            <span className="inline-block h-3 w-3 rounded-full shrink-0" style={{ backgroundColor: item.color || '#6b7280' }} />
+                            {item.name}
+                          </span>
+                        </td>
+                        <td className="p-4 text-center">
+                          <span className="inline-block h-5 w-5 rounded-full border" style={{ backgroundColor: item.color || '#6b7280' }} />
+                        </td>
                         <td className="p-4 text-center">{boolLabel(item.requires_start_date)}</td>
                         <td className="p-4 text-center">{boolLabel(item.requires_end_date)}</td>
                         <td className="p-4 text-center">{boolLabel(item.requires_new_end_date)}</td>
