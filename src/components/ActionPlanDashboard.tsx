@@ -344,7 +344,7 @@ function ThemeStatusChart({ filtered, statuses }: { filtered: any[]; statuses: a
   }
 
   return (
-    <ResponsiveContainer width="100%" height={Math.max(300, chartData.length * 60)}>
+    <ResponsiveContainer width="100%" height={250}>
       <BarChart data={chartData} layout="horizontal" margin={{ top: 20, right: 30, left: 10, bottom: 60 }}>
         <XAxis
           dataKey="theme"
