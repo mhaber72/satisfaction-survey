@@ -216,23 +216,23 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
             </p>
             <div className="flex items-start gap-8">
               <div className="flex flex-col items-center">
-                <span className="text-blue-400 font-bold text-lg">SIM</span>
+                <span className="text-blue-400 font-bold text-lg">{t("corporatePerception.yes")}</span>
                 <span className="text-4xl font-bold text-green-400">{q2Stats.yes}</span>
                 {q2PrevStats && (
-                  <span className="text-sm text-white/50 mt-1">{q2PrevStats.yes} in {prevYear}</span>
+                  <span className="text-sm text-white/50 mt-1">{q2PrevStats.yes} {t("corporatePerception.inYear", { year: prevYear })}</span>
                 )}
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-blue-400 font-bold text-lg">NÃO</span>
+                <span className="text-blue-400 font-bold text-lg">{t("corporatePerception.no")}</span>
                 <span
                   className="text-4xl font-bold text-red-400 cursor-pointer hover:underline"
                   onClick={() => q2Stats.no > 0 && setShowNoClients(true)}
-                  title="Clique para ver detalhes"
+                  title={t("corporatePerception.clickDetails")}
                 >
                   {q2Stats.no}
                 </span>
                 {q2PrevStats && (
-                  <span className="text-sm text-white/50 mt-1">{q2PrevStats.no} in {prevYear}</span>
+                  <span className="text-sm text-white/50 mt-1">{q2PrevStats.no} {t("corporatePerception.inYear", { year: prevYear })}</span>
                 )}
               </div>
             </div>
