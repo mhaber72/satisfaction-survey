@@ -1,5 +1,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import MultiSelectFilter from "@/components/MultiSelectFilter";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
@@ -14,11 +16,38 @@ interface DataFiltersProps {
 const DataFilters = ({ records, filters, onFilterChange, showTheme = false, showActionPlanFilter = false }: DataFiltersProps) => {
   const { t } = useTranslation();
 
+  const { data: verticals } = useQuery({
+    queryKey: ["verticals"],
+    queryFn: async () => {
+      const { data } = await supabase.from("verticals").select("*").order("name");
+      return data || [];
+    },
+  });
+
+  const { data: clientsWithVertical } = useQuery({
+    queryKey: ["clients-verticals"],
+    queryFn: async () => {
+      const { data } = await supabase.from("clients").select("name, vertical_id");
+      return data || [];
+    },
+  });
+
+  // Set of client names that belong to the selected vertical(s)
+  const verticalClientNames = useMemo(() => {
+    if (!filters.vertical?.length || !clientsWithVertical) return null;
+    return new Set(
+      clientsWithVertical
+        .filter((c) => filters.vertical.includes(c.vertical_id!))
+        .map((c) => c.name)
+    );
+  }, [filters.vertical, clientsWithVertical]);
+
   // Helper: apply all filters EXCEPT the excluded key to get contextual options
   const applyFiltersExcept = (excludeKey: string) => {
     if (!records?.length) return [];
     return records.filter((r) => {
       if (excludeKey !== "year" && filters.year?.length && !filters.year.includes(String(r.survey_year))) return false;
+      if (excludeKey !== "vertical" && excludeKey !== "client" && verticalClientNames && !verticalClientNames.has(r.client_name)) return false;
       if (excludeKey !== "client" && filters.client?.length && !filters.client.includes(r.client_name)) return false;
       if (excludeKey !== "name" && filters.name?.length) {
         const fullName = [r.firstname, r.lastname].filter(Boolean).join(" ");
@@ -33,12 +62,17 @@ const DataFilters = ({ records, filters, onFilterChange, showTheme = false, show
   const yearOptions = useMemo(() => {
     const subset = applyFiltersExcept("year");
     return [...new Set(subset.map((r) => r.survey_year).filter(Boolean))].sort((a, b) => b - a);
-  }, [records, filters]);
+  }, [records, filters, verticalClientNames]);
 
   const clientOptions = useMemo(() => {
     const subset = applyFiltersExcept("client");
-    return [...new Set(subset.map((r) => r.client_name).filter(Boolean))].sort();
-  }, [records, filters]);
+    let options = [...new Set(subset.map((r) => r.client_name).filter(Boolean))].sort();
+    // Further filter by vertical if selected
+    if (verticalClientNames) {
+      options = options.filter((c) => verticalClientNames.has(c));
+    }
+    return options;
+  }, [records, filters, verticalClientNames]);
 
   const nameOptions = useMemo(() => {
     const subset = applyFiltersExcept("name");
@@ -65,6 +99,18 @@ const DataFilters = ({ records, filters, onFilterChange, showTheme = false, show
           selected={filters.year || []}
           onChange={(v) => onFilterChange("year", v)}
           width="w-[150px]"
+        />
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <label className="text-xs font-medium text-muted-foreground">Vertical</label>
+        <MultiSelectFilter
+          label="Vertical"
+          options={verticals?.map((v) => v.id) || []}
+          selected={filters.vertical || []}
+          onChange={(v) => onFilterChange("vertical", v)}
+          width="w-[180px]"
+          renderOption={(id) => verticals?.find((v) => v.id === String(id))?.name || String(id)}
         />
       </div>
 

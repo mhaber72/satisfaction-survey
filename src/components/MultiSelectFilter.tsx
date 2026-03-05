@@ -13,14 +13,17 @@ interface MultiSelectFilterProps {
   selected: string[];
   onChange: (values: string[]) => void;
   width?: string;
+  renderOption?: (value: string | number) => string;
 }
 
-export default function MultiSelectFilter({ label, options, selected, onChange, width = "w-[200px]" }: MultiSelectFilterProps) {
+export default function MultiSelectFilter({ label, options, selected, onChange, width = "w-[200px]", renderOption }: MultiSelectFilterProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
 
+  const getLabel = (o: string | number) => renderOption ? renderOption(o) : String(o);
+
   const filtered = options.filter((o) =>
-    String(o).toLowerCase().includes(search.toLowerCase())
+    getLabel(o).toLowerCase().includes(search.toLowerCase())
   );
 
   const toggle = (val: string) => {
@@ -39,7 +42,7 @@ export default function MultiSelectFilter({ label, options, selected, onChange, 
   const displayText = selected.length === 0
     ? label
     : selected.length === 1
-      ? String(selected[0])
+      ? (renderOption ? renderOption(selected[0]) : String(selected[0]))
       : `${selected.length} selected`;
 
   return (
@@ -97,7 +100,7 @@ export default function MultiSelectFilter({ label, options, selected, onChange, 
                     checked={isChecked}
                     onCheckedChange={() => toggle(val)}
                   />
-                  <span className="truncate">{val}</span>
+                  <span className="truncate">{getLabel(opt)}</span>
                 </label>
               );
             })}
