@@ -9,10 +9,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Pencil, Trash2, Plus, Upload, X } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 interface ClientForm {
   id?: string;
   name: string;
   logo_url: string | null;
+  vertical_id: string | null;
 }
 
 const AdminClients = () => {
