@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users, Shield, LogOut, Home, Upload } from "lucide-react";
+import { LayoutDashboard, Users, Shield, LogOut, Home, Upload, Palette } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslation } from "react-i18next";
