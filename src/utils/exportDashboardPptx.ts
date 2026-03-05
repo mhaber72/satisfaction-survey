@@ -55,24 +55,49 @@ function getCompletionData(plans: ActionPlan[]) {
   return { total, pending, onTime, late };
 }
 
-export function exportDashboardPptx(plans: ActionPlan[], statuses: Status[]) {
+export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[]) {
   const pptx = new PptxGenJS();
   pptx.layout = "LAYOUT_WIDE"; // 13.33 x 7.5 inches
   pptx.author = "IDL Dashboard";
   pptx.title = "Action Plans Dashboard";
 
+  // Fetch client logos
+  const { data: clientsDb } = await supabase.from("clients").select("name, logo_url");
+  const logoMap: Record<string, string> = {};
+  (clientsDb || []).forEach((c: any) => {
+    if (c.logo_url) logoMap[c.name] = c.logo_url;
+  });
+
   const clients = [...new Set(plans.map((p) => p.client_name).filter(Boolean))].sort() as string[];
 
-  clients.forEach((clientName) => {
+  for (const clientName of clients) {
     const clientPlans = plans.filter((p) => p.client_name === clientName);
     const slide = pptx.addSlide();
     slide.background = { color: BG_COLOR };
 
-    // Title
+    // Logo + Title
+    const logoUrl = logoMap[clientName];
+    let titleX = 0.4;
+    if (logoUrl) {
+      try {
+        slide.addImage({
+          path: logoUrl,
+          x: 0.4,
+          y: 0.15,
+          w: 0.6,
+          h: 0.6,
+          rounding: true,
+        });
+        titleX = 1.2;
+      } catch {
+        // skip logo if it fails
+      }
+    }
+
     slide.addText(clientName, {
-      x: 0.4,
+      x: titleX,
       y: 0.2,
-      w: 12,
+      w: 12 - titleX,
       h: 0.5,
       fontSize: 22,
       bold: true,
