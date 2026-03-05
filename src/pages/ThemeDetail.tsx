@@ -6,10 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, BarChart3, Users, TrendingUp, FileText } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import DataFilters from "@/components/DataFilters";
+import RowDetailDialog from "@/components/RowDetailDialog";
 import { useDataFilters } from "@/hooks/useDataFilters";
 import { useTableSort } from "@/hooks/useTableSort";
 import SortableTh from "@/components/SortableTh";
 import CorporatePerceptionCharts from "@/components/CorporatePerceptionCharts";
+import { useState } from "react";
 
 const ThemeDetail = () => {
   const { theme } = useParams<{ theme: string }>();
