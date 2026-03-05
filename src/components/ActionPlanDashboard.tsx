@@ -23,6 +23,8 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
   const [filterClient, setFilterClient] = useState<string>("all");
   const [filterTheme, setFilterTheme] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [showExportDialog, setShowExportDialog] = useState(false);
+  const [selectedExportClients, setSelectedExportClients] = useState<string[]>([]);
 
   const years = useMemo(() => {
     if (!plans) return [];
