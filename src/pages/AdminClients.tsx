@@ -129,8 +129,9 @@ const AdminClients = () => {
                         )}
                       </td>
                       <td className="p-4">{c.name}</td>
+                      <td className="p-4">{(c as any).verticals?.name ?? "—"}</td>
                       <td className="p-4 text-right space-x-2">
-                        <Button size="icon" variant="ghost" onClick={() => setEditing({ id: c.id, name: c.name, logo_url: c.logo_url })}>
+                        <Button size="icon" variant="ghost" onClick={() => setEditing({ id: c.id, name: c.name, logo_url: c.logo_url, vertical_id: (c as any).vertical_id ?? null })}>
                           <Pencil className="h-4 w-4" />
                         </Button>
                         <Button size="icon" variant="ghost" onClick={() => {
