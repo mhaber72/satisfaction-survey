@@ -262,7 +262,7 @@ export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[
         showLegend: true,
         legendPos: "b",
         legendFontSize: 7,
-        legendColor: TEXT_COLOR,
+         legendColor: TEXT_COLOR,
         dataLabelPosition: "outEnd",
         dataLabelColor: TEXT_COLOR,
         dataLabelFontSize: 8,
