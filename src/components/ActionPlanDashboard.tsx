@@ -105,7 +105,7 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
         </DialogHeader>
 
         {/* Filters */}
-        <div className="flex flex-wrap gap-3 mb-6">
+        <div className="flex flex-wrap gap-2 mb-3">
           <Select value={filterYear} onValueChange={setFilterYear}>
             <SelectTrigger className="w-[130px] border-white/20 bg-white/10 text-white">
               <SelectValue placeholder={t("filters.year")} />
