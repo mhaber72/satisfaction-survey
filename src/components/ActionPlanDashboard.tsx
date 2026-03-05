@@ -2,8 +2,12 @@ import { useMemo, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, LabelList, PieChart, Pie, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Legend, ResponsiveContainer, LabelList, PieChart, Pie, Cell } from "recharts";
+import { FileSliders } from "lucide-react";
+import { exportDashboardPptx } from "@/utils/exportDashboardPptx";
+import { toast } from "sonner";
 
 interface ActionPlanDashboardProps {
   open: boolean;
