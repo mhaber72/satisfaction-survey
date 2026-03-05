@@ -47,7 +47,7 @@ const Index = () => {
 
   const hasActionPlan = (id: number) => pesquisaIdsWithPlans?.has(id) ?? false;
 
-  const { filters, onFilterChange, filtered } = useDataFilters(records);
+  const { filters, onFilterChange, filtered } = useDataFilters(records, pesquisaIdsWithPlans);
   const { sorted, sort, toggle } = useTableSort(filtered);
 
   const totalRecords = filtered?.length ?? 0;
@@ -89,7 +89,7 @@ const Index = () => {
           </div>
         </div>
 
-        <DataFilters records={records} filters={filters} onFilterChange={onFilterChange} showTheme />
+        <DataFilters records={records} filters={filters} onFilterChange={onFilterChange} showTheme showActionPlanFilter />
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[

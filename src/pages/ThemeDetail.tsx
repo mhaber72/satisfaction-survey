@@ -60,7 +60,7 @@ const ThemeDetail = () => {
 
   const hasActionPlan = (id: number) => pesquisaIdsWithPlans?.has(id) ?? false;
 
-  const { filters, onFilterChange, filtered } = useDataFilters(records);
+  const { filters, onFilterChange, filtered } = useDataFilters(records, pesquisaIdsWithPlans);
   const { sorted, sort, toggle } = useTableSort(filtered);
 
   const total = filtered?.length ?? 0;
@@ -110,7 +110,7 @@ const ThemeDetail = () => {
         ) : (
           <>
             <div className="mb-6">
-              <DataFilters records={records} filters={filters} onFilterChange={onFilterChange} />
+              <DataFilters records={records} filters={filters} onFilterChange={onFilterChange} showActionPlanFilter />
             </div>
 
             <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
