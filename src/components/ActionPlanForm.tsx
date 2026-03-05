@@ -117,6 +117,14 @@ const ActionPlanForm = ({
     },
   });
 
+  const { data: responsibles } = useQuery({
+    queryKey: ["action_responsibles"],
+    queryFn: async () => {
+      const { data } = await supabase.from("action_responsibles").select("*, directories(name)").order("first_name");
+      return data || [];
+    },
+  });
+
   const { data: statuses } = useQuery({
     queryKey: ["action_statuses"],
     queryFn: async () => {
