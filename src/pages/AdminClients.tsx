@@ -110,9 +110,9 @@ const AdminClients = () => {
                     <tr key={c.id} className="border-b hover:bg-muted/50">
                       <td className="p-4">
                         {c.logo_url ? (
-                          <img src={c.logo_url} alt={c.name} className="h-8 w-8 object-contain rounded" />
+                          <img src={c.logo_url} alt={c.name} className="max-h-10 max-w-[120px] object-contain" />
                         ) : (
-                          <div className="h-8 w-8 rounded bg-muted flex items-center justify-center text-xs text-muted-foreground">—</div>
+                          <div className="h-10 w-10 rounded bg-muted flex items-center justify-center text-xs text-muted-foreground">—</div>
                         )}
                       </td>
                       <td className="p-4">{c.name}</td>
@@ -150,7 +150,9 @@ const AdminClients = () => {
                 <label className="text-sm font-medium text-foreground">Logo</label>
                 {editing?.logo_url ? (
                   <div className="flex items-center gap-3">
-                    <img src={editing.logo_url} alt="Logo" className="h-12 w-12 object-contain rounded border" />
+                    <div className="border rounded p-2 bg-white">
+                      <img src={editing.logo_url} alt="Logo" className="max-h-16 max-w-[200px] object-contain" />
+                    </div>
                     <Button variant="ghost" size="icon" onClick={() => setEditing((prev) => prev ? { ...prev, logo_url: null } : prev)}>
                       <X className="h-4 w-4 text-destructive" />
                     </Button>
