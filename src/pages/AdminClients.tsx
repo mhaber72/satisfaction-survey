@@ -196,6 +196,23 @@ const AdminClients = () => {
                 )}
               </div>
 
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground">{t("adminClients.vertical", "Vertical")}</label>
+                <Select
+                  value={editing?.vertical_id ?? ""}
+                  onValueChange={(v) => setEditing((prev) => prev ? { ...prev, vertical_id: v || null } : prev)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t("adminClients.selectVertical", "Selecione uma vertical")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {verticals?.map((v) => (
+                      <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
               <Button
                 className="w-full"
                 disabled={!editing?.name?.trim()}
