@@ -147,6 +147,25 @@ const DataFilters = ({ records, filters, onFilterChange, showTheme = false, show
           </SelectContent>
         </Select>
       </div>
+
+      {showActionPlanFilter && (
+        <div className="flex flex-col gap-1">
+          <label className="text-xs font-medium text-muted-foreground">{t("filters.actionPlan", "Action Plan")}</label>
+          <Select
+            value={filters.action_plan?.length === 1 ? filters.action_plan[0] : "all"}
+            onValueChange={(v) => onFilterChange("action_plan", v === "all" ? [] : [v])}
+          >
+            <SelectTrigger className="w-[150px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("filters.all", "All")}</SelectItem>
+              <SelectItem value="yes">{t("filters.yes", "Yes")}</SelectItem>
+              <SelectItem value="no">{t("filters.no", "No")}</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      )}
     </div>
   );
 };
