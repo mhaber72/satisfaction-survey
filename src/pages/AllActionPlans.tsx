@@ -161,21 +161,16 @@ const AllActionPlans = () => {
                   <td className="p-3">{(plan.contract_managers as any)?.name ?? "—"}</td>
                   <td className="p-3">{fmtDate(plan.start_date)}</td>
                   <td className="p-3">{fmtDate(plan.end_date)}</td>
-                  <td className="p-3 text-right">
-                    <div className="flex items-center justify-end gap-1" onClick={(e) => e.stopPropagation()}>
-                      <Button size="icon" variant="ghost" onClick={() => setViewingPlan(plan)}>
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      {(() => {
-                        const statusName = ((plan.action_statuses as any)?.name || "").toLowerCase();
-                        const isTerminal = statusName.includes("conclu") || statusName.includes("cancel");
-                        return !isTerminal ? (
-                          <Button size="icon" variant="ghost" onClick={() => setEditingPlan(plan)}>
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-                        ) : null;
-                      })()}
-                    </div>
+                  <td className="p-3 text-right" onClick={(e) => e.stopPropagation()}>
+                    {(() => {
+                      const statusName = ((plan.action_statuses as any)?.name || "").toLowerCase();
+                      const isTerminal = statusName.includes("conclu") || statusName.includes("cancel");
+                      return !isTerminal ? (
+                        <Button size="icon" variant="ghost" onClick={() => setEditingPlan(plan)}>
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                      ) : null;
+                    })()}
                   </td>
                 </tr>
               ))}
