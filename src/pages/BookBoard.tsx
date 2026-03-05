@@ -97,15 +97,15 @@ export default function BookBoard() {
 
   return (
     <div
-      className="min-h-screen bg-[hsl(220,30%,8%)] flex flex-col items-center justify-center p-4 outline-none"
+      className="min-h-screen bg-white flex flex-col items-center justify-center p-4 outline-none"
       tabIndex={0}
       onKeyDown={handleKeyDown}
     >
       {/* Book container */}
-      <div className="relative w-full max-w-5xl" style={{ perspective: "2000px" }}>
+      <div className="relative w-full max-w-7xl" style={{ perspective: "2000px" }}>
         {/* Page counter */}
         <div className="absolute -top-10 left-0 right-0 flex items-center justify-center gap-3">
-          <span className="text-sm text-[hsl(200,40%,50%)]">
+          <span className="text-sm text-[hsl(200,20%,40%)]">
             {currentPage + 1} / {totalPages}
           </span>
           {/* Dot indicators */}
@@ -118,7 +118,7 @@ export default function BookBoard() {
                   "h-2 w-2 rounded-full transition-all duration-300",
                   i === currentPage
                     ? "bg-[hsl(200,80%,60%)] scale-125"
-                    : "bg-[hsl(200,20%,30%)] hover:bg-[hsl(200,40%,45%)]"
+                    : "bg-[hsl(200,20%,80%)] hover:bg-[hsl(200,30%,60%)]"
                 )}
               />
             ))}
@@ -127,8 +127,8 @@ export default function BookBoard() {
 
         {/* Book spread */}
         <div
-          className="relative mx-auto overflow-hidden rounded-2xl shadow-2xl shadow-black/50"
-          style={{ aspectRatio: "16/9" }}
+          className="relative mx-auto overflow-hidden rounded-2xl shadow-2xl shadow-black/20"
+          style={{ aspectRatio: "4/3" }}
         >
           {/* Current page (base layer) */}
           <div className="absolute inset-0 z-10">
@@ -208,8 +208,8 @@ export default function BookBoard() {
           className={cn(
             "absolute left-[-60px] top-1/2 -translate-y-1/2 z-40",
             "h-12 w-12 rounded-full flex items-center justify-center",
-            "bg-[hsla(200,80%,60%,0.1)] border border-[hsla(200,80%,60%,0.2)]",
-            "text-[hsl(200,80%,60%)] hover:bg-[hsla(200,80%,60%,0.2)]",
+            "bg-[hsl(215,85%,12%,0.05)] border border-[hsl(215,85%,12%,0.15)]",
+            "text-[hsl(215,85%,20%)] hover:bg-[hsl(215,85%,12%,0.1)]",
             "transition-all duration-200",
             "disabled:opacity-20 disabled:cursor-not-allowed"
           )}
@@ -223,8 +223,8 @@ export default function BookBoard() {
           className={cn(
             "absolute right-[-60px] top-1/2 -translate-y-1/2 z-40",
             "h-12 w-12 rounded-full flex items-center justify-center",
-            "bg-[hsla(200,80%,60%,0.1)] border border-[hsla(200,80%,60%,0.2)]",
-            "text-[hsl(200,80%,60%)] hover:bg-[hsla(200,80%,60%,0.2)]",
+            "bg-[hsl(215,85%,12%,0.05)] border border-[hsl(215,85%,12%,0.15)]",
+            "text-[hsl(215,85%,20%)] hover:bg-[hsl(215,85%,12%,0.1)]",
             "transition-all duration-200",
             "disabled:opacity-20 disabled:cursor-not-allowed"
           )}
