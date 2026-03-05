@@ -42,6 +42,7 @@ export function useDataFilters(records: any[] | undefined, pesquisaIdsWithPlans?
     return records.filter((r) => {
       if (!isAdmin && allowedThemes.length > 0 && !allowedThemes.includes(r.theme)) return false;
       if (filters.year?.length && !filters.year.includes(String(r.survey_year))) return false;
+      if (verticalClientNames && !verticalClientNames.has(r.client_name)) return false;
       if (filters.client?.length && !filters.client.includes(r.client_name)) return false;
       if (filters.name?.length) {
         const fullName = [r.firstname, r.lastname].filter(Boolean).join(" ");
