@@ -18,6 +18,7 @@ import AdminLookupTable from "./pages/AdminLookupTable";
 import AdminActionStatuses from "./pages/AdminActionStatuses";
 import AllActionPlans from "./pages/AllActionPlans";
 import AdminClients from "./pages/AdminClients";
+import AdminActionResponsibles from "./pages/AdminActionResponsibles";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
