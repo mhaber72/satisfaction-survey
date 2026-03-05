@@ -258,4 +258,13 @@ const AllActionPlans = () => {
   );
 };
 
+function DetailField({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div>
+      <p className="text-xs font-medium text-muted-foreground mb-0.5">{label}</p>
+      <div className="text-sm text-foreground">{value}</div>
+    </div>
+  );
+}
+
 export default AllActionPlans;
