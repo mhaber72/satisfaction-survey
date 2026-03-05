@@ -260,11 +260,11 @@ export function exportDashboardPptx(plans: ActionPlan[], statuses: Status[]) {
         align: "center",
       });
 
-      const compChartData = compChartLabels.map((c) => ({
-        name: c.label,
-        labels: [c.label],
-        values: [c.value],
-      }));
+      const compChartData = [{
+        name: "Status Conclusão",
+        labels: compChartLabels.map((c) => c.label),
+        values: compChartLabels.map((c) => c.value),
+      }];
 
       slide.addChart(pptx.ChartType.doughnut, compChartData, {
         x: 5.3,
