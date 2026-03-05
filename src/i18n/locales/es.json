@@ -189,7 +189,8 @@
     "endDate": "Fecha Fin",
     "newEndDate": "Nuevo Fin",
     "completionDate": "Fecha Conclusión",
-    "required": "obligatorio"
+    "required": "obligatorio",
+    "color": "Color"
   },
   "actionPlan": {
     "createTitle": "Crear Plan de Acción",
