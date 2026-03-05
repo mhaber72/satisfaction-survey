@@ -169,6 +169,41 @@ export type Database = {
           },
         ]
       }
+      action_responsibles: {
+        Row: {
+          created_at: string
+          directory_id: string
+          first_name: string
+          id: string
+          last_name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          directory_id: string
+          first_name: string
+          id?: string
+          last_name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          directory_id?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "action_responsibles_directory_id_fkey"
+            columns: ["directory_id"]
+            isOneToOne: false
+            referencedRelation: "directories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       action_statuses: {
         Row: {
           color: string

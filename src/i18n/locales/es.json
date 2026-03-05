@@ -13,7 +13,8 @@
     "navigation": "Navegación",
     "administration": "Administración",
     "actionPlans": "Planes de Acción",
-    "signOut": "Cerrar Sesión"
+    "signOut": "Cerrar Sesión",
+    "actionResponsibles": "Responsables de Acciones"
   },
   "login": {
     "title": "Iniciar Sesión",
@@ -225,6 +226,10 @@
     "confirmStatusChange": "¿Está seguro que desea cambiar el estado a \"{{status}}\"?",
     "confirmCancel": "Cancelar",
     "confirmOk": "Confirmar"
+  },
+  "adminResponsibles": {
+    "firstName": "Nombre",
+    "lastName": "Apellido"
   },
   "language": {
     "en": "English",

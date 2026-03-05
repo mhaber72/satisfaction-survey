@@ -13,7 +13,8 @@
     "navigation": "Navigation",
     "administration": "Administration",
     "actionPlans": "Action Plans",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "actionResponsibles": "Action Responsibles"
   },
   "login": {
     "title": "Sign In",
@@ -225,6 +226,10 @@
     "confirmStatusChange": "Are you sure you want to change the status to \"{{status}}\"?",
     "confirmCancel": "Cancel",
     "confirmOk": "Confirm"
+  },
+  "adminResponsibles": {
+    "firstName": "First Name",
+    "lastName": "Last Name"
   },
   "language": {
     "en": "English",

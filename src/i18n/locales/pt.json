@@ -13,7 +13,8 @@
     "navigation": "Navegação",
     "administration": "Administração",
     "actionPlans": "Planos de Ação",
-    "signOut": "Sair"
+    "signOut": "Sair",
+    "actionResponsibles": "Responsáveis das Ações"
   },
   "login": {
     "title": "Entrar",
@@ -225,6 +226,10 @@
     "confirmStatusChange": "Tem certeza que deseja alterar o status para \"{{status}}\"?",
     "confirmCancel": "Cancelar",
     "confirmOk": "Confirmar"
+  },
+  "adminResponsibles": {
+    "firstName": "Nome",
+    "lastName": "Sobrenome"
   },
   "language": {
     "en": "English",
