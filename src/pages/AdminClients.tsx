@@ -110,9 +110,9 @@ const AdminClients = () => {
                     <tr key={c.id} className="border-b hover:bg-muted/50">
                       <td className="p-4">
                         {c.logo_url ? (
-                          <img src={c.logo_url} alt={c.name} className="h-8 w-8 object-contain rounded" />
+                          <img src={c.logo_url} alt={c.name} className="max-h-10 max-w-[120px] object-contain" />
                         ) : (
-                          <div className="h-8 w-8 rounded bg-muted flex items-center justify-center text-xs text-muted-foreground">—</div>
+                          <div className="h-10 w-10 rounded bg-muted flex items-center justify-center text-xs text-muted-foreground">—</div>
                         )}
                       </td>
                       <td className="p-4">{c.name}</td>
