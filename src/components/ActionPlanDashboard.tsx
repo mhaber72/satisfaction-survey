@@ -367,8 +367,8 @@ function ThemeStatusChart({ filtered, statuses }: { filtered: any[]; statuses: a
           }}
         />
         {activeStatuses.map((s) => (
-          <Bar key={s.id} dataKey={s.id} name={s.id} fill={s.color} radius={[4, 4, 0, 0]}>
-            <LabelList dataKey={s.id} position="top" fill="rgba(255,255,255,0.9)" fontSize={11} formatter={(v: number) => v > 0 ? v : ""} />
+          <Bar key={s.id} dataKey={s.id} name={s.id} fill={s.color} radius={[3, 3, 0, 0]}>
+            <LabelList dataKey={s.id} position="top" fill="rgba(255,255,255,0.9)" fontSize={9} formatter={(v: number) => v > 0 ? v : ""} />
           </Bar>
         ))}
       </BarChart>
