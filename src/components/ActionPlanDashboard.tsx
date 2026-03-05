@@ -225,13 +225,13 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
                 <tbody>
                   <tr>
                     <td className="px-3 py-1 text-white text-sm">
-                      {totalActions > 0 ? ((pendingCompletionCount / totalActions) * 100).toFixed(2) : "0,00"}%
+                      {pendingCompletionCount} ({totalActions > 0 ? ((pendingCompletionCount / totalActions) * 100).toFixed(2) : "0,00"}%)
                     </td>
                     <td className="px-3 py-1 text-white text-sm">
-                      {totalActions > 0 ? ((onTimeCount / totalActions) * 100).toFixed(2) : "0,00"}%
+                      {onTimeCount} ({totalActions > 0 ? ((onTimeCount / totalActions) * 100).toFixed(2) : "0,00"}%)
                     </td>
                     <td className="px-3 py-1 text-white text-sm">
-                      {totalActions > 0 ? ((lateCount / totalActions) * 100).toFixed(2) : "0,00"}%
+                      {lateCount} ({totalActions > 0 ? ((lateCount / totalActions) * 100).toFixed(2) : "0,00"}%)
                     </td>
                   </tr>
                 </tbody>
