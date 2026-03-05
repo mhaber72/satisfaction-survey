@@ -13,7 +13,8 @@
     "navigation": "Navegación",
     "administration": "Administración",
     "actionPlans": "Planes de Acción",
-    "signOut": "Cerrar Sesión"
+    "signOut": "Cerrar Sesión",
+    "actionResponsibles": "Responsables de Acciones"
   },
   "login": {
     "title": "Iniciar Sesión",
