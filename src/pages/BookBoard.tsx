@@ -128,7 +128,7 @@ export default function BookBoard() {
         {/* Book spread */}
         <div
           className="relative mx-auto overflow-hidden rounded-2xl shadow-2xl shadow-black/20"
-          style={{ aspectRatio: "3/2.7" }}
+          style={{ aspectRatio: "3/2.6" }}
         >
           {/* Current page (base layer) */}
           <div className="absolute inset-0 z-10">
