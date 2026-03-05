@@ -13,6 +13,7 @@ import Index from "./pages/Index";
 import AdminUsers from "./pages/AdminUsers";
 import AdminProfiles from "./pages/AdminProfiles";
 import AdminImport from "./pages/AdminImport";
+import AdminScoreColors from "./pages/AdminScoreColors";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
