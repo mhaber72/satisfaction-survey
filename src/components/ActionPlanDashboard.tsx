@@ -348,10 +348,10 @@ function ThemeStatusChart({ filtered, statuses }: { filtered: any[]; statuses: a
       <BarChart data={chartData} layout="horizontal" margin={{ top: 15, right: 20, left: 5, bottom: 50 }}>
         <XAxis
           dataKey="theme"
-          tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 11 }}
+          tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 9 }}
           angle={-30}
           textAnchor="end"
-          height={80}
+          height={60}
           interval={0}
         />
         <YAxis tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 12 }} allowDecimals={false} />
