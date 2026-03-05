@@ -466,30 +466,30 @@ function StatusDonutChart({ data, total }: { data: { name: string; value: number
   }
 
   const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, value, percent }: any) => {
-    const radius = outerRadius + 20;
+    const radius = outerRadius + 14;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
-    const pct = (percent * 100).toFixed(2);
+    const pct = (percent * 100).toFixed(1);
     return (
-      <text x={x} y={y} fill="rgba(255,255,255,0.9)" textAnchor={x > cx ? "start" : "end"} dominantBaseline="central" fontSize={10} fontWeight="bold">
+      <text x={x} y={y} fill="rgba(255,255,255,0.9)" textAnchor={x > cx ? "start" : "end"} dominantBaseline="central" fontSize={9} fontWeight="bold">
         {value} ({pct}%)
       </text>
     );
   };
 
   return (
-    <ResponsiveContainer width={300} height={220}>
+    <ResponsiveContainer width={220} height={170}>
       <PieChart>
         <Pie
           data={data}
           cx="50%"
           cy="45%"
-          innerRadius={50}
-          outerRadius={75}
+          innerRadius={32}
+          outerRadius={52}
           dataKey="value"
           label={renderCustomLabel}
           labelLine={{ stroke: "rgba(255,255,255,0.3)", strokeWidth: 1 }}
-          strokeWidth={2}
+          strokeWidth={1}
           stroke="hsl(210,70%,12%)"
         >
           {data.map((entry, index) => (
@@ -498,8 +498,10 @@ function StatusDonutChart({ data, total }: { data: { name: string; value: number
         </Pie>
         <Legend
           verticalAlign="bottom"
+          iconSize={8}
+          wrapperStyle={{ fontSize: 10 }}
           formatter={(value: string, entry: any) => (
-            <span style={{ color: "rgba(255,255,255,0.8)", fontSize: 12 }}>
+            <span style={{ color: "rgba(255,255,255,0.8)", fontSize: 10 }}>
               {data[entry.index]?.name || value}
             </span>
           )}
