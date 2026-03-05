@@ -103,6 +103,18 @@ const DataFilters = ({ records, filters, onFilterChange, showTheme = false, show
       </div>
 
       <div className="flex flex-col gap-1">
+        <label className="text-xs font-medium text-muted-foreground">Vertical</label>
+        <MultiSelectFilter
+          label="Vertical"
+          options={verticals?.map((v) => v.id) || []}
+          selected={filters.vertical || []}
+          onChange={(v) => onFilterChange("vertical", v)}
+          width="w-[180px]"
+          renderOption={(id) => verticals?.find((v) => v.id === id)?.name || id}
+        />
+      </div>
+
+      <div className="flex flex-col gap-1">
         <label className="text-xs font-medium text-muted-foreground">{t("filters.client")}</label>
         <MultiSelectFilter
           label={t("filters.client")}
