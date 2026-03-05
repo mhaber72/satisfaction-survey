@@ -104,8 +104,22 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="border-white/10 bg-[hsl(210,70%,12%)] text-white max-w-[98vw] w-[98vw] max-h-[98vh] h-[98vh] overflow-y-auto">
-        <DialogHeader>
+        <DialogHeader className="flex flex-row items-center justify-between pr-8">
           <DialogTitle className="text-white text-xl">{t("actionPlan.dashboard", "Dashboard de Planos de Ação")}</DialogTitle>
+          <Button
+            variant="outline"
+            size="sm"
+            className="border-orange-400/50 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 gap-2"
+            onClick={() => {
+              if (plans?.length) {
+                exportDashboardPptx(plans, statuses || []);
+                toast.success(t("actionPlan.pptxExported", "PowerPoint exportado com sucesso!"));
+              }
+            }}
+          >
+            <FileSliders className="h-4 w-4" />
+            PPTX
+          </Button>
         </DialogHeader>
 
         {/* Filters */}
