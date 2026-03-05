@@ -123,6 +123,7 @@ const AdminActionStatuses = () => {
                           <Button size="icon" variant="ghost" onClick={() => setEditing({
                             id: item.id,
                             name: item.name,
+                            color: item.color || '#6b7280',
                             requires_start_date: item.requires_start_date,
                             requires_end_date: item.requires_end_date,
                             requires_new_end_date: item.requires_new_end_date,
