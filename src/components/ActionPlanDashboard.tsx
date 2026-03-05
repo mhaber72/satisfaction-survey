@@ -70,7 +70,32 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
     }).length;
   }, [filtered]);
 
-  const completionRate = totalActions > 0 ? Math.round((terminalCount / totalActions) * 100) : 0;
+  // Pendente Data Conclusão: completion_date is null/empty
+  const pendingCompletionCount = useMemo(() => {
+    return filtered.filter((p) => !p.completion_date).length;
+  }, [filtered]);
+
+  // Dentro do Prazo: completion_date <= new_end_date (if filled) or <= end_date (if new_end_date is blank)
+  const onTimeCount = useMemo(() => {
+    return filtered.filter((p) => {
+      if (!p.completion_date) return false;
+      const completion = new Date(p.completion_date);
+      const deadline = p.new_end_date ? new Date(p.new_end_date) : p.end_date ? new Date(p.end_date) : null;
+      if (!deadline) return false;
+      return completion <= deadline;
+    }).length;
+  }, [filtered]);
+
+  // Fora do Prazo: completion_date > deadline
+  const lateCount = useMemo(() => {
+    return filtered.filter((p) => {
+      if (!p.completion_date) return false;
+      const completion = new Date(p.completion_date);
+      const deadline = p.new_end_date ? new Date(p.new_end_date) : p.end_date ? new Date(p.end_date) : null;
+      if (!deadline) return false;
+      return completion > deadline;
+    }).length;
+  }, [filtered]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
