@@ -101,9 +101,9 @@ function addCoverSlide(pptx: PptxGenJS, clientName: string, clientLogoUrl?: stri
         path: clientLogoUrl,
         x: 0.5,
         y: 1.4,
-        w: 1.2,
-        h: 1.2,
-        rounding: true,
+        w: 2.5,
+        h: 1.0,
+        sizing: { type: "contain", w: 2.5, h: 1.0 },
       });
     } catch {
       // skip
