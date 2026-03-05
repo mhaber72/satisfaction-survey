@@ -257,6 +257,7 @@ export type Database = {
           logo_url: string | null
           name: string
           updated_at: string
+          vertical_id: string | null
         }
         Insert: {
           created_at?: string
@@ -264,6 +265,7 @@ export type Database = {
           logo_url?: string | null
           name: string
           updated_at?: string
+          vertical_id?: string | null
         }
         Update: {
           created_at?: string
@@ -271,8 +273,17 @@ export type Database = {
           logo_url?: string | null
           name?: string
           updated_at?: string
+          vertical_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "clients_vertical_id_fkey"
+            columns: ["vertical_id"]
+            isOneToOne: false
+            referencedRelation: "verticals"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       contract_managers: {
         Row: {
@@ -489,6 +500,27 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      verticals: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          updated_at?: string
         }
         Relationships: []
       }

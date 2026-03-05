@@ -9,10 +9,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Pencil, Trash2, Plus, Upload, X } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 interface ClientForm {
   id?: string;
   name: string;
   logo_url: string | null;
+  vertical_id: string | null;
 }
 
 const AdminClients = () => {
@@ -25,19 +28,28 @@ const AdminClients = () => {
   const { data: clients, isLoading } = useQuery({
     queryKey: ["clients"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("clients").select("*").order("name");
+      const { data, error } = await supabase.from("clients").select("*, verticals(name)").order("name");
       if (error) throw error;
       return data;
     },
   });
 
+  const { data: verticals } = useQuery({
+    queryKey: ["verticals"],
+    queryFn: async () => {
+      const { data } = await supabase.from("verticals").select("*").order("name");
+      return data || [];
+    },
+  });
+
   const saveMutation = useMutation({
     mutationFn: async (item: ClientForm) => {
+      const payload = { name: item.name, logo_url: item.logo_url, vertical_id: item.vertical_id };
       if (item.id) {
-        const { error } = await supabase.from("clients").update({ name: item.name, logo_url: item.logo_url }).eq("id", item.id);
+        const { error } = await supabase.from("clients").update(payload).eq("id", item.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase.from("clients").insert({ name: item.name, logo_url: item.logo_url });
+        const { error } = await supabase.from("clients").insert(payload);
         if (error) throw error;
       }
     },
@@ -87,7 +99,7 @@ const AdminClients = () => {
       <div className="mx-auto max-w-3xl space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold text-foreground">{t("nav.clients", "Clientes")}</h1>
-          <Button onClick={() => setEditing({ name: "", logo_url: null })}>
+          <Button onClick={() => setEditing({ name: "", logo_url: null, vertical_id: null })}>
             <Plus className="mr-2 h-4 w-4" /> {t("adminLookup.new")}
           </Button>
         </div>
@@ -102,6 +114,7 @@ const AdminClients = () => {
                   <tr className="border-b">
                     <th className="p-4 text-left font-medium text-muted-foreground w-16">Logo</th>
                     <th className="p-4 text-left font-medium text-muted-foreground">{t("adminLookup.name")}</th>
+                    <th className="p-4 text-left font-medium text-muted-foreground">{t("adminClients.vertical", "Vertical")}</th>
                     <th className="p-4 text-right font-medium text-muted-foreground">{t("adminLookup.actions")}</th>
                   </tr>
                 </thead>
@@ -116,8 +129,9 @@ const AdminClients = () => {
                         )}
                       </td>
                       <td className="p-4">{c.name}</td>
+                      <td className="p-4">{(c as any).verticals?.name ?? "—"}</td>
                       <td className="p-4 text-right space-x-2">
-                        <Button size="icon" variant="ghost" onClick={() => setEditing({ id: c.id, name: c.name, logo_url: c.logo_url })}>
+                        <Button size="icon" variant="ghost" onClick={() => setEditing({ id: c.id, name: c.name, logo_url: c.logo_url, vertical_id: (c as any).vertical_id ?? null })}>
                           <Pencil className="h-4 w-4" />
                         </Button>
                         <Button size="icon" variant="ghost" onClick={() => {
@@ -180,6 +194,23 @@ const AdminClients = () => {
                     </Button>
                   </div>
                 )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground">{t("adminClients.vertical", "Vertical")}</label>
+                <Select
+                  value={editing?.vertical_id ?? ""}
+                  onValueChange={(v) => setEditing((prev) => prev ? { ...prev, vertical_id: v || null } : prev)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t("adminClients.selectVertical", "Selecione uma vertical")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {verticals?.map((v) => (
+                      <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <Button
