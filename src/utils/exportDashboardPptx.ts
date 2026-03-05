@@ -417,7 +417,7 @@ export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[
       y: 4.7,
       w: 12.5,
       colW: [0.6, 2.0, 3.0, 1.5, 1.8, 1.0, 1.0, 1.0],
-      border: { type: "solid", color: "2a4a6b", pt: 0.5 },
+      border: { type: "solid", color: "c0cfe0", pt: 0.5 },
       margin: [2, 4, 2, 4],
       autoPage: false,
     } as any);
