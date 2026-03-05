@@ -24,10 +24,10 @@ interface Status {
   color: string;
 }
 
-const BG_COLOR = "0d1f3c";
-const TEXT_COLOR = "FFFFFF";
-const MUTED_COLOR = "94a3b8";
-const HEADER_BG = "1a3a5c";
+const BG_COLOR = "FFFFFF";
+const TEXT_COLOR = "222222";
+const MUTED_COLOR = "555555";
+const HEADER_BG = "2a4a6b";
 
 function hexFromCss(color: string): string {
   return color.replace("#", "").substring(0, 6);
@@ -117,8 +117,8 @@ export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[
       y: 0.85,
       w: 1.2,
       h: 0.8,
-      fill: { color: "1e3a5f" },
-      line: { color: "3b5998", width: 1 },
+       fill: { color: "e8eef5" },
+      line: { color: "a0b4cc", width: 1 },
       rectRadius: 0.05,
     });
     slide.addText("PROJETOS", {
@@ -159,7 +159,7 @@ export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[
         y: 0.85,
         w: statusBoxW,
         h: 0.8,
-        fill: { color: "1e3a5f" },
+         fill: { color: "e8eef5" },
         line: { color: hexFromCss(s.color), width: 1.5 },
         rectRadius: 0.05,
       });
@@ -206,7 +206,7 @@ export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[
         y: 0.85,
         w: compBoxW,
         h: 0.8,
-        fill: { color: "1e3a5f" },
+        fill: { color: "e8eef5" },
         line: { color: item.color, width: 1.5 },
         rectRadius: 0.05,
       });
@@ -262,7 +262,7 @@ export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[
         showLegend: true,
         legendPos: "b",
         legendFontSize: 7,
-        legendColor: TEXT_COLOR,
+         legendColor: TEXT_COLOR,
         dataLabelPosition: "outEnd",
         dataLabelColor: TEXT_COLOR,
         dataLabelFontSize: 8,
@@ -375,14 +375,14 @@ export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[
     });
 
     const headers = [
-      { text: "Ano", options: { bold: true, fontSize: 7, color: TEXT_COLOR, fill: { color: HEADER_BG }, align: "center" as const } },
-      { text: "Tema", options: { bold: true, fontSize: 7, color: TEXT_COLOR, fill: { color: HEADER_BG } } },
-      { text: "Ação", options: { bold: true, fontSize: 7, color: TEXT_COLOR, fill: { color: HEADER_BG } } },
-      { text: "Status", options: { bold: true, fontSize: 7, color: TEXT_COLOR, fill: { color: HEADER_BG } } },
-      { text: "Gestor", options: { bold: true, fontSize: 7, color: TEXT_COLOR, fill: { color: HEADER_BG } } },
-      { text: "Início", options: { bold: true, fontSize: 7, color: TEXT_COLOR, fill: { color: HEADER_BG }, align: "center" as const } },
-      { text: "Fim", options: { bold: true, fontSize: 7, color: TEXT_COLOR, fill: { color: HEADER_BG }, align: "center" as const } },
-      { text: "Conclusão", options: { bold: true, fontSize: 7, color: TEXT_COLOR, fill: { color: HEADER_BG }, align: "center" as const } },
+      { text: "Ano", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG }, align: "center" as const } },
+      { text: "Tema", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG } } },
+      { text: "Ação", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG } } },
+      { text: "Status", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG } } },
+      { text: "Gestor", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG } } },
+      { text: "Início", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG }, align: "center" as const } },
+      { text: "Fim", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG }, align: "center" as const } },
+      { text: "Conclusão", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG }, align: "center" as const } },
     ];
 
     const rows: any[][] = [headers];
@@ -393,7 +393,7 @@ export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[
     for (let i = 0; i < maxRows; i++) {
       const p = sortedPlans[i];
       const statusColor = hexFromCss((p.action_statuses as any)?.color || "#6b7280");
-      const rowBg = i % 2 === 0 ? "0f2847" : "122d4f";
+      const rowBg = i % 2 === 0 ? "f0f4f8" : "e2e8f0";
       rows.push([
         { text: String(p.survey_year ?? "—"), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg }, align: "center" } },
         { text: (p.theme || "—").substring(0, 30), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg } } },
@@ -408,7 +408,7 @@ export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[
 
     if (sortedPlans.length > maxRows) {
       rows.push([
-        { text: `... +${sortedPlans.length - maxRows} ações`, options: { fontSize: 7, color: MUTED_COLOR, fill: { color: "0f2847" }, colSpan: 8 } },
+        { text: `... +${sortedPlans.length - maxRows} ações`, options: { fontSize: 7, color: MUTED_COLOR, fill: { color: "f0f4f8" }, colSpan: 8 } },
       ]);
     }
 
@@ -417,7 +417,7 @@ export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[
       y: 4.7,
       w: 12.5,
       colW: [0.6, 2.0, 3.0, 1.5, 1.8, 1.0, 1.0, 1.0],
-      border: { type: "solid", color: "2a4a6b", pt: 0.5 },
+      border: { type: "solid", color: "c0cfe0", pt: 0.5 },
       margin: [2, 4, 2, 4],
       autoPage: false,
     } as any);
