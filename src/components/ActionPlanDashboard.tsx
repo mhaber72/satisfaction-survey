@@ -324,16 +324,15 @@ function ClientStatusChart({ filtered, statuses }: { filtered: any[]; statuses: 
     return Object.entries(clientMap)
       .map(([client, counts]) => {
         const row: any = { client };
+        let total = 0;
         statuses.forEach((s) => {
           row[s.id] = counts[s.id] || 0;
+          total += row[s.id];
         });
+        row._total = total;
         return row;
       })
-      .sort((a, b) => {
-        const totalA = statuses.reduce((sum, s) => sum + (a[s.id] || 0), 0);
-        const totalB = statuses.reduce((sum, s) => sum + (b[s.id] || 0), 0);
-        return totalB - totalA;
-      });
+      .sort((a, b) => b._total - a._total);
   }, [filtered, statuses]);
 
   const activeStatuses = useMemo(() => {
