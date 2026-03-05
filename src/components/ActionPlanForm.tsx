@@ -1,4 +1,12 @@
 import { useState, useEffect } from "react";
+
+const parseDateLocal = (d: string): Date => {
+  const parts = d.split("-");
+  if (parts.length === 3) {
+    return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+  }
+  return new Date(d);
+};
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
