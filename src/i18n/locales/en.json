@@ -147,7 +147,10 @@
     "client": "Client",
     "name": "Name",
     "theme": "Theme",
-    "all": "All"
+    "all": "All",
+    "actionPlan": "Action Plan",
+    "yes": "Yes",
+    "no": "No"
   },
   "corporatePerception": {
     "npsTitle": "NPS Score by Client",
