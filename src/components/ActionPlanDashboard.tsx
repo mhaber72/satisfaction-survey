@@ -105,7 +105,7 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
         </DialogHeader>
 
         {/* Filters */}
-        <div className="flex flex-wrap gap-3 mb-6">
+        <div className="flex flex-wrap gap-2 mb-3">
           <Select value={filterYear} onValueChange={setFilterYear}>
             <SelectTrigger className="w-[130px] border-white/20 bg-white/10 text-white">
               <SelectValue placeholder={t("filters.year")} />
@@ -241,13 +241,13 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
         </div>
 
         {/* Donut Charts */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
           {/* Status Projeto Donut */}
           <div className="border border-white/20 rounded-md overflow-hidden">
             <div className="bg-white/10 px-6 py-2 text-center">
               <span className="text-white font-bold text-sm tracking-wide uppercase">{t("actionPlan.statusBreakdown", "Status Projeto")}</span>
             </div>
-            <div className="flex justify-center py-4">
+            <div className="flex justify-center py-2">
               <StatusDonutChart
                 data={statuses?.filter((s) => (statusBreakdown[s.id] || 0) > 0).map((s) => ({
                   name: s.name,
@@ -264,7 +264,7 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
             <div className="bg-white/10 px-6 py-2 text-center">
               <span className="text-white font-bold text-sm tracking-wide uppercase">{t("actionPlan.completionStatus", "Status Conclusão")}</span>
             </div>
-            <div className="flex justify-center py-4">
+            <div className="flex justify-center py-2">
               <StatusDonutChart
                 data={[
                   { name: t("actionPlan.pendingCompletion", "Pend. Data Conclusão"), value: pendingCompletionCount, color: "#f4a261" },
@@ -277,27 +277,28 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
           </div>
         </div>
 
-        {/* Bar Chart - Total by Theme and Status */}
-        <div className="border border-white/20 rounded-md overflow-hidden mt-4">
-          <div className="bg-white/10 px-6 py-2 text-center">
-            <span className="text-white font-bold text-sm tracking-wide uppercase">
-              {t("actionPlan.chartByThemeStatus", "Total de Projetos por Área e Status")}
-            </span>
+        {/* Bar Charts side by side */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
+          <div className="border border-white/20 rounded-md overflow-hidden">
+            <div className="bg-white/10 px-4 py-1.5 text-center">
+              <span className="text-white font-bold text-xs tracking-wide uppercase">
+                {t("actionPlan.chartByThemeStatus", "Total de Projetos por Área e Status")}
+              </span>
+            </div>
+            <div className="px-2 py-2">
+              <ThemeStatusChart filtered={filtered} statuses={statuses} />
+            </div>
           </div>
-          <div className="px-4 py-4">
-            <ThemeStatusChart filtered={filtered} statuses={statuses} />
-          </div>
-        </div>
 
-        {/* Bar Chart - Total by Client and Status */}
-        <div className="border border-white/20 rounded-md overflow-hidden mt-4">
-          <div className="bg-white/10 px-6 py-2 text-center">
-            <span className="text-white font-bold text-sm tracking-wide uppercase">
-              {t("actionPlan.chartByClientStatus", "Total de Projetos por Cliente e Status")}
-            </span>
-          </div>
-          <div className="px-4 py-4">
-            <ClientStatusChart filtered={filtered} statuses={statuses} />
+          <div className="border border-white/20 rounded-md overflow-hidden">
+            <div className="bg-white/10 px-4 py-1.5 text-center">
+              <span className="text-white font-bold text-xs tracking-wide uppercase">
+                {t("actionPlan.chartByClientStatus", "Total de Projetos por Cliente e Status")}
+              </span>
+            </div>
+            <div className="px-2 py-2">
+              <ClientStatusChart filtered={filtered} statuses={statuses} />
+            </div>
           </div>
         </div>
       </DialogContent>
@@ -343,17 +344,17 @@ function ThemeStatusChart({ filtered, statuses }: { filtered: any[]; statuses: a
   }
 
   return (
-    <ResponsiveContainer width="100%" height={Math.max(300, chartData.length * 60)}>
-      <BarChart data={chartData} layout="horizontal" margin={{ top: 20, right: 30, left: 10, bottom: 60 }}>
+    <ResponsiveContainer width="100%" height={250}>
+      <BarChart data={chartData} layout="horizontal" margin={{ top: 15, right: 20, left: 5, bottom: 50 }}>
         <XAxis
           dataKey="theme"
-          tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 11 }}
+          tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 9 }}
           angle={-30}
           textAnchor="end"
-          height={80}
+          height={60}
           interval={0}
         />
-        <YAxis tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 12 }} allowDecimals={false} />
+        <YAxis tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 10 }} allowDecimals={false} />
         <Tooltip
           contentStyle={{ backgroundColor: "hsl(210,70%,15%)", border: "1px solid rgba(255,255,255,0.2)", color: "white" }}
           labelStyle={{ color: "white", fontWeight: "bold" }}
@@ -366,8 +367,8 @@ function ThemeStatusChart({ filtered, statuses }: { filtered: any[]; statuses: a
           }}
         />
         {activeStatuses.map((s) => (
-          <Bar key={s.id} dataKey={s.id} name={s.id} fill={s.color} radius={[4, 4, 0, 0]}>
-            <LabelList dataKey={s.id} position="top" fill="rgba(255,255,255,0.9)" fontSize={11} formatter={(v: number) => v > 0 ? v : ""} />
+          <Bar key={s.id} dataKey={s.id} name={s.id} fill={s.color} radius={[3, 3, 0, 0]}>
+            <LabelList dataKey={s.id} position="top" fill="rgba(255,255,255,0.9)" fontSize={9} formatter={(v: number) => v > 0 ? v : ""} />
           </Bar>
         ))}
       </BarChart>
@@ -422,17 +423,17 @@ function ClientStatusChart({ filtered, statuses }: { filtered: any[]; statuses: 
   };
 
   return (
-    <ResponsiveContainer width="100%" height={Math.max(300, chartData.length * 50)}>
-      <BarChart data={chartData} layout="horizontal" margin={{ top: 30, right: 30, left: 10, bottom: 80 }}>
+    <ResponsiveContainer width="100%" height={250}>
+      <BarChart data={chartData} layout="horizontal" margin={{ top: 25, right: 20, left: 5, bottom: 60 }}>
         <XAxis
           dataKey="client"
-          tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 10 }}
+          tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 8 }}
           angle={-35}
           textAnchor="end"
-          height={100}
+          height={70}
           interval={0}
         />
-        <YAxis tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 12 }} allowDecimals={false} />
+        <YAxis tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 10 }} allowDecimals={false} />
         <Tooltip
           contentStyle={{ backgroundColor: "hsl(210,70%,15%)", border: "1px solid rgba(255,255,255,0.2)", color: "white" }}
           labelStyle={{ color: "white", fontWeight: "bold" }}
@@ -465,26 +466,26 @@ function StatusDonutChart({ data, total }: { data: { name: string; value: number
   }
 
   const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, value, percent }: any) => {
-    const radius = outerRadius + 25;
+    const radius = outerRadius + 20;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
     const pct = (percent * 100).toFixed(2);
     return (
-      <text x={x} y={y} fill="rgba(255,255,255,0.9)" textAnchor={x > cx ? "start" : "end"} dominantBaseline="central" fontSize={12} fontWeight="bold">
+      <text x={x} y={y} fill="rgba(255,255,255,0.9)" textAnchor={x > cx ? "start" : "end"} dominantBaseline="central" fontSize={10} fontWeight="bold">
         {value} ({pct}%)
       </text>
     );
   };
 
   return (
-    <ResponsiveContainer width={350} height={300}>
+    <ResponsiveContainer width={300} height={220}>
       <PieChart>
         <Pie
           data={data}
           cx="50%"
           cy="45%"
-          innerRadius={70}
-          outerRadius={100}
+          innerRadius={50}
+          outerRadius={75}
           dataKey="value"
           label={renderCustomLabel}
           labelLine={{ stroke: "rgba(255,255,255,0.3)", strokeWidth: 1 }}
