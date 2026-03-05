@@ -150,7 +150,9 @@ const AdminClients = () => {
                 <label className="text-sm font-medium text-foreground">Logo</label>
                 {editing?.logo_url ? (
                   <div className="flex items-center gap-3">
-                    <img src={editing.logo_url} alt="Logo" className="h-12 w-12 object-contain rounded border" />
+                    <div className="border rounded p-2 bg-white">
+                      <img src={editing.logo_url} alt="Logo" className="max-h-16 max-w-[200px] object-contain" />
+                    </div>
                     <Button variant="ghost" size="icon" onClick={() => setEditing((prev) => prev ? { ...prev, logo_url: null } : prev)}>
                       <X className="h-4 w-4 text-destructive" />
                     </Button>
