@@ -290,6 +290,3 @@ function ThemeStatusChart({ filtered, statuses }: { filtered: any[]; statuses: a
     </ResponsiveContainer>
   );
 }
-    </Dialog>
-  );
-}
