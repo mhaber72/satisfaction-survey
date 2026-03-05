@@ -1,0 +1,1 @@
+ALTER TABLE public.action_statuses ADD COLUMN color text NOT NULL DEFAULT '#6b7280';
