@@ -8,9 +8,10 @@ interface DataFiltersProps {
   filters: Record<string, string[]>;
   onFilterChange: (key: string, values: string[]) => void;
   showTheme?: boolean;
+  showActionPlanFilter?: boolean;
 }
 
-const DataFilters = ({ records, filters, onFilterChange, showTheme = false }: DataFiltersProps) => {
+const DataFilters = ({ records, filters, onFilterChange, showTheme = false, showActionPlanFilter = false }: DataFiltersProps) => {
   const { t } = useTranslation();
 
   // Helper: apply all filters EXCEPT the excluded key to get contextual options
