@@ -1,4 +1,12 @@
 import { useState, useEffect } from "react";
+
+const parseDateLocal = (d: string): Date => {
+  const parts = d.split("-");
+  if (parts.length === 3) {
+    return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+  }
+  return new Date(d);
+};
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
@@ -70,10 +78,10 @@ const ActionPlanForm = ({
         responsible_id: existingPlan.responsible_id || "",
         action_name: existingPlan.action_name || "",
         action_description: existingPlan.action_description || "",
-        start_date: existingPlan.start_date ? new Date(existingPlan.start_date) : null,
-        end_date: existingPlan.end_date ? new Date(existingPlan.end_date) : null,
-        new_end_date: existingPlan.new_end_date ? new Date(existingPlan.new_end_date) : null,
-        completion_date: existingPlan.completion_date ? new Date(existingPlan.completion_date) : null,
+        start_date: existingPlan.start_date ? parseDateLocal(existingPlan.start_date) : null,
+        end_date: existingPlan.end_date ? parseDateLocal(existingPlan.end_date) : null,
+        new_end_date: existingPlan.new_end_date ? parseDateLocal(existingPlan.new_end_date) : null,
+        completion_date: existingPlan.completion_date ? parseDateLocal(existingPlan.completion_date) : null,
         status_id: existingPlan.status_id || "",
       });
     } else {
