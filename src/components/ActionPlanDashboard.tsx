@@ -240,6 +240,43 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
           </div>
         </div>
 
+        {/* Donut Charts */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          {/* Status Projeto Donut */}
+          <div className="border border-white/20 rounded-md overflow-hidden">
+            <div className="bg-white/10 px-6 py-2 text-center">
+              <span className="text-white font-bold text-sm tracking-wide uppercase">{t("actionPlan.statusBreakdown", "Status Projeto")}</span>
+            </div>
+            <div className="flex justify-center py-4">
+              <StatusDonutChart
+                data={statuses?.filter((s) => (statusBreakdown[s.id] || 0) > 0).map((s) => ({
+                  name: s.name,
+                  value: statusBreakdown[s.id] || 0,
+                  color: s.color,
+                })) || []}
+                total={totalActions}
+              />
+            </div>
+          </div>
+
+          {/* Status Conclusão Donut */}
+          <div className="border border-white/20 rounded-md overflow-hidden">
+            <div className="bg-white/10 px-6 py-2 text-center">
+              <span className="text-white font-bold text-sm tracking-wide uppercase">{t("actionPlan.completionStatus", "Status Conclusão")}</span>
+            </div>
+            <div className="flex justify-center py-4">
+              <StatusDonutChart
+                data={[
+                  { name: t("actionPlan.pendingCompletion", "Pend. Data Conclusão"), value: pendingCompletionCount, color: "#f4a261" },
+                  { name: t("actionPlan.onTime", "Dentro do Prazo"), value: onTimeCount, color: "#3b82f6" },
+                  { name: t("actionPlan.late", "Fora do Prazo"), value: lateCount, color: "#ef4444" },
+                ].filter((d) => d.value > 0)}
+                total={totalActions}
+              />
+            </div>
+          </div>
+        </div>
+
         {/* Bar Chart - Total by Theme and Status */}
         <div className="border border-white/20 rounded-md overflow-hidden mt-4">
           <div className="bg-white/10 px-6 py-2 text-center">
