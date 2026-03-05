@@ -254,7 +254,13 @@ function ThemeStatusChart({ filtered, statuses }: { filtered: any[]; statuses: a
       });
   }, [filtered, statuses]);
 
-  if (!chartData.length || !statuses?.length) {
+  // Only show statuses that have at least 1 entry across all themes
+  const activeStatuses = useMemo(() => {
+    if (!statuses) return [];
+    return statuses.filter((s) => chartData.some((row) => row[s.id] > 0));
+  }, [statuses, chartData]);
+
+  if (!chartData.length || !activeStatuses.length) {
     return <p className="text-white/50 text-center py-8">Sem dados</p>;
   }
 
@@ -277,11 +283,11 @@ function ThemeStatusChart({ filtered, statuses }: { filtered: any[]; statuses: a
         <Legend
           wrapperStyle={{ paddingTop: 10 }}
           formatter={(value: string) => {
-            const status = statuses.find((s) => s.id === value);
+            const status = activeStatuses.find((s) => s.id === value);
             return <span style={{ color: "rgba(255,255,255,0.8)" }}>{status?.name || value}</span>;
           }}
         />
-        {statuses.map((s) => (
+        {activeStatuses.map((s) => (
           <Bar key={s.id} dataKey={s.id} name={s.id} fill={s.color} radius={[4, 4, 0, 0]}>
             <LabelList dataKey={s.id} position="top" fill="rgba(255,255,255,0.9)" fontSize={11} formatter={(v: number) => v > 0 ? v : ""} />
           </Bar>
