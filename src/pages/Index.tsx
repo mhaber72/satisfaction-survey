@@ -9,6 +9,8 @@ import RowDetailDialog from "@/components/RowDetailDialog";
 import { useDataFilters } from "@/hooks/useDataFilters";
 import { useTableSort } from "@/hooks/useTableSort";
 import SortableTh from "@/components/SortableTh";
+import { ScoreDot } from "@/components/ScoreDot";
+import { useScoreColors } from "@/hooks/useScoreColors";
 import { useState } from "react";
 
 const Index = () => {
