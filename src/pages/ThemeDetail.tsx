@@ -3,12 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, BarChart3, Users, TrendingUp, FileText } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import DataFilters from "@/components/DataFilters";
 import { useDataFilters } from "@/hooks/useDataFilters";
+import { useTableSort } from "@/hooks/useTableSort";
+import SortableTh from "@/components/SortableTh";
 import CorporatePerceptionCharts from "@/components/CorporatePerceptionCharts";
 
 const ThemeDetail = () => {
@@ -44,6 +44,7 @@ const ThemeDetail = () => {
   });
 
   const { filters, onFilterChange, filtered } = useDataFilters(records);
+  const { sorted, sort, toggle } = useTableSort(filtered);
 
   const total = filtered?.length ?? 0;
   const avgScore = (() => {
@@ -54,6 +55,18 @@ const ThemeDetail = () => {
   })();
   const uniqueClients = new Set(filtered?.map((r) => r.client_name)).size;
   const uniqueQuestions = new Set(filtered?.map((r) => r.question)).size;
+
+  const columns = [
+    { key: "client_name", label: t("dashboard.client") },
+    { key: "name", label: t("dashboard.name") },
+    { key: "theme", label: t("dashboard.theme") },
+    { key: "theme_comment", label: t("dashboard.themeComment") },
+    { key: "question", label: t("dashboard.question") },
+    { key: "applicability", label: t("dashboard.applicability") },
+    { key: "importance", label: t("dashboard.importance") },
+    { key: "score", label: t("dashboard.score") },
+    { key: "question_comment", label: t("dashboard.questionComment") },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[hsl(210,80%,15%)] via-[hsl(210,70%,25%)] to-[hsl(200,60%,30%)]">
@@ -99,43 +112,47 @@ const ThemeDetail = () => {
               <CardHeader>
                 <CardTitle className="text-white">{t("themeDetail.data")}</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-0">
                 {isLoading ? (
-                  <p className="text-white/60">{t("themeDetail.loading")}</p>
+                  <p className="text-white/60 p-6">{t("themeDetail.loading")}</p>
                 ) : total === 0 ? (
                   <p className="py-12 text-center text-white/60">{t("themeDetail.noData")}</p>
                 ) : (
-                  <div className="max-h-[380px] overflow-scroll relative scrollbar-always">
-                    <table className="w-max min-w-full caption-bottom text-sm">
-                      <thead className="sticky top-0 z-10 bg-[hsl(210,70%,20%)] [&_tr]:border-b">
-                        <tr className="border-b border-white/10 transition-colors">
-                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.client")}</th>
-                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.name")}</th>
-                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.theme")}</th>
-                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.themeComment")}</th>
-                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.question")}</th>
-                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.applicability")}</th>
-                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.importance")}</th>
-                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.score")}</th>
-                          <th className="h-12 px-4 text-left align-middle font-medium text-white/60 whitespace-nowrap">{t("dashboard.questionComment")}</th>
-                        </tr>
-                      </thead>
-                      <tbody className="[&_tr:last-child]:border-0">
-                        {filtered?.map((r) => (
-                          <tr key={r.id} className="border-b border-white/5 transition-colors hover:bg-white/5">
-                            <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.client_name}</td>
-                            <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.firstname} {r.lastname}</td>
-                            <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.theme}</td>
-                            <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.theme_comment}</td>
-                            <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.question}</td>
-                            <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.applicability}</td>
-                            <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.importance}</td>
-                            <td className="p-4 align-middle font-medium whitespace-nowrap text-white">{r.score}</td>
-                            <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.question_comment}</td>
+                  <div className="relative border-t border-white/10 rounded-b-md" style={{ height: "380px" }}>
+                    <div className="absolute inset-0 overflow-auto" style={{ scrollbarWidth: "auto", scrollbarColor: "#888 rgba(255,255,255,0.1)" }}>
+                      <table className="w-max min-w-full caption-bottom text-sm">
+                        <thead className="sticky top-0 z-10 bg-[hsl(210,70%,20%)] [&_tr]:border-b">
+                          <tr className="border-b border-white/10 transition-colors">
+                            {columns.map((col) => (
+                              <SortableTh
+                                key={col.key}
+                                label={col.label}
+                                column={col.key}
+                                currentColumn={sort.column}
+                                direction={sort.direction}
+                                onToggle={toggle}
+                                className="text-white/60"
+                              />
+                            ))}
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody className="[&_tr:last-child]:border-0">
+                          {sorted?.map((r) => (
+                            <tr key={r.id} className="border-b border-white/5 transition-colors hover:bg-white/5">
+                              <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.client_name}</td>
+                              <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.firstname} {r.lastname}</td>
+                              <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.theme}</td>
+                              <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.theme_comment}</td>
+                              <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.question}</td>
+                              <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.applicability}</td>
+                              <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.importance}</td>
+                              <td className="p-4 align-middle font-medium whitespace-nowrap text-white">{r.score}</td>
+                              <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.question_comment}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 )}
               </CardContent>

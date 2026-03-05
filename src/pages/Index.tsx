@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Database, BarChart3, Users, FileSpreadsheet } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import DataFilters from "@/components/DataFilters";
 import { useDataFilters } from "@/hooks/useDataFilters";
+import { useTableSort } from "@/hooks/useTableSort";
+import SortableTh from "@/components/SortableTh";
 
 const Index = () => {
   const { t } = useTranslation();
@@ -31,6 +31,7 @@ const Index = () => {
   });
 
   const { filters, onFilterChange, filtered } = useDataFilters(records);
+  const { sorted, sort, toggle } = useTableSort(filtered);
 
   const totalRecords = filtered?.length ?? 0;
   const avgScore = (() => {
@@ -48,6 +49,18 @@ const Index = () => {
   })();
   const uniqueClients = new Set(filtered?.map((r) => r.client_name)).size;
   const uniqueThemes = new Set(filtered?.map((r) => r.theme)).size;
+
+  const columns = [
+    { key: "client_name", label: t("dashboard.client") },
+    { key: "name", label: t("dashboard.name") },
+    { key: "theme", label: t("dashboard.theme") },
+    { key: "theme_comment", label: t("dashboard.themeComment") },
+    { key: "question", label: t("dashboard.question") },
+    { key: "applicability", label: t("dashboard.applicability") },
+    { key: "importance", label: t("dashboard.importance") },
+    { key: "score", label: t("dashboard.score") },
+    { key: "question_comment", label: t("dashboard.questionComment") },
+  ];
 
   return (
     <div className="min-h-screen bg-background p-6">
@@ -93,20 +106,22 @@ const Index = () => {
                 <div className="absolute inset-0 overflow-auto" style={{ scrollbarWidth: "auto", scrollbarColor: "#888 #f1f1f1" }}>
                   <table className="w-max min-w-full caption-bottom text-sm">
                     <thead className="sticky top-0 z-10 bg-background [&_tr]:border-b">
-                      <tr className="border-b transition-colors hover:bg-muted/50">
-                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.client")}</th>
-                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.name")}</th>
-                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.theme")}</th>
-                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.themeComment")}</th>
-                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.question")}</th>
-                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.applicability")}</th>
-                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.importance")}</th>
-                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.score")}</th>
-                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.questionComment")}</th>
+                      <tr className="border-b transition-colors">
+                        {columns.map((col) => (
+                          <SortableTh
+                            key={col.key}
+                            label={col.label}
+                            column={col.key}
+                            currentColumn={sort.column}
+                            direction={sort.direction}
+                            onToggle={toggle}
+                            className="text-muted-foreground"
+                          />
+                        ))}
                       </tr>
                     </thead>
                     <tbody className="[&_tr:last-child]:border-0">
-                      {filtered?.map((r) => (
+                      {sorted?.map((r) => (
                         <tr key={r.id} className="border-b transition-colors hover:bg-muted/50">
                            <td className="p-4 align-middle whitespace-nowrap">{r.client_name}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.firstname} {r.lastname}</td>
