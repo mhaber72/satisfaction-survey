@@ -98,8 +98,15 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
   const prevYear = selectedYear ? String(Number(selectedYear) - 1) : "";
   const prevYearRecords = useMemo(() => {
     if (!records || !prevYear) return [];
-    return records.filter((r) => String(r.survey_year) === prevYear);
-  }, [records, prevYear]);
+    let filtered = records.filter((r) => String(r.survey_year) === prevYear);
+    if (selectedVertical !== "all" && clients) {
+      const verticalClients = new Set(
+        clients.filter((c) => c.vertical_id === selectedVertical).map((c) => c.name)
+      );
+      filtered = filtered.filter((r) => verticalClients.has(r.client_name));
+    }
+    return filtered;
+  }, [records, prevYear, selectedVertical, clients]);
 
   const clientsCurrentYear = useMemo(() => {
     if (!filteredRecords) return 0;
