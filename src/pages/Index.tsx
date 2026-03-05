@@ -5,9 +5,11 @@ import { Database, BarChart3, Users, FileSpreadsheet } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import DataFilters from "@/components/DataFilters";
+import RowDetailDialog from "@/components/RowDetailDialog";
 import { useDataFilters } from "@/hooks/useDataFilters";
 import { useTableSort } from "@/hooks/useTableSort";
 import SortableTh from "@/components/SortableTh";
+import { useState } from "react";
 
 const Index = () => {
   const { t } = useTranslation();
