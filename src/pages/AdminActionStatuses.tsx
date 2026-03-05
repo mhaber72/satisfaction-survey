@@ -157,6 +157,15 @@ const AdminActionStatuses = () => {
                 onChange={(e) => setEditing((prev) => prev ? { ...prev, name: e.target.value } : prev)}
                 placeholder={t("adminLookup.name")}
               />
+              <div className="flex items-center gap-3">
+                <Label>{t("adminStatuses.color")}</Label>
+                <input
+                  type="color"
+                  value={editing?.color ?? "#6b7280"}
+                  onChange={(e) => setEditing((prev) => prev ? { ...prev, color: e.target.value } : prev)}
+                  className="h-8 w-12 cursor-pointer rounded border"
+                />
+              </div>
               {[
                 { key: "requires_start_date" as const, label: t("adminStatuses.startDate") },
                 { key: "requires_end_date" as const, label: t("adminStatuses.endDate") },

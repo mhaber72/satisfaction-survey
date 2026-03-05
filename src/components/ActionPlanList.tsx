@@ -70,7 +70,12 @@ const ActionPlanList = ({
                   {plans.map((plan) => (
                     <tr key={plan.id} className="border-b hover:bg-muted/50">
                       <td className="p-3">{plan.action_name}</td>
-                      <td className="p-3">{(plan.action_statuses as any)?.name ?? "—"}</td>
+                      <td className="p-3">
+                        <span className="flex items-center gap-2">
+                          <span className="inline-block h-3 w-3 rounded-full shrink-0" style={{ backgroundColor: (plan.action_statuses as any)?.color || '#6b7280' }} />
+                          {(plan.action_statuses as any)?.name ?? "—"}
+                        </span>
+                      </td>
                       <td className="p-3">{(plan.contract_managers as any)?.name ?? "—"}</td>
                       <td className="p-3">{fmtDate(plan.start_date)}</td>
                       <td className="p-3">{fmtDate(plan.end_date)}</td>
