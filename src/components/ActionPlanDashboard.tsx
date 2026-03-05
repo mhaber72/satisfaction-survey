@@ -345,7 +345,7 @@ function ThemeStatusChart({ filtered, statuses }: { filtered: any[]; statuses: a
 
   return (
     <ResponsiveContainer width="100%" height={250}>
-      <BarChart data={chartData} layout="horizontal" margin={{ top: 20, right: 30, left: 10, bottom: 60 }}>
+      <BarChart data={chartData} layout="horizontal" margin={{ top: 15, right: 20, left: 5, bottom: 50 }}>
         <XAxis
           dataKey="theme"
           tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 11 }}
