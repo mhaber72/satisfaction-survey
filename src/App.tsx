@@ -44,6 +44,7 @@ const App = () => (
             <Route path="/admin/directories" element={<ProtectedRoute adminOnly><AppLayout><AdminLookupTable tableName="directories" titleKey="nav.directories" /></AppLayout></ProtectedRoute>} />
             <Route path="/admin/action-statuses" element={<ProtectedRoute adminOnly><AppLayout><AdminActionStatuses /></AppLayout></ProtectedRoute>} />
             <Route path="/admin/clients" element={<ProtectedRoute adminOnly><AppLayout><AdminClients /></AppLayout></ProtectedRoute>} />
+            <Route path="/admin/action-responsibles" element={<ProtectedRoute adminOnly><AppLayout><AdminActionResponsibles /></AppLayout></ProtectedRoute>} />
             <Route path="/action-plans" element={<ProtectedRoute><AppLayout><AllActionPlans /></AppLayout></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>

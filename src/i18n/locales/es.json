@@ -227,6 +227,10 @@
     "confirmCancel": "Cancelar",
     "confirmOk": "Confirmar"
   },
+  "adminResponsibles": {
+    "firstName": "Nombre",
+    "lastName": "Apellido"
+  },
   "language": {
     "en": "English",
     "fr": "Français",
