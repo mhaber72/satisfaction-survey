@@ -156,7 +156,7 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
               <table className="w-full text-center">
                 <thead>
                   <tr>
-                    {statuses?.map((s) => (
+                    {statuses?.filter((s) => (statusBreakdown[s.id] || 0) > 0).map((s) => (
                       <th key={s.id} className="px-3 py-1 text-white/80 text-sm font-bold">
                         <span className="flex items-center justify-center gap-1.5">
                           <span className="inline-block h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
@@ -168,7 +168,7 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
                 </thead>
                 <tbody>
                   <tr>
-                    {statuses?.map((s) => {
+                    {statuses?.filter((s) => (statusBreakdown[s.id] || 0) > 0).map((s) => {
                       const count = statusBreakdown[s.id] || 0;
                       const pct = totalActions > 0 ? ((count / totalActions) * 100).toFixed(2) : "0,00";
                       return (
