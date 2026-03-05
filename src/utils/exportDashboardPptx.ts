@@ -159,7 +159,7 @@ export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[
         y: 0.85,
         w: statusBoxW,
         h: 0.8,
-        fill: { color: "1e3a5f" },
+         fill: { color: "e8eef5" },
         line: { color: hexFromCss(s.color), width: 1.5 },
         rectRadius: 0.05,
       });
