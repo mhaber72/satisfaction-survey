@@ -375,14 +375,14 @@ export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[
     });
 
     const headers = [
-      { text: "Ano", options: { bold: true, fontSize: 7, color: TEXT_COLOR, fill: { color: HEADER_BG }, align: "center" as const } },
-      { text: "Tema", options: { bold: true, fontSize: 7, color: TEXT_COLOR, fill: { color: HEADER_BG } } },
-      { text: "Ação", options: { bold: true, fontSize: 7, color: TEXT_COLOR, fill: { color: HEADER_BG } } },
-      { text: "Status", options: { bold: true, fontSize: 7, color: TEXT_COLOR, fill: { color: HEADER_BG } } },
-      { text: "Gestor", options: { bold: true, fontSize: 7, color: TEXT_COLOR, fill: { color: HEADER_BG } } },
-      { text: "Início", options: { bold: true, fontSize: 7, color: TEXT_COLOR, fill: { color: HEADER_BG }, align: "center" as const } },
-      { text: "Fim", options: { bold: true, fontSize: 7, color: TEXT_COLOR, fill: { color: HEADER_BG }, align: "center" as const } },
-      { text: "Conclusão", options: { bold: true, fontSize: 7, color: TEXT_COLOR, fill: { color: HEADER_BG }, align: "center" as const } },
+      { text: "Ano", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG }, align: "center" as const } },
+      { text: "Tema", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG } } },
+      { text: "Ação", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG } } },
+      { text: "Status", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG } } },
+      { text: "Gestor", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG } } },
+      { text: "Início", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG }, align: "center" as const } },
+      { text: "Fim", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG }, align: "center" as const } },
+      { text: "Conclusão", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG }, align: "center" as const } },
     ];
 
     const rows: any[][] = [headers];
