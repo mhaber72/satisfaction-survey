@@ -145,7 +145,7 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
     <div className="space-y-6">
       <Card className="border-white/10 bg-white/5 backdrop-blur-md">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-white text-lg">NPS Score by Client</CardTitle>
+          <CardTitle className="text-white text-lg">{t("corporatePerception.npsTitle")}</CardTitle>
           <Select value={selectedYear} onValueChange={setSelectedYear}>
             <SelectTrigger className="w-[130px] border-white/20 bg-white/10 text-white">
               <SelectValue placeholder={t("dashboard.year")} />
