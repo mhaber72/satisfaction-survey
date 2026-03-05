@@ -408,7 +408,7 @@ export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[
 
     if (sortedPlans.length > maxRows) {
       rows.push([
-        { text: `... +${sortedPlans.length - maxRows} ações`, options: { fontSize: 7, color: MUTED_COLOR, fill: { color: "0f2847" }, colSpan: 8 } },
+        { text: `... +${sortedPlans.length - maxRows} ações`, options: { fontSize: 7, color: MUTED_COLOR, fill: { color: "f0f4f8" }, colSpan: 8 } },
       ]);
     }
 
