@@ -89,38 +89,42 @@ const Index = () => {
                 <p>{t("dashboard.noData")}</p>
               </div>
             ) : (
-              <div style={{ maxHeight: "380px", overflowY: "scroll", overflowX: "auto" }} className="scrollbar-always">
-                <table className="w-max min-w-full caption-bottom text-sm">
-                  <thead className="sticky top-0 z-10 bg-background [&_tr]:border-b">
-                    <tr className="border-b transition-colors hover:bg-muted/50">
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.client")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.name")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.theme")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.themeComment")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.question")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.applicability")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.importance")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.score")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.questionComment")}</th>
-                    </tr>
-                  </thead>
-                  <tbody className="[&_tr:last-child]:border-0">
-                    {filtered?.map((r) => (
-                      <tr key={r.id} className="border-b transition-colors hover:bg-muted/50">
-                         <td className="p-4 align-middle whitespace-nowrap">{r.client_name}</td>
-                         <td className="p-4 align-middle whitespace-nowrap">{r.firstname} {r.lastname}</td>
-                         <td className="p-4 align-middle whitespace-nowrap">{r.theme}</td>
-                         <td className="p-4 align-middle whitespace-nowrap">{r.theme_comment}</td>
-                         <td className="p-4 align-middle whitespace-nowrap">{r.question}</td>
-                         <td className="p-4 align-middle whitespace-nowrap">{r.applicability}</td>
-                         <td className="p-4 align-middle whitespace-nowrap">{r.importance}</td>
-                         <td className="p-4 align-middle whitespace-nowrap">{r.score}</td>
-                         <td className="p-4 align-middle whitespace-nowrap">{r.question_comment}</td>
+              <ScrollArea className="h-[380px] w-full">
+                <div className="min-w-max">
+                  <table className="w-max min-w-full caption-bottom text-sm">
+                    <thead className="sticky top-0 z-10 bg-background [&_tr]:border-b">
+                      <tr className="border-b transition-colors hover:bg-muted/50">
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.client")}</th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.name")}</th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.theme")}</th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.themeComment")}</th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.question")}</th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.applicability")}</th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.importance")}</th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.score")}</th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.questionComment")}</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody className="[&_tr:last-child]:border-0">
+                      {filtered?.map((r) => (
+                        <tr key={r.id} className="border-b transition-colors hover:bg-muted/50">
+                           <td className="p-4 align-middle whitespace-nowrap">{r.client_name}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.firstname} {r.lastname}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.theme}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.theme_comment}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.question}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.applicability}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.importance}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.score}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.question_comment}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <ScrollBar orientation="vertical" />
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
             )}
           </CardContent>
         </Card>
