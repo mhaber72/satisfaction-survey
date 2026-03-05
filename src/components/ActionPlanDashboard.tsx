@@ -427,10 +427,10 @@ function ClientStatusChart({ filtered, statuses }: { filtered: any[]; statuses: 
       <BarChart data={chartData} layout="horizontal" margin={{ top: 25, right: 20, left: 5, bottom: 60 }}>
         <XAxis
           dataKey="client"
-          tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 10 }}
+          tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 8 }}
           angle={-35}
           textAnchor="end"
-          height={100}
+          height={70}
           interval={0}
         />
         <YAxis tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 12 }} allowDecimals={false} />
