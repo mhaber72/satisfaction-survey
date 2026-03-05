@@ -393,7 +393,7 @@ export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[
     for (let i = 0; i < maxRows; i++) {
       const p = sortedPlans[i];
       const statusColor = hexFromCss((p.action_statuses as any)?.color || "#6b7280");
-      const rowBg = i % 2 === 0 ? "0f2847" : "122d4f";
+      const rowBg = i % 2 === 0 ? "f0f4f8" : "e2e8f0";
       rows.push([
         { text: String(p.survey_year ?? "—"), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg }, align: "center" } },
         { text: (p.theme || "—").substring(0, 30), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg } } },
