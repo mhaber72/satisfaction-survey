@@ -368,9 +368,9 @@ function ClientStatusChart({ filtered, statuses }: { filtered: any[]; statuses: 
             return <span style={{ color: "rgba(255,255,255,0.8)" }}>{status?.name || value}</span>;
           }}
         />
-        {activeStatuses.map((s) => (
-          <Bar key={s.id} dataKey={s.id} name={s.id} fill={s.color} radius={[4, 4, 0, 0]}>
-            <LabelList dataKey={s.id} position="top" fill="rgba(255,255,255,0.9)" fontSize={11} formatter={(v: number) => v > 0 ? v : ""} />
+        {activeStatuses.map((s, i) => (
+          <Bar key={s.id} dataKey={s.id} name={s.id} fill={s.color} stackId="stack" radius={i === activeStatuses.length - 1 ? [4, 4, 0, 0] : [0, 0, 0, 0]}>
+            <LabelList dataKey={s.id} position="inside" fill="white" fontSize={10} formatter={(v: number) => v > 0 ? v : ""} />
           </Bar>
         ))}
       </BarChart>
