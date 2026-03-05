@@ -5,12 +5,15 @@ import { Database, BarChart3, Users, FileSpreadsheet } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import DataFilters from "@/components/DataFilters";
+import RowDetailDialog from "@/components/RowDetailDialog";
 import { useDataFilters } from "@/hooks/useDataFilters";
 import { useTableSort } from "@/hooks/useTableSort";
 import SortableTh from "@/components/SortableTh";
+import { useState } from "react";
 
 const Index = () => {
   const { t } = useTranslation();
+  const [selectedRow, setSelectedRow] = useState<any>(null);
 
   const { data: records, isLoading } = useQuery({
     queryKey: ["pesquisa"],
@@ -122,7 +125,7 @@ const Index = () => {
                     </thead>
                     <tbody className="[&_tr:last-child]:border-0">
                       {sorted?.map((r) => (
-                        <tr key={r.id} className="border-b transition-colors hover:bg-muted/50">
+                        <tr key={r.id} className="border-b transition-colors hover:bg-muted/50 cursor-pointer" onClick={() => setSelectedRow(r)}>
                            <td className="p-4 align-middle whitespace-nowrap">{r.client_name}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.firstname} {r.lastname}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.theme}</td>
@@ -142,6 +145,7 @@ const Index = () => {
           </CardContent>
         </Card>
       </div>
+      <RowDetailDialog row={selectedRow} open={!!selectedRow} onOpenChange={(open) => !open && setSelectedRow(null)} />
     </div>
   );
 };
