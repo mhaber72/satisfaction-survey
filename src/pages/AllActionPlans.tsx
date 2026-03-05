@@ -178,6 +178,7 @@ const AllActionPlans = () => {
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.theme")}</th>
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.actionName")}</th>
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.status")}</th>
+                <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.responsible")}</th>
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.startDate")}</th>
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.endDate")}</th>
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.newEndDate")}</th>
