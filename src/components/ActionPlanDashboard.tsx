@@ -423,8 +423,8 @@ function ClientStatusChart({ filtered, statuses }: { filtered: any[]; statuses: 
   };
 
   return (
-    <ResponsiveContainer width="100%" height={Math.max(300, chartData.length * 50)}>
-      <BarChart data={chartData} layout="horizontal" margin={{ top: 30, right: 30, left: 10, bottom: 80 }}>
+    <ResponsiveContainer width="100%" height={250}>
+      <BarChart data={chartData} layout="horizontal" margin={{ top: 25, right: 20, left: 5, bottom: 60 }}>
         <XAxis
           dataKey="client"
           tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 10 }}
