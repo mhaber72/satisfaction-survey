@@ -144,7 +144,19 @@
     "all": "Tous"
   },
   "corporatePerception": {
-    "wouldHireQuestion": "Engageriez-vous ID pour un nouveau service ou une nouvelle opération ?"
+    "npsTitle": "Score NPS par Client",
+    "noData": "Aucune donnée disponible",
+    "clients": "clients",
+    "answers": "réponses",
+    "inYear": "en {{year}}",
+    "wouldHireQuestion": "Engageriez-vous ID pour un nouveau service ou une nouvelle opération ?",
+    "yes": "OUI",
+    "no": "NON",
+    "clickDetails": "Cliquez pour voir les détails",
+    "noClientsTitle": "Clients ayant répondu \"Non\" ({{year}})",
+    "client": "Client",
+    "count": "Nombre",
+    "loading": "Chargement..."
   },
   "language": {
     "en": "English",

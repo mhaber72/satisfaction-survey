@@ -244,13 +244,13 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
       <Dialog open={showNoClients} onOpenChange={setShowNoClients}>
         <DialogContent className="border-white/10 bg-[hsl(210,70%,15%)] text-white max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-white">Clients who answered "No" ({selectedYear})</DialogTitle>
+            <DialogTitle className="text-white">{t("corporatePerception.noClientsTitle", { year: selectedYear })}</DialogTitle>
           </DialogHeader>
           <Table>
             <TableHeader>
               <TableRow className="border-white/10">
-                <TableHead className="text-white/60">Client</TableHead>
-                <TableHead className="text-white/60 text-right">Count</TableHead>
+                <TableHead className="text-white/60">{t("corporatePerception.client")}</TableHead>
+                <TableHead className="text-white/60 text-right">{t("corporatePerception.count")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

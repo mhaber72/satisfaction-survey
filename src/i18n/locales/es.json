@@ -144,7 +144,19 @@
     "all": "Todos"
   },
   "corporatePerception": {
-    "wouldHireQuestion": "¿Contrataría a ID para un nuevo servicio u operación?"
+    "npsTitle": "NPS por Cliente",
+    "noData": "Sin datos disponibles",
+    "clients": "clientes",
+    "answers": "respuestas",
+    "inYear": "en {{year}}",
+    "wouldHireQuestion": "¿Contrataría a ID para un nuevo servicio u operación?",
+    "yes": "SÍ",
+    "no": "NO",
+    "clickDetails": "Clic para ver detalles",
+    "noClientsTitle": "Clientes que respondieron \"No\" ({{year}})",
+    "client": "Cliente",
+    "count": "Cantidad",
+    "loading": "Cargando..."
   },
   "language": {
     "en": "English",
