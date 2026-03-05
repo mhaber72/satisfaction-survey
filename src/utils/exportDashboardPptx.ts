@@ -540,7 +540,10 @@ function addContentSlide(pptx: PptxGenJS, clientName: string, clientPlans: Actio
       { text: (p.client_name || "—").substring(0, 20), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg } } },
       { text: (p.theme || "—").substring(0, 25), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg } } },
       { text: (p.action_name || "—").substring(0, 35), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg } } },
-      { text: (p.action_statuses as any)?.name || "—", options: { fontSize: 7, color: statusColor, bold: true, fill: { color: rowBg } } },
+      { text: [
+        { text: "● ", options: { fontSize: 7, color: statusColor, bold: true } },
+        { text: (p.action_statuses as any)?.name || "—", options: { fontSize: 7, color: TEXT_COLOR, bold: false } },
+      ], options: { fill: { color: rowBg } } },
       { text: responsible.substring(0, 20), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg } } },
       { text: fmtDate(p.start_date), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg }, align: "center" } },
       { text: fmtDate(p.end_date), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg }, align: "center" } },
