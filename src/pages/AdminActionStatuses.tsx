@@ -95,6 +95,7 @@ const AdminActionStatuses = () => {
                   <thead>
                     <tr className="border-b">
                       <th className="p-4 text-left font-medium text-muted-foreground">{t("adminLookup.name")}</th>
+                      <th className="p-4 text-center font-medium text-muted-foreground">{t("adminStatuses.color")}</th>
                       <th className="p-4 text-center font-medium text-muted-foreground">{t("adminStatuses.startDate")}</th>
                       <th className="p-4 text-center font-medium text-muted-foreground">{t("adminStatuses.endDate")}</th>
                       <th className="p-4 text-center font-medium text-muted-foreground">{t("adminStatuses.newEndDate")}</th>
