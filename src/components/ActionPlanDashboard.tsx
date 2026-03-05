@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useTranslation } from "react-i18next";
 import { BarChart, Bar, XAxis, YAxis, Legend, ResponsiveContainer, LabelList, PieChart, Pie, Cell } from "recharts";
 import { FileSliders } from "lucide-react";
@@ -22,6 +23,8 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
   const [filterClient, setFilterClient] = useState<string>("all");
   const [filterTheme, setFilterTheme] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [showExportDialog, setShowExportDialog] = useState(false);
+  const [selectedExportClients, setSelectedExportClients] = useState<string[]>([]);
 
   const years = useMemo(() => {
     if (!plans) return [];
@@ -110,18 +113,78 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
             variant="outline"
             size="sm"
             className="border-orange-400/50 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 gap-2"
-            onClick={async () => {
-              if (plans?.length) {
-                toast.info("Gerando PowerPoint...");
-                await exportDashboardPptx(plans, statuses || []);
-                toast.success(t("actionPlan.pptxExported", "PowerPoint exportado com sucesso!"));
-              }
+            onClick={() => {
+              setSelectedExportClients([...clients]);
+              setShowExportDialog(true);
             }}
           >
             <FileSliders className="h-4 w-4" />
             PPTX
           </Button>
         </DialogHeader>
+
+        {/* Export Client Selection Dialog */}
+        <Dialog open={showExportDialog} onOpenChange={setShowExportDialog}>
+          <DialogContent className="border-white/10 bg-[hsl(210,70%,12%)] text-white max-w-md max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-white text-lg">Selecionar Clientes para Exportar</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-2 mt-2">
+              <div className="flex items-center gap-2 pb-2 border-b border-white/10">
+                <Checkbox
+                  id="select-all"
+                  checked={selectedExportClients.length === clients.length}
+                  onCheckedChange={(checked) => {
+                    setSelectedExportClients(checked ? [...clients] : []);
+                  }}
+                  className="border-white/30 data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500"
+                />
+                <label htmlFor="select-all" className="text-sm font-semibold cursor-pointer">
+                  Selecionar Todos ({clients.length})
+                </label>
+              </div>
+              {clients.map((c) => (
+                <div key={c} className="flex items-center gap-2">
+                  <Checkbox
+                    id={`export-${c}`}
+                    checked={selectedExportClients.includes(c)}
+                    onCheckedChange={(checked) => {
+                      setSelectedExportClients((prev) =>
+                        checked ? [...prev, c] : prev.filter((x) => x !== c)
+                      );
+                    }}
+                    className="border-white/30 data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500"
+                  />
+                  <label htmlFor={`export-${c}`} className="text-sm cursor-pointer">{c}</label>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-end gap-2 mt-4">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-white/20 text-white hover:bg-white/10"
+                onClick={() => setShowExportDialog(false)}
+              >
+                Cancelar
+              </Button>
+              <Button
+                size="sm"
+                className="bg-orange-500 hover:bg-orange-600 text-white gap-2"
+                disabled={selectedExportClients.length === 0}
+                onClick={async () => {
+                  setShowExportDialog(false);
+                  toast.info(`Gerando ${selectedExportClients.length} arquivo(s) PowerPoint...`);
+                  await exportDashboardPptx(plans || [], statuses || [], selectedExportClients);
+                  toast.success(`${selectedExportClients.length} arquivo(s) exportado(s) com sucesso!`);
+                }}
+              >
+                <FileSliders className="h-4 w-4" />
+                Exportar ({selectedExportClients.length})
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
 
         {/* Filters */}
         <div className="flex flex-wrap gap-2 mb-3">
