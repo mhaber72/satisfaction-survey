@@ -48,6 +48,11 @@ const AllActionPlans = () => {
   const years = [...new Set(plans?.map((p) => p.survey_year).filter(Boolean))].sort((a, b) => (b ?? 0) - (a ?? 0));
   const clients = [...new Set(plans?.map((p) => p.client_name).filter(Boolean) as string[])].sort();
   const statusOptions = statuses?.map((s) => s.name) || [];
+  const themes = [...new Set(plans?.map((p) => p.theme).filter(Boolean) as string[])].sort();
+  const responsibles = [...new Set(plans?.map((p) => {
+    const r = p.action_responsibles as any;
+    return r ? `${r.first_name} ${r.last_name}` : null;
+  }).filter(Boolean) as string[])].sort();
 
   const filtered = plans?.filter((p) => {
     if (selectedStatuses.length > 0) {
