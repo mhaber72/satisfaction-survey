@@ -1,5 +1,6 @@
 import PptxGenJS from "pptxgenjs";
 import { format } from "date-fns";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ActionPlan {
   id: string;
