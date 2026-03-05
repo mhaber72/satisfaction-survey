@@ -61,6 +61,12 @@ const AllActionPlans = () => {
     }
     if (selectedYears.length > 0 && !selectedYears.includes(String(p.survey_year))) return false;
     if (selectedClients.length > 0 && (!p.client_name || !selectedClients.includes(p.client_name))) return false;
+    if (selectedThemes.length > 0 && (!p.theme || !selectedThemes.includes(p.theme))) return false;
+    if (selectedResponsibles.length > 0) {
+      const r = p.action_responsibles as any;
+      const rName = r ? `${r.first_name} ${r.last_name}` : null;
+      if (!rName || !selectedResponsibles.includes(rName)) return false;
+    }
     if (searchText) {
       const s = searchText.toLowerCase();
       const match =
