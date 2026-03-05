@@ -189,7 +189,8 @@
     "endDate": "Data Fim",
     "newEndDate": "Novo Fim",
     "completionDate": "Data Conclusão",
-    "required": "obrigatório"
+    "required": "obrigatório",
+    "color": "Cor"
   },
   "actionPlan": {
     "createTitle": "Criar Plano de Ação",
