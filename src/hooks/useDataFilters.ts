@@ -1,9 +1,28 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 
 export function useDataFilters(records: any[] | undefined, pesquisaIdsWithPlans?: Set<number>) {
   const [filters, setFilters] = useState<Record<string, string[]>>({});
   const { allowedThemes, isAdmin } = useAuth();
+
+  const { data: clientsWithVertical } = useQuery({
+    queryKey: ["clients-verticals"],
+    queryFn: async () => {
+      const { data } = await supabase.from("clients").select("name, vertical_id");
+      return data || [];
+    },
+  });
+
+  const verticalClientNames = useMemo(() => {
+    if (!filters.vertical?.length || !clientsWithVertical) return null;
+    return new Set(
+      clientsWithVertical
+        .filter((c) => filters.vertical.includes(c.vertical_id!))
+        .map((c) => c.name)
+    );
+  }, [filters.vertical, clientsWithVertical]);
 
   // Auto-select the most recent year when records load
   useEffect(() => {
