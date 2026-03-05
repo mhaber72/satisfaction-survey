@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -44,6 +46,23 @@ function computeNPSByClient(records: any[] | undefined) {
 export default function CorporatePerceptionCharts({ records, isLoading }: Props) {
   const { t } = useTranslation();
   const [showNoClients, setShowNoClients] = useState(false);
+  const [selectedVertical, setSelectedVertical] = useState<string>("all");
+
+  const { data: verticals } = useQuery({
+    queryKey: ["verticals"],
+    queryFn: async () => {
+      const { data } = await supabase.from("verticals").select("*").order("name");
+      return data || [];
+    },
+  });
+
+  const { data: clients } = useQuery({
+    queryKey: ["clients-verticals"],
+    queryFn: async () => {
+      const { data } = await supabase.from("clients").select("name, vertical_id");
+      return data || [];
+    },
+  });
 
   const availableYears = useMemo(() => {
     if (!records) return [];
@@ -60,18 +79,34 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
     }
   }, [availableYears]);
 
-  const filteredRecords = useMemo(() => {
+  // Filter by year first, then by vertical
+  const yearFilteredRecords = useMemo(() => {
     if (!records || !selectedYear) return records;
     return records.filter((r) => String(r.survey_year) === selectedYear);
   }, [records, selectedYear]);
+
+  const filteredRecords = useMemo(() => {
+    if (!yearFilteredRecords || selectedVertical === "all" || !clients) return yearFilteredRecords;
+    const verticalClients = new Set(
+      clients.filter((c) => c.vertical_id === selectedVertical).map((c) => c.name)
+    );
+    return yearFilteredRecords.filter((r) => verticalClients.has(r.client_name));
+  }, [yearFilteredRecords, selectedVertical, clients]);
 
   const npsData = useMemo(() => computeNPSByClient(filteredRecords), [filteredRecords]);
 
   const prevYear = selectedYear ? String(Number(selectedYear) - 1) : "";
   const prevYearRecords = useMemo(() => {
     if (!records || !prevYear) return [];
-    return records.filter((r) => String(r.survey_year) === prevYear);
-  }, [records, prevYear]);
+    let filtered = records.filter((r) => String(r.survey_year) === prevYear);
+    if (selectedVertical !== "all" && clients) {
+      const verticalClients = new Set(
+        clients.filter((c) => c.vertical_id === selectedVertical).map((c) => c.name)
+      );
+      filtered = filtered.filter((r) => verticalClients.has(r.client_name));
+    }
+    return filtered;
+  }, [records, prevYear, selectedVertical, clients]);
 
   const clientsCurrentYear = useMemo(() => {
     if (!filteredRecords) return 0;
@@ -146,16 +181,29 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
       <Card className="border-white/10 bg-white/5 backdrop-blur-md">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-white text-lg">{t("corporatePerception.npsTitle")}</CardTitle>
-          <Select value={selectedYear} onValueChange={setSelectedYear}>
-            <SelectTrigger className="w-[130px] border-white/20 bg-white/10 text-white">
-              <SelectValue placeholder={t("dashboard.year")} />
-            </SelectTrigger>
-            <SelectContent className="border-white/20 bg-[hsl(215,85%,12%)]">
-              {availableYears.map((y) => (
-                <SelectItem key={y} value={String(y)} className="text-white">{y}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex items-center gap-3">
+            <Select value={selectedVertical} onValueChange={setSelectedVertical}>
+              <SelectTrigger className="w-[180px] border-white/20 bg-white/10 text-white">
+                <SelectValue placeholder="Vertical" />
+              </SelectTrigger>
+              <SelectContent className="border-white/20 bg-[hsl(215,85%,12%)]">
+                <SelectItem value="all" className="text-white">{t("filters.all", "Todas")}</SelectItem>
+                {verticals?.map((v) => (
+                  <SelectItem key={v.id} value={v.id} className="text-white">{v.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={selectedYear} onValueChange={setSelectedYear}>
+              <SelectTrigger className="w-[130px] border-white/20 bg-white/10 text-white">
+                <SelectValue placeholder={t("dashboard.year")} />
+              </SelectTrigger>
+              <SelectContent className="border-white/20 bg-[hsl(215,85%,12%)]">
+                {availableYears.map((y) => (
+                  <SelectItem key={y} value={String(y)} className="text-white">{y}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </CardHeader>
         <CardContent>
           {!npsData.length ? (
