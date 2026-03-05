@@ -316,7 +316,7 @@ function NPSBar({ client, nps, maxAbs }: { client: string; nps: number; maxAbs: 
 }
 
 function GlobalNPSGauge({ records, prevRecords, prevYear, selectedYear }: { records: any[] | undefined; prevRecords: any[]; prevYear: string; selectedYear: string }) {
-  const stats = useMemo(() => computeGlobalNPS(records), [records]);
+  const { t } = useTranslation();
   const prevStats = useMemo(() => computeGlobalNPS(prevRecords), [prevRecords]);
 
   const total = stats.promoters + stats.passives + stats.detractors;
