@@ -148,7 +148,7 @@ const ThemeDetail = () => {
                         </thead>
                         <tbody className="[&_tr:last-child]:border-0">
                           {sorted?.map((r) => (
-                            <tr key={r.id} className="border-b border-white/5 transition-colors hover:bg-white/5">
+                            <tr key={r.id} className="border-b border-white/5 transition-colors hover:bg-white/5 cursor-pointer" onClick={() => setSelectedRow(r)}>
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.client_name}</td>
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.firstname} {r.lastname}</td>
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.theme}</td>
