@@ -89,8 +89,8 @@ const Index = () => {
                 <p>{t("dashboard.noData")}</p>
               </div>
             ) : (
-              <ScrollArea className="h-[380px] w-full" type="always">
-                <div className="min-w-max">
+              <div className="relative border rounded-md" style={{ height: "380px" }}>
+                <div className="absolute inset-0 overflow-auto" style={{ scrollbarWidth: "auto", scrollbarColor: "#888 #f1f1f1" }}>
                   <table className="w-max min-w-full caption-bottom text-sm">
                     <thead className="sticky top-0 z-10 bg-background [&_tr]:border-b">
                       <tr className="border-b transition-colors hover:bg-muted/50">
@@ -122,9 +122,7 @@ const Index = () => {
                     </tbody>
                   </table>
                 </div>
-                <ScrollBar orientation="vertical" className="bg-muted" forceMount />
-                <ScrollBar orientation="horizontal" className="bg-muted" forceMount />
-              </ScrollArea>
+              </div>
             )}
           </CardContent>
         </Card>
