@@ -89,7 +89,7 @@ const Index = () => {
           </div>
         </div>
 
-        <DataFilters records={records} filters={filters} onFilterChange={onFilterChange} showTheme />
+        <DataFilters records={records} filters={filters} onFilterChange={onFilterChange} showTheme showActionPlanFilter />
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
