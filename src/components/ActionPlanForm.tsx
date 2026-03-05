@@ -285,6 +285,20 @@ const ActionPlanForm = ({
           </div>
 
           <div>
+            <Label>{t("actionPlan.responsible")}</Label>
+            <Select value={form.responsible_id} onValueChange={(v) => setForm((p) => ({ ...p, responsible_id: v }))}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {responsibles?.map((r) => (
+                  <SelectItem key={r.id} value={r.id}>
+                    {r.first_name} {r.last_name} — {(r.directories as any)?.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
             <Label>{t("actionPlan.actionName")} *</Label>
             <Input maxLength={100} value={form.action_name} onChange={(e) => setForm((p) => ({ ...p, action_name: e.target.value }))}
               disabled={!!existingPlan && false} />
