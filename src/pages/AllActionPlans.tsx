@@ -5,9 +5,10 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Pencil, Search } from "lucide-react";
+import { Pencil, Search, BarChart3 } from "lucide-react";
 import { format } from "date-fns";
 import ActionPlanForm from "@/components/ActionPlanForm";
+import ActionPlanDashboard from "@/components/ActionPlanDashboard";
 
 const AllActionPlans = () => {
   const { t } = useTranslation();
