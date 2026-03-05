@@ -466,12 +466,12 @@ function StatusDonutChart({ data, total }: { data: { name: string; value: number
   }
 
   const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, value, percent }: any) => {
-    const radius = outerRadius + 25;
+    const radius = outerRadius + 20;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
     const pct = (percent * 100).toFixed(2);
     return (
-      <text x={x} y={y} fill="rgba(255,255,255,0.9)" textAnchor={x > cx ? "start" : "end"} dominantBaseline="central" fontSize={12} fontWeight="bold">
+      <text x={x} y={y} fill="rgba(255,255,255,0.9)" textAnchor={x > cx ? "start" : "end"} dominantBaseline="central" fontSize={10} fontWeight="bold">
         {value} ({pct}%)
       </text>
     );
