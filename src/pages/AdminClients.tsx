@@ -99,7 +99,7 @@ const AdminClients = () => {
       <div className="mx-auto max-w-3xl space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold text-foreground">{t("nav.clients", "Clientes")}</h1>
-          <Button onClick={() => setEditing({ name: "", logo_url: null })}>
+          <Button onClick={() => setEditing({ name: "", logo_url: null, vertical_id: null })}>
             <Plus className="mr-2 h-4 w-4" /> {t("adminLookup.new")}
           </Button>
         </div>
