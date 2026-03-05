@@ -189,7 +189,8 @@
     "endDate": "End Date",
     "newEndDate": "New End Date",
     "completionDate": "Completion Date",
-    "required": "required"
+    "required": "required",
+    "color": "Color"
   },
   "actionPlan": {
     "createTitle": "Create Action Plan",

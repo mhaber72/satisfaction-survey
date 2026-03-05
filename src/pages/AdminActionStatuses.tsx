@@ -14,13 +14,14 @@ import { toast } from "@/hooks/use-toast";
 interface StatusForm {
   id?: string;
   name: string;
+  color: string;
   requires_start_date: boolean;
   requires_end_date: boolean;
   requires_new_end_date: boolean;
   requires_completion_date: boolean;
 }
 
-const EMPTY: StatusForm = { name: "", requires_start_date: false, requires_end_date: false, requires_new_end_date: false, requires_completion_date: false };
+const EMPTY: StatusForm = { name: "", color: "#6b7280", requires_start_date: false, requires_end_date: false, requires_new_end_date: false, requires_completion_date: false };
 
 const AdminActionStatuses = () => {
   const { t } = useTranslation();
@@ -40,6 +41,7 @@ const AdminActionStatuses = () => {
     mutationFn: async (item: StatusForm) => {
       const payload = {
         name: item.name,
+        color: item.color,
         requires_start_date: item.requires_start_date,
         requires_end_date: item.requires_end_date,
         requires_new_end_date: item.requires_new_end_date,
@@ -93,6 +95,7 @@ const AdminActionStatuses = () => {
                   <thead>
                     <tr className="border-b">
                       <th className="p-4 text-left font-medium text-muted-foreground">{t("adminLookup.name")}</th>
+                      <th className="p-4 text-center font-medium text-muted-foreground">{t("adminStatuses.color")}</th>
                       <th className="p-4 text-center font-medium text-muted-foreground">{t("adminStatuses.startDate")}</th>
                       <th className="p-4 text-center font-medium text-muted-foreground">{t("adminStatuses.endDate")}</th>
                       <th className="p-4 text-center font-medium text-muted-foreground">{t("adminStatuses.newEndDate")}</th>
@@ -103,7 +106,15 @@ const AdminActionStatuses = () => {
                   <tbody>
                     {items?.map((item) => (
                       <tr key={item.id} className="border-b hover:bg-muted/50">
-                        <td className="p-4">{item.name}</td>
+                        <td className="p-4">
+                          <span className="flex items-center gap-2">
+                            <span className="inline-block h-3 w-3 rounded-full shrink-0" style={{ backgroundColor: item.color || '#6b7280' }} />
+                            {item.name}
+                          </span>
+                        </td>
+                        <td className="p-4 text-center">
+                          <span className="inline-block h-5 w-5 rounded-full border" style={{ backgroundColor: item.color || '#6b7280' }} />
+                        </td>
                         <td className="p-4 text-center">{boolLabel(item.requires_start_date)}</td>
                         <td className="p-4 text-center">{boolLabel(item.requires_end_date)}</td>
                         <td className="p-4 text-center">{boolLabel(item.requires_new_end_date)}</td>
@@ -112,6 +123,7 @@ const AdminActionStatuses = () => {
                           <Button size="icon" variant="ghost" onClick={() => setEditing({
                             id: item.id,
                             name: item.name,
+                            color: item.color || '#6b7280',
                             requires_start_date: item.requires_start_date,
                             requires_end_date: item.requires_end_date,
                             requires_new_end_date: item.requires_new_end_date,
@@ -145,6 +157,15 @@ const AdminActionStatuses = () => {
                 onChange={(e) => setEditing((prev) => prev ? { ...prev, name: e.target.value } : prev)}
                 placeholder={t("adminLookup.name")}
               />
+              <div className="flex items-center gap-3">
+                <Label>{t("adminStatuses.color")}</Label>
+                <input
+                  type="color"
+                  value={editing?.color ?? "#6b7280"}
+                  onChange={(e) => setEditing((prev) => prev ? { ...prev, color: e.target.value } : prev)}
+                  className="h-8 w-12 cursor-pointer rounded border"
+                />
+              </div>
               {[
                 { key: "requires_start_date" as const, label: t("adminStatuses.startDate") },
                 { key: "requires_end_date" as const, label: t("adminStatuses.endDate") },
