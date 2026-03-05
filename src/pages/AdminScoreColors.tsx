@@ -91,19 +91,12 @@ const AdminScoreColors = () => {
                   <span className="text-lg font-bold text-white min-w-[3rem] text-center">
                     {Number(sc.score) % 1 === 0 ? sc.score : Number(sc.score).toFixed(1)}
                   </span>
-                  <div className="flex items-center gap-2 flex-1">
-                    <input
-                      type="color"
-                      value={colors[sc.id] || sc.color}
-                      onChange={(e) => setColors((prev) => ({ ...prev, [sc.id]: e.target.value }))}
-                      className="h-10 w-10 cursor-pointer rounded border border-white/20 bg-transparent"
-                    />
-                    <Input
-                      value={colors[sc.id] || sc.color}
-                      onChange={(e) => setColors((prev) => ({ ...prev, [sc.id]: e.target.value }))}
-                      className="font-mono text-sm bg-white/5 border-white/10 text-white"
-                    />
-                  </div>
+                  <input
+                    type="color"
+                    value={colors[sc.id] || sc.color}
+                    onChange={(e) => setColors((prev) => ({ ...prev, [sc.id]: e.target.value }))}
+                    className="h-10 w-14 cursor-pointer rounded border border-white/20 bg-transparent"
+                  />
                   <span
                     className="w-6 h-6 rounded-full border border-white/20 flex-shrink-0"
                     style={{ backgroundColor: colors[sc.id] || sc.color }}
