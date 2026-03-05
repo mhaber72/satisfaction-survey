@@ -117,8 +117,8 @@ export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[
       y: 0.85,
       w: 1.2,
       h: 0.8,
-      fill: { color: "1e3a5f" },
-      line: { color: "3b5998", width: 1 },
+       fill: { color: "e8eef5" },
+      line: { color: "a0b4cc", width: 1 },
       rectRadius: 0.05,
     });
     slide.addText("PROJETOS", {
