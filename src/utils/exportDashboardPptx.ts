@@ -208,13 +208,13 @@ export function exportDashboardPptx(plans: ActionPlan[], statuses: Status[]) {
       });
     });
 
-    // --- Donut charts (simulated as pie charts) ---
-    // Status Projeto donut
-    const statusChartData = activeStatuses.map((s) => ({
-      name: s.name,
-      labels: [s.name],
-      values: [statusBreakdown[s.id] || 0],
-    }));
+    // --- Donut charts ---
+    // Status Projeto donut - single series with all segments
+    const statusChartData = [{
+      name: "Status Projeto",
+      labels: activeStatuses.map((s) => s.name),
+      values: activeStatuses.map((s) => statusBreakdown[s.id] || 0),
+    }];
 
     if (statusChartData.length > 0) {
       slide.addText("STATUS PROJETO", {
@@ -260,11 +260,11 @@ export function exportDashboardPptx(plans: ActionPlan[], statuses: Status[]) {
         align: "center",
       });
 
-      const compChartData = compChartLabels.map((c) => ({
-        name: c.label,
-        labels: [c.label],
-        values: [c.value],
-      }));
+      const compChartData = [{
+        name: "Status Conclusão",
+        labels: compChartLabels.map((c) => c.label),
+        values: compChartLabels.map((c) => c.value),
+      }];
 
       slide.addChart(pptx.ChartType.doughnut, compChartData, {
         x: 5.3,
