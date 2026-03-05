@@ -29,6 +29,7 @@ export function AppSidebar() {
     { title: t("nav.themes"), url: "/", icon: Home },
     { title: t("nav.dashboard"), url: "/dashboard", icon: LayoutDashboard },
     { title: t("nav.actionPlans"), url: "/action-plans", icon: ClipboardList },
+    { title: "Book Board", url: "/book-board", icon: BookOpen },
   ];
 
   const adminItems = [
