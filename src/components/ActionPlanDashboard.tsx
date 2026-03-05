@@ -135,78 +135,81 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
           </Select>
         </div>
 
-        {/* KPI Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Total Actions */}
-          <Card className="border-white/10 bg-white/5 backdrop-blur-md">
-            <CardContent className="flex flex-col items-center justify-center py-8">
-              <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full border-2 border-blue-400/50">
-                <ClipboardList className="h-8 w-8 text-blue-400" />
-              </div>
-              <p className="text-3xl font-bold text-white">{totalActions}</p>
-              <p className="text-sm text-white/50 mt-1">{t("actionPlan.totalActions", "Total de Ações")}</p>
-            </CardContent>
-          </Card>
-
-          {/* In Progress */}
-          <Card className="border-white/10 bg-white/5 backdrop-blur-md">
-            <CardContent className="flex flex-col items-center justify-center py-8">
-              <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full border-2 border-amber-400/50">
-                <Clock className="h-8 w-8 text-amber-400" />
-              </div>
-              <p className="text-3xl font-bold text-white">{inProgressCount}</p>
-              <p className="text-sm text-white/50 mt-1">{t("actionPlan.inProgress", "Em Andamento")}</p>
-            </CardContent>
-          </Card>
-
-          {/* Completed/Cancelled */}
-          <Card className="border-white/10 bg-white/5 backdrop-blur-md">
-            <CardContent className="flex flex-col items-center justify-center py-8">
-              <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full border-2 border-green-400/50">
-                <CheckCircle2 className="h-8 w-8 text-green-400" />
-              </div>
-              <p className="text-3xl font-bold text-white">{terminalCount}</p>
-              <p className="text-sm text-white/50 mt-1">{t("actionPlan.completed", "Concluídas/Canceladas")}</p>
-            </CardContent>
-          </Card>
-
-          {/* Completion Rate */}
-          <Card className="border-white/10 bg-white/5 backdrop-blur-md">
-            <CardContent className="flex flex-col items-center justify-center py-8">
-              <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full border-2 border-purple-400/50">
-                <ListChecks className="h-8 w-8 text-purple-400" />
-              </div>
-              <p className="text-3xl font-bold text-white">{completionRate}%</p>
-              <p className="text-sm text-white/50 mt-1">{t("actionPlan.completionRate", "Taxa de Conclusão")}</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Status Breakdown */}
-        <Card className="border-white/10 bg-white/5 backdrop-blur-md mt-4">
-          <CardContent className="py-6">
-            <h3 className="text-white font-semibold mb-4">{t("actionPlan.statusBreakdown", "Distribuição por Status")}</h3>
-            <div className="space-y-3">
-              {statuses?.map((s) => {
-                const count = statusBreakdown[s.id] || 0;
-                const pct = totalActions > 0 ? (count / totalActions) * 100 : 0;
-                return (
-                  <div key={s.id} className="flex items-center gap-3">
-                    <span className="inline-block h-3 w-3 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
-                    <span className="text-white/80 text-sm min-w-[140px]">{s.name}</span>
-                    <div className="flex-1 h-5 rounded bg-white/10 overflow-hidden">
-                      <div
-                        className="h-full rounded transition-all"
-                        style={{ width: `${pct}%`, backgroundColor: s.color }}
-                      />
-                    </div>
-                    <span className="text-white font-semibold text-sm min-w-[40px] text-right">{count}</span>
-                  </div>
-                );
-              })}
+        {/* KPI Labels - reference style */}
+        <div className="flex flex-wrap gap-4 items-stretch">
+          {/* PROJETOS */}
+          <div className="border border-white/20 rounded-md overflow-hidden">
+            <div className="bg-white/10 px-6 py-2 text-center">
+              <span className="text-white font-bold text-sm tracking-wide uppercase">{t("actionPlan.totalActions", "Projetos")}</span>
             </div>
-          </CardContent>
-        </Card>
+            <div className="px-6 py-4 text-center">
+              <span className="text-3xl font-bold text-white">{totalActions}</span>
+            </div>
+          </div>
+
+          {/* STATUS PROJETO */}
+          <div className="border border-white/20 rounded-md overflow-hidden flex-1 min-w-[300px]">
+            <div className="bg-white/10 px-6 py-2 text-center">
+              <span className="text-white font-bold text-sm tracking-wide uppercase">{t("actionPlan.statusBreakdown", "Status Projeto")}</span>
+            </div>
+            <div className="px-4 py-3">
+              <table className="w-full text-center">
+                <thead>
+                  <tr>
+                    {statuses?.map((s) => (
+                      <th key={s.id} className="px-3 py-1 text-white/80 text-sm font-bold">
+                        <span className="flex items-center justify-center gap-1.5">
+                          <span className="inline-block h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
+                          {s.name}
+                        </span>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    {statuses?.map((s) => {
+                      const count = statusBreakdown[s.id] || 0;
+                      const pct = totalActions > 0 ? ((count / totalActions) * 100).toFixed(2) : "0,00";
+                      return (
+                        <td key={s.id} className="px-3 py-1 text-white text-sm">
+                          {pct}%
+                        </td>
+                      );
+                    })}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* STATUS CONCLUSÃO */}
+          <div className="border border-white/20 rounded-md overflow-hidden min-w-[250px]">
+            <div className="bg-white/10 px-6 py-2 text-center">
+              <span className="text-white font-bold text-sm tracking-wide uppercase">{t("actionPlan.completionStatus", "Status Conclusão")}</span>
+            </div>
+            <div className="px-4 py-3">
+              <table className="w-full text-center">
+                <thead>
+                  <tr>
+                    <th className="px-3 py-1 text-white/80 text-sm font-bold">{t("actionPlan.inProgress", "Em Andamento")}</th>
+                    <th className="px-3 py-1 text-white/80 text-sm font-bold">{t("actionPlan.completed", "Concluídas")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="px-3 py-1 text-white text-sm">
+                      {totalActions > 0 ? ((inProgressCount / totalActions) * 100).toFixed(2) : "0,00"}%
+                    </td>
+                    <td className="px-3 py-1 text-white text-sm">
+                      {totalActions > 0 ? ((terminalCount / totalActions) * 100).toFixed(2) : "0,00"}%
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );
