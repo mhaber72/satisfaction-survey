@@ -49,9 +49,16 @@ const ThemeDetail = () => {
   const total = filtered?.length ?? 0;
   const avgScore = (() => {
     if (!filtered?.length) return "—";
-    const withScore = filtered.filter((r) => r.score != null && r.score !== 0 && r.answered === 1);
-    if (!withScore.length) return "—";
-    return (withScore.reduce((s, r) => s + Number(r.score), 0) / withScore.length).toFixed(2);
+    const valid = filtered.filter((r) => r.score != null && r.score !== 0 && r.answered === 1);
+    if (!valid.length) return "—";
+    const byClient: Record<string, number[]> = {};
+    valid.forEach((r) => {
+      const key = r.client_name ?? "__unknown__";
+      if (!byClient[key]) byClient[key] = [];
+      byClient[key].push(Number(r.score));
+    });
+    const clientAvgs = Object.values(byClient).map((scores) => scores.reduce((a, b) => a + b, 0) / scores.length);
+    return (clientAvgs.reduce((a, b) => a + b, 0) / clientAvgs.length).toFixed(2);
   })();
   const uniqueClients = new Set(filtered?.map((r) => r.client_name)).size;
   const uniqueQuestions = new Set(filtered?.map((r) => r.question)).size;
