@@ -66,7 +66,15 @@ const AllActionPlans = () => {
     return true;
   });
 
-  const fmtDate = (d: string | null) => (d ? format(new Date(d), "dd/MM/yyyy") : "—");
+  const fmtDate = (d: string | null) => {
+    if (!d) return "—";
+    // Parse date-only strings (YYYY-MM-DD) without timezone shift
+    const parts = d.split("-");
+    if (parts.length === 3) {
+      return format(new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2])), "dd/MM/yyyy");
+    }
+    return format(new Date(d), "dd/MM/yyyy");
+  };
 
   return (
     <div className="space-y-6">
