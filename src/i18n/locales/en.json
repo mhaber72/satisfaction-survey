@@ -143,6 +143,9 @@
     "theme": "Theme",
     "all": "All"
   },
+  "corporatePerception": {
+    "wouldHireQuestion": "Would you hire ID for a new service or operation?"
+  },
   "language": {
     "en": "English",
     "fr": "Français",

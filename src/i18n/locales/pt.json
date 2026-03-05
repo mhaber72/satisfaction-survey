@@ -143,6 +143,9 @@
     "theme": "Tema",
     "all": "Todos"
   },
+  "corporatePerception": {
+    "wouldHireQuestion": "Contrataria ID para um novo serviço ou operação?"
+  },
   "language": {
     "en": "English",
     "fr": "Français",

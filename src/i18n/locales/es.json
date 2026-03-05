@@ -143,6 +143,9 @@
     "theme": "Tema",
     "all": "Todos"
   },
+  "corporatePerception": {
+    "wouldHireQuestion": "¿Contrataría a ID para un nuevo servicio u operación?"
+  },
   "language": {
     "en": "English",
     "fr": "Français",

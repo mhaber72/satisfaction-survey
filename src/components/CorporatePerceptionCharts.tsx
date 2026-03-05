@@ -212,7 +212,7 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
         <Card className="border-white/10 bg-white/5 backdrop-blur-md">
           <CardContent className="flex flex-col items-center justify-center py-10">
             <p className="text-lg font-bold text-blue-300 text-center mb-6 leading-tight">
-              Contrataria ID para um novo serviço ou operação?
+              {t("corporatePerception.wouldHireQuestion", "Contrataria ID para um novo serviço ou operação?")}
             </p>
             <div className="flex items-start gap-8">
               <div className="flex flex-col items-center">
