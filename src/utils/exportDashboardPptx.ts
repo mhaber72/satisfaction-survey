@@ -421,7 +421,7 @@ export async function exportDashboardPptx(plans: ActionPlan[], statuses: Status[
       margin: [2, 4, 2, 4],
       autoPage: false,
     } as any);
-  });
+  }
 
-  pptx.writeFile({ fileName: `Dashboard_Action_Plans_${format(new Date(), "yyyy-MM-dd")}.pptx` });
+  await pptx.writeFile({ fileName: `Dashboard_Action_Plans_${format(new Date(), "yyyy-MM-dd")}.pptx` });
 }
