@@ -210,7 +210,86 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
             </div>
           </div>
         </div>
+
+        {/* Bar Chart - Total by Theme and Status */}
+        <div className="border border-white/20 rounded-md overflow-hidden mt-4">
+          <div className="bg-white/10 px-6 py-2 text-center">
+            <span className="text-white font-bold text-sm tracking-wide uppercase">
+              {t("actionPlan.chartByThemeStatus", "Total de Projetos por Área e Status")}
+            </span>
+          </div>
+          <div className="px-4 py-4">
+            <ThemeStatusChart filtered={filtered} statuses={statuses} />
+          </div>
+        </div>
       </DialogContent>
+    </Dialog>
+  );
+}
+
+function ThemeStatusChart({ filtered, statuses }: { filtered: any[]; statuses: any[] | undefined }) {
+  const chartData = useMemo(() => {
+    if (!filtered.length || !statuses?.length) return [];
+
+    const themeMap: Record<string, Record<string, number>> = {};
+    filtered.forEach((p) => {
+      const theme = p.theme || "N/A";
+      const statusId = p.status_id;
+      if (!themeMap[theme]) themeMap[theme] = {};
+      themeMap[theme][statusId] = (themeMap[theme][statusId] || 0) + 1;
+    });
+
+    return Object.entries(themeMap)
+      .map(([theme, counts]) => {
+        const row: any = { theme };
+        statuses.forEach((s) => {
+          row[s.id] = counts[s.id] || 0;
+        });
+        return row;
+      })
+      .sort((a, b) => {
+        const totalA = statuses.reduce((sum, s) => sum + (a[s.id] || 0), 0);
+        const totalB = statuses.reduce((sum, s) => sum + (b[s.id] || 0), 0);
+        return totalB - totalA;
+      });
+  }, [filtered, statuses]);
+
+  if (!chartData.length || !statuses?.length) {
+    return <p className="text-white/50 text-center py-8">Sem dados</p>;
+  }
+
+  return (
+    <ResponsiveContainer width="100%" height={Math.max(300, chartData.length * 60)}>
+      <BarChart data={chartData} layout="horizontal" margin={{ top: 20, right: 30, left: 10, bottom: 60 }}>
+        <XAxis
+          dataKey="theme"
+          tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 11 }}
+          angle={-30}
+          textAnchor="end"
+          height={80}
+          interval={0}
+        />
+        <YAxis tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 12 }} allowDecimals={false} />
+        <Tooltip
+          contentStyle={{ backgroundColor: "hsl(210,70%,15%)", border: "1px solid rgba(255,255,255,0.2)", color: "white" }}
+          labelStyle={{ color: "white", fontWeight: "bold" }}
+        />
+        <Legend
+          wrapperStyle={{ paddingTop: 10 }}
+          formatter={(value: string) => {
+            const status = statuses.find((s) => s.id === value);
+            return <span style={{ color: "rgba(255,255,255,0.8)" }}>{status?.name || value}</span>;
+          }}
+        />
+        {statuses.map((s) => (
+          <Bar key={s.id} dataKey={s.id} name={s.id} fill={s.color} radius={[4, 4, 0, 0]}>
+            <LabelList dataKey={s.id} position="top" fill="rgba(255,255,255,0.9)" fontSize={11} formatter={(v: number) => v > 0 ? v : ""} />
+          </Bar>
+        ))}
+      </BarChart>
+    </ResponsiveContainer>
+  );
+}
     </Dialog>
   );
 }
