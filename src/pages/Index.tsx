@@ -89,7 +89,7 @@ const Index = () => {
                 <p>{t("dashboard.noData")}</p>
               </div>
             ) : (
-              <ScrollArea className="h-[380px] w-full">
+              <ScrollArea className="h-[380px] w-full" type="always">
                 <div className="min-w-max">
                   <table className="w-max min-w-full caption-bottom text-sm">
                     <thead className="sticky top-0 z-10 bg-background [&_tr]:border-b">
