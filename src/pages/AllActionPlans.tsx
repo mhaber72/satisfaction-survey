@@ -26,7 +26,7 @@ const AllActionPlans = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("action_plans")
-        .select("*, contract_managers(name), regional_managers(name), directories(name), action_statuses(name, color)")
+        .select("*, contract_managers(name), regional_managers(name), directories(name), action_statuses(name, color), action_responsibles(first_name, last_name)")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return data;
