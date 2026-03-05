@@ -14,13 +14,14 @@ import { toast } from "@/hooks/use-toast";
 interface StatusForm {
   id?: string;
   name: string;
+  color: string;
   requires_start_date: boolean;
   requires_end_date: boolean;
   requires_new_end_date: boolean;
   requires_completion_date: boolean;
 }
 
-const EMPTY: StatusForm = { name: "", requires_start_date: false, requires_end_date: false, requires_new_end_date: false, requires_completion_date: false };
+const EMPTY: StatusForm = { name: "", color: "#6b7280", requires_start_date: false, requires_end_date: false, requires_new_end_date: false, requires_completion_date: false };
 
 const AdminActionStatuses = () => {
   const { t } = useTranslation();
