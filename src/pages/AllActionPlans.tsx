@@ -61,8 +61,8 @@ const AllActionPlans = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t("actionPlan.listTitle")}</h1>
-        <Button variant="outline" size="icon" onClick={() => setShowDashboard(true)} title="Dashboard">
-          <BarChart3 className="h-5 w-5" />
+        <Button variant="outline" size="lg" onClick={() => setShowDashboard(true)} title="Dashboard" className="border-blue-400/50 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 gap-2 px-4">
+          <BarChart3 className="h-7 w-7" />
         </Button>
       </div>
 
