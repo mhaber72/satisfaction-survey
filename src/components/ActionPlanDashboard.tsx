@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useTranslation } from "react-i18next";
 import { BarChart, Bar, XAxis, YAxis, Legend, ResponsiveContainer, LabelList, PieChart, Pie, Cell } from "recharts";
 import { FileSliders } from "lucide-react";
