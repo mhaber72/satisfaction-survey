@@ -223,12 +223,12 @@ function addContentSlide(pptx: PptxGenJS, clientName: string, clientPlans: Actio
       slide.addImage({
         path: logoUrl,
         x: 0.4,
-        y: 0.15,
-        w: 0.6,
+        y: 0.1,
+        w: 1.2,
         h: 0.6,
-        rounding: true,
+        sizing: { type: "contain", w: 1.2, h: 0.6 },
       });
-      titleX = 1.2;
+      titleX = 1.8;
     } catch {
       // skip logo if it fails
     }
