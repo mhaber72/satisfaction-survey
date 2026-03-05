@@ -20,6 +20,8 @@ const AllActionPlans = () => {
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const [selectedYears, setSelectedYears] = useState<string[]>([]);
   const [selectedClients, setSelectedClients] = useState<string[]>([]);
+  const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
+  const [selectedResponsibles, setSelectedResponsibles] = useState<string[]>([]);
 
   const { data: plans, isLoading } = useQuery({
     queryKey: ["all_action_plans"],
@@ -46,6 +48,11 @@ const AllActionPlans = () => {
   const years = [...new Set(plans?.map((p) => p.survey_year).filter(Boolean))].sort((a, b) => (b ?? 0) - (a ?? 0));
   const clients = [...new Set(plans?.map((p) => p.client_name).filter(Boolean) as string[])].sort();
   const statusOptions = statuses?.map((s) => s.name) || [];
+  const themes = [...new Set(plans?.map((p) => p.theme).filter(Boolean) as string[])].sort();
+  const responsibles = [...new Set(plans?.map((p) => {
+    const r = p.action_responsibles as any;
+    return r ? `${r.first_name} ${r.last_name}` : null;
+  }).filter(Boolean) as string[])].sort();
 
   const filtered = plans?.filter((p) => {
     if (selectedStatuses.length > 0) {
@@ -54,6 +61,12 @@ const AllActionPlans = () => {
     }
     if (selectedYears.length > 0 && !selectedYears.includes(String(p.survey_year))) return false;
     if (selectedClients.length > 0 && (!p.client_name || !selectedClients.includes(p.client_name))) return false;
+    if (selectedThemes.length > 0 && (!p.theme || !selectedThemes.includes(p.theme))) return false;
+    if (selectedResponsibles.length > 0) {
+      const r = p.action_responsibles as any;
+      const rName = r ? `${r.first_name} ${r.last_name}` : null;
+      if (!rName || !selectedResponsibles.includes(rName)) return false;
+    }
     if (searchText) {
       const s = searchText.toLowerCase();
       const match =
@@ -120,6 +133,26 @@ const AllActionPlans = () => {
           />
         </div>
         <div>
+          <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("actionPlan.theme", "Tema")}</label>
+          <MultiSelectFilter
+            label={t("actionPlan.theme", "Tema")}
+            options={themes}
+            selected={selectedThemes}
+            onChange={setSelectedThemes}
+            width="w-[200px]"
+          />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("actionPlan.responsible", "Responsável")}</label>
+          <MultiSelectFilter
+            label={t("actionPlan.responsible", "Responsável")}
+            options={responsibles}
+            selected={selectedResponsibles}
+            onChange={setSelectedResponsibles}
+            width="w-[200px]"
+          />
+        </div>
+        <div>
           <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("filters.year", "Ano")}</label>
           <MultiSelectFilter
             label={t("filters.year", "Ano")}
@@ -145,6 +178,7 @@ const AllActionPlans = () => {
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.theme")}</th>
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.actionName")}</th>
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.status")}</th>
+                <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.responsible")}</th>
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.startDate")}</th>
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.endDate")}</th>
                 <th className="p-3 text-left font-medium text-muted-foreground">{t("actionPlan.newEndDate")}</th>
@@ -167,6 +201,7 @@ const AllActionPlans = () => {
                       {(plan.action_statuses as any)?.name ?? "—"}
                     </span>
                   </td>
+                  <td className="p-3">{(() => { const r = plan.action_responsibles as any; return r ? `${r.first_name} ${r.last_name}` : "—"; })()}</td>
                   <td className="p-3">{fmtDate(plan.start_date)}</td>
                   <td className="p-3">{fmtDate(plan.end_date)}</td>
                   <td className="p-3">{fmtDate(plan.new_end_date)}</td>
