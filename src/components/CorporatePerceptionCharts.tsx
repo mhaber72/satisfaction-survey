@@ -396,7 +396,7 @@ function GlobalNPSGauge({ records, prevRecords, prevYear, selectedYear }: { reco
         <text x={cx} y={cy + 24} textAnchor="middle" dominantBaseline="central" fill="white" fontSize="16" fontWeight="700">NPS {selectedYear}</text>
         {/* Previous year */}
         {prevRecords.length > 0 && (
-          <text x={cx} y={cy + 64} textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="16">{prevStats.nps} in {prevYear}</text>
+          <text x={cx} y={cy + 64} textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="16">{prevStats.nps} {t("corporatePerception.inYear", { year: prevYear })}</text>
         )}
       </svg>
     </div>
