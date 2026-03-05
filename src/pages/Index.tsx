@@ -77,18 +77,18 @@ const Index = () => {
           ))}
         </div>
 
-        <Card className="overflow-hidden">
+        <Card>
           <CardHeader><CardTitle>{t("dashboard.surveyData")}</CardTitle></CardHeader>
-          <CardContent>
+          <CardContent className="p-0">
             {isLoading ? (
-              <p className="text-muted-foreground">{t("dashboard.loading")}</p>
+              <p className="text-muted-foreground p-6">{t("dashboard.loading")}</p>
             ) : totalRecords === 0 ? (
               <div className="flex flex-col items-center gap-4 py-12 text-muted-foreground">
                 <FileSpreadsheet className="h-12 w-12" />
                 <p>{t("dashboard.noData")}</p>
               </div>
             ) : (
-              <div className="max-h-[380px] overflow-scroll relative scrollbar-always">
+              <div style={{ maxHeight: "380px", overflowY: "scroll", overflowX: "auto" }} className="scrollbar-always">
                 <table className="w-max min-w-full caption-bottom text-sm">
                   <thead className="sticky top-0 z-10 bg-background [&_tr]:border-b">
                     <tr className="border-b transition-colors hover:bg-muted/50">
