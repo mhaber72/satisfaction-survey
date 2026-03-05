@@ -185,6 +185,7 @@ const ActionPlanForm = ({
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["action_plans"] });
+      qc.invalidateQueries({ queryKey: ["all_action_plans"] });
       onOpenChange(false);
       toast({ title: t("actionPlan.saved") });
     },
