@@ -13,9 +13,10 @@ interface MultiSelectFilterProps {
   selected: string[];
   onChange: (values: string[]) => void;
   width?: string;
+  renderOption?: (value: string | number) => string;
 }
 
-export default function MultiSelectFilter({ label, options, selected, onChange, width = "w-[200px]" }: MultiSelectFilterProps) {
+export default function MultiSelectFilter({ label, options, selected, onChange, width = "w-[200px]", renderOption }: MultiSelectFilterProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
 
