@@ -123,6 +123,21 @@ const ActionPlanForm = ({
   });
 
   const selectedStatus = statuses?.find((s) => s.id === form.status_id);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const isConfirmationStatus = () => {
+    if (!selectedStatus) return false;
+    const name = selectedStatus.name.toLowerCase();
+    return name.includes("conclu") || name.includes("cancel");
+  };
+
+  const handleSave = () => {
+    if (isConfirmationStatus()) {
+      setShowConfirm(true);
+    } else {
+      saveMutation.mutate();
+    }
+  };
 
   const saveMutation = useMutation({
     mutationFn: async () => {
