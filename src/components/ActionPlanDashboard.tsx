@@ -355,10 +355,6 @@ function ThemeStatusChart({ filtered, statuses }: { filtered: any[]; statuses: a
           interval={0}
         />
         <YAxis tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 10 }} allowDecimals={false} />
-        <Tooltip
-          contentStyle={{ backgroundColor: "hsl(210,70%,15%)", border: "1px solid rgba(255,255,255,0.2)", color: "white" }}
-          labelStyle={{ color: "white", fontWeight: "bold" }}
-        />
         <Legend
           wrapperStyle={{ paddingTop: 10 }}
           formatter={(value: string) => {
@@ -434,10 +430,6 @@ function ClientStatusChart({ filtered, statuses }: { filtered: any[]; statuses: 
           interval={0}
         />
         <YAxis tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 10 }} allowDecimals={false} />
-        <Tooltip
-          contentStyle={{ backgroundColor: "hsl(210,70%,15%)", border: "1px solid rgba(255,255,255,0.2)", color: "white" }}
-          labelStyle={{ color: "white", fontWeight: "bold" }}
-        />
         <Legend
           wrapperStyle={{ paddingTop: 10 }}
           formatter={(value: string) => {
