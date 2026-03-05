@@ -223,8 +223,8 @@ export default function BookBoard() {
           className={cn(
             "absolute right-[-60px] top-1/2 -translate-y-1/2 z-40",
             "h-12 w-12 rounded-full flex items-center justify-center",
-            "bg-[hsla(200,80%,60%,0.1)] border border-[hsla(200,80%,60%,0.2)]",
-            "text-[hsl(200,80%,60%)] hover:bg-[hsla(200,80%,60%,0.2)]",
+            "bg-[hsl(215,85%,12%,0.05)] border border-[hsl(215,85%,12%,0.15)]",
+            "text-[hsl(215,85%,20%)] hover:bg-[hsl(215,85%,12%,0.1)]",
             "transition-all duration-200",
             "disabled:opacity-20 disabled:cursor-not-allowed"
           )}
