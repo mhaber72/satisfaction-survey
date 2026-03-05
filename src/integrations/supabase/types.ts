@@ -177,6 +177,30 @@ export type Database = {
           },
         ]
       }
+      score_colors: {
+        Row: {
+          color: string
+          created_at: string
+          id: string
+          score: number
+          updated_at: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          id?: string
+          score: number
+          updated_at?: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          id?: string
+          score?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
