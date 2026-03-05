@@ -131,7 +131,7 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
   }, [filteredRecords]);
 
   if (isLoading) {
-    return <p className="text-white/60">Loading...</p>;
+    return <p className="text-white/60">{t("corporatePerception.loading")}</p>;
   }
 
   const maxAbs = Math.max(...(npsData.length ? npsData.map((d) => Math.abs(d.nps)) : [1]), 1);
@@ -145,7 +145,7 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
     <div className="space-y-6">
       <Card className="border-white/10 bg-white/5 backdrop-blur-md">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-white text-lg">NPS Score by Client</CardTitle>
+          <CardTitle className="text-white text-lg">{t("corporatePerception.npsTitle")}</CardTitle>
           <Select value={selectedYear} onValueChange={setSelectedYear}>
             <SelectTrigger className="w-[130px] border-white/20 bg-white/10 text-white">
               <SelectValue placeholder={t("dashboard.year")} />
@@ -159,7 +159,7 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
         </CardHeader>
         <CardContent>
           {!npsData.length ? (
-            <p className="text-white/60 text-center py-12">No data available</p>
+            <p className="text-white/60 text-center py-12">{t("corporatePerception.noData")}</p>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <NPSColumn data={leftCol} maxAbs={maxAbs} />
@@ -177,10 +177,10 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
             <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full border-2 border-blue-400/50">
               <Users className="h-10 w-10 text-blue-400" />
             </div>
-            <p className="text-4xl font-bold text-white">{clientsCurrentYear} clients</p>
+            <p className="text-4xl font-bold text-white">{clientsCurrentYear} {t("corporatePerception.clients")}</p>
             {clientsPrevYear !== null && (
               <p className="text-lg text-white/50 mt-2">
-                {clientsPrevYear} in {prevYear}
+                {clientsPrevYear} {t("corporatePerception.inYear", { year: prevYear })}
               </p>
             )}
           </CardContent>
@@ -199,10 +199,10 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
             <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full border-2 border-blue-400/50">
               <MessageCircle className="h-10 w-10 text-blue-400" />
             </div>
-            <p className="text-4xl font-bold text-white">{answersCurrentYear} answers</p>
+            <p className="text-4xl font-bold text-white">{answersCurrentYear} {t("corporatePerception.answers")}</p>
             {answersPrevYear !== null && (
               <p className="text-lg text-white/50 mt-2">
-                {answersPrevYear} in {prevYear}
+                {answersPrevYear} {t("corporatePerception.inYear", { year: prevYear })}
               </p>
             )}
           </CardContent>
@@ -216,23 +216,23 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
             </p>
             <div className="flex items-start gap-8">
               <div className="flex flex-col items-center">
-                <span className="text-blue-400 font-bold text-lg">SIM</span>
+                <span className="text-blue-400 font-bold text-lg">{t("corporatePerception.yes")}</span>
                 <span className="text-4xl font-bold text-green-400">{q2Stats.yes}</span>
                 {q2PrevStats && (
-                  <span className="text-sm text-white/50 mt-1">{q2PrevStats.yes} in {prevYear}</span>
+                  <span className="text-sm text-white/50 mt-1">{q2PrevStats.yes} {t("corporatePerception.inYear", { year: prevYear })}</span>
                 )}
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-blue-400 font-bold text-lg">NÃO</span>
+                <span className="text-blue-400 font-bold text-lg">{t("corporatePerception.no")}</span>
                 <span
                   className="text-4xl font-bold text-red-400 cursor-pointer hover:underline"
                   onClick={() => q2Stats.no > 0 && setShowNoClients(true)}
-                  title="Clique para ver detalhes"
+                  title={t("corporatePerception.clickDetails")}
                 >
                   {q2Stats.no}
                 </span>
                 {q2PrevStats && (
-                  <span className="text-sm text-white/50 mt-1">{q2PrevStats.no} in {prevYear}</span>
+                  <span className="text-sm text-white/50 mt-1">{q2PrevStats.no} {t("corporatePerception.inYear", { year: prevYear })}</span>
                 )}
               </div>
             </div>
@@ -244,13 +244,13 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
       <Dialog open={showNoClients} onOpenChange={setShowNoClients}>
         <DialogContent className="border-white/10 bg-[hsl(210,70%,15%)] text-white max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-white">Clients who answered "No" ({selectedYear})</DialogTitle>
+            <DialogTitle className="text-white">{t("corporatePerception.noClientsTitle", { year: selectedYear })}</DialogTitle>
           </DialogHeader>
           <Table>
             <TableHeader>
               <TableRow className="border-white/10">
-                <TableHead className="text-white/60">Client</TableHead>
-                <TableHead className="text-white/60 text-right">Count</TableHead>
+                <TableHead className="text-white/60">{t("corporatePerception.client")}</TableHead>
+                <TableHead className="text-white/60 text-right">{t("corporatePerception.count")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -316,6 +316,7 @@ function NPSBar({ client, nps, maxAbs }: { client: string; nps: number; maxAbs: 
 }
 
 function GlobalNPSGauge({ records, prevRecords, prevYear, selectedYear }: { records: any[] | undefined; prevRecords: any[]; prevYear: string; selectedYear: string }) {
+  const { t } = useTranslation();
   const stats = useMemo(() => computeGlobalNPS(records), [records]);
   const prevStats = useMemo(() => computeGlobalNPS(prevRecords), [prevRecords]);
 
@@ -395,7 +396,7 @@ function GlobalNPSGauge({ records, prevRecords, prevYear, selectedYear }: { reco
         <text x={cx} y={cy + 24} textAnchor="middle" dominantBaseline="central" fill="white" fontSize="16" fontWeight="700">NPS {selectedYear}</text>
         {/* Previous year */}
         {prevRecords.length > 0 && (
-          <text x={cx} y={cy + 64} textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="16">{prevStats.nps} in {prevYear}</text>
+          <text x={cx} y={cy + 64} textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="16">{prevStats.nps} {t("corporatePerception.inYear", { year: prevYear })}</text>
         )}
       </svg>
     </div>

@@ -144,7 +144,19 @@
     "all": "All"
   },
   "corporatePerception": {
-    "wouldHireQuestion": "Would you hire ID for a new service or operation?"
+    "npsTitle": "NPS Score by Client",
+    "noData": "No data available",
+    "clients": "clients",
+    "answers": "answers",
+    "inYear": "in {{year}}",
+    "wouldHireQuestion": "Would you hire ID for a new service or operation?",
+    "yes": "YES",
+    "no": "NO",
+    "clickDetails": "Click for details",
+    "noClientsTitle": "Clients who answered \"No\" ({{year}})",
+    "client": "Client",
+    "count": "Count",
+    "loading": "Loading..."
   },
   "language": {
     "en": "English",
