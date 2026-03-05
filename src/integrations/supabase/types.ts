@@ -64,6 +64,186 @@ export type Database = {
         }
         Relationships: []
       }
+      action_plans: {
+        Row: {
+          action_description: string
+          action_name: string
+          client_name: string | null
+          completion_date: string | null
+          contract_manager_id: string
+          created_at: string
+          created_by: string | null
+          directory_id: string
+          end_date: string | null
+          id: string
+          new_end_date: string | null
+          pesquisa_id: number
+          question_comment: string | null
+          regional_manager_id: string
+          start_date: string | null
+          status_id: string
+          survey_year: number | null
+          theme: string | null
+          theme_comment: string | null
+          updated_at: string
+        }
+        Insert: {
+          action_description: string
+          action_name: string
+          client_name?: string | null
+          completion_date?: string | null
+          contract_manager_id: string
+          created_at?: string
+          created_by?: string | null
+          directory_id: string
+          end_date?: string | null
+          id?: string
+          new_end_date?: string | null
+          pesquisa_id: number
+          question_comment?: string | null
+          regional_manager_id: string
+          start_date?: string | null
+          status_id: string
+          survey_year?: number | null
+          theme?: string | null
+          theme_comment?: string | null
+          updated_at?: string
+        }
+        Update: {
+          action_description?: string
+          action_name?: string
+          client_name?: string | null
+          completion_date?: string | null
+          contract_manager_id?: string
+          created_at?: string
+          created_by?: string | null
+          directory_id?: string
+          end_date?: string | null
+          id?: string
+          new_end_date?: string | null
+          pesquisa_id?: number
+          question_comment?: string | null
+          regional_manager_id?: string
+          start_date?: string | null
+          status_id?: string
+          survey_year?: number | null
+          theme?: string | null
+          theme_comment?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "action_plans_contract_manager_id_fkey"
+            columns: ["contract_manager_id"]
+            isOneToOne: false
+            referencedRelation: "contract_managers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "action_plans_directory_id_fkey"
+            columns: ["directory_id"]
+            isOneToOne: false
+            referencedRelation: "directories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "action_plans_pesquisa_id_fkey"
+            columns: ["pesquisa_id"]
+            isOneToOne: false
+            referencedRelation: "pesquisa_satisfacao"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "action_plans_regional_manager_id_fkey"
+            columns: ["regional_manager_id"]
+            isOneToOne: false
+            referencedRelation: "regional_managers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "action_plans_status_id_fkey"
+            columns: ["status_id"]
+            isOneToOne: false
+            referencedRelation: "action_statuses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      action_statuses: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          requires_completion_date: boolean
+          requires_end_date: boolean
+          requires_new_end_date: boolean
+          requires_start_date: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          requires_completion_date?: boolean
+          requires_end_date?: boolean
+          requires_new_end_date?: boolean
+          requires_start_date?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          requires_completion_date?: boolean
+          requires_end_date?: boolean
+          requires_new_end_date?: boolean
+          requires_start_date?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      contract_managers: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      directories: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       pesquisa_satisfacao: {
         Row: {
           activity: string | null
@@ -176,6 +356,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      regional_managers: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       score_colors: {
         Row: {
