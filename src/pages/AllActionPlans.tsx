@@ -5,13 +5,15 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Pencil, Search } from "lucide-react";
+import { Pencil, Search, BarChart3 } from "lucide-react";
 import { format } from "date-fns";
 import ActionPlanForm from "@/components/ActionPlanForm";
+import ActionPlanDashboard from "@/components/ActionPlanDashboard";
 
 const AllActionPlans = () => {
   const { t } = useTranslation();
   const [editingPlan, setEditingPlan] = useState<any>(null);
+  const [showDashboard, setShowDashboard] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [filterYear, setFilterYear] = useState<string>("all");
@@ -57,7 +59,12 @@ const AllActionPlans = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">{t("actionPlan.listTitle")}</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">{t("actionPlan.listTitle")}</h1>
+        <Button variant="outline" size="icon" onClick={() => setShowDashboard(true)} title="Dashboard">
+          <BarChart3 className="h-5 w-5" />
+        </Button>
+      </div>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-3 items-end">
@@ -170,6 +177,13 @@ const AllActionPlans = () => {
           existingPlan={editingPlan}
         />
       )}
+
+      <ActionPlanDashboard
+        open={showDashboard}
+        onOpenChange={setShowDashboard}
+        plans={plans}
+        statuses={statuses}
+      />
     </div>
   );
 };
