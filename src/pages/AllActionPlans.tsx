@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Pencil, Search, BarChart3 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Pencil, Search, BarChart3, Eye } from "lucide-react";
 import { format } from "date-fns";
 import ActionPlanForm from "@/components/ActionPlanForm";
 import ActionPlanDashboard from "@/components/ActionPlanDashboard";
@@ -13,6 +14,7 @@ import MultiSelectFilter from "@/components/MultiSelectFilter";
 const AllActionPlans = () => {
   const { t } = useTranslation();
   const [editingPlan, setEditingPlan] = useState<any>(null);
+  const [viewingPlan, setViewingPlan] = useState<any>(null);
   const [showDashboard, setShowDashboard] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
@@ -142,7 +144,7 @@ const AllActionPlans = () => {
             </thead>
             <tbody>
               {filtered.map((plan) => (
-                <tr key={plan.id} className="border-b hover:bg-muted/50">
+                <tr key={plan.id} className="border-b hover:bg-muted/50 cursor-pointer" onClick={() => setViewingPlan(plan)}>
                   <td className="p-3">{plan.survey_year ?? "—"}</td>
                   <td className="p-3">{plan.client_name ?? "—"}</td>
                   <td className="p-3 max-w-[150px] truncate">{plan.theme ?? "—"}</td>
@@ -160,15 +162,20 @@ const AllActionPlans = () => {
                   <td className="p-3">{fmtDate(plan.start_date)}</td>
                   <td className="p-3">{fmtDate(plan.end_date)}</td>
                   <td className="p-3 text-right">
-                    {(() => {
-                      const statusName = ((plan.action_statuses as any)?.name || "").toLowerCase();
-                      const isTerminal = statusName.includes("conclu") || statusName.includes("cancel");
-                      return !isTerminal ? (
-                        <Button size="icon" variant="ghost" onClick={() => setEditingPlan(plan)}>
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                      ) : null;
-                    })()}
+                    <div className="flex items-center justify-end gap-1" onClick={(e) => e.stopPropagation()}>
+                      <Button size="icon" variant="ghost" onClick={() => setViewingPlan(plan)}>
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      {(() => {
+                        const statusName = ((plan.action_statuses as any)?.name || "").toLowerCase();
+                        const isTerminal = statusName.includes("conclu") || statusName.includes("cancel");
+                        return !isTerminal ? (
+                          <Button size="icon" variant="ghost" onClick={() => setEditingPlan(plan)}>
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                        ) : null;
+                      })()}
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -197,8 +204,67 @@ const AllActionPlans = () => {
         plans={plans}
         statuses={statuses}
       />
+
+      {/* Detail Dialog */}
+      <Dialog open={!!viewingPlan} onOpenChange={(o) => !o && setViewingPlan(null)}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-3">
+              {viewingPlan?.action_statuses && (
+                <span
+                  className="inline-block h-3.5 w-3.5 rounded-full shrink-0"
+                  style={{ backgroundColor: (viewingPlan.action_statuses as any)?.color || "#6b7280" }}
+                />
+              )}
+              {viewingPlan?.action_name}
+            </DialogTitle>
+          </DialogHeader>
+          {viewingPlan && (
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <DetailField label={t("actionPlan.status")} value={
+                <span className="flex items-center gap-2">
+                  <span className="inline-block h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: (viewingPlan.action_statuses as any)?.color || "#6b7280" }} />
+                  {(viewingPlan.action_statuses as any)?.name ?? "—"}
+                </span>
+              } />
+              <DetailField label={t("actionPlan.surveyYear")} value={viewingPlan.survey_year ?? "—"} />
+              <DetailField label={t("actionPlan.client")} value={viewingPlan.client_name ?? "—"} />
+              <DetailField label={t("actionPlan.theme")} value={viewingPlan.theme ?? "—"} />
+              <DetailField label={t("actionPlan.contractManager")} value={(viewingPlan.contract_managers as any)?.name ?? "—"} />
+              <DetailField label={t("actionPlan.regionalManager", "Gestor Regional")} value={(viewingPlan.regional_managers as any)?.name ?? "—"} />
+              <DetailField label={t("actionPlan.directory", "Diretoria")} value={(viewingPlan.directories as any)?.name ?? "—"} />
+              <DetailField label={t("actionPlan.startDate")} value={fmtDate(viewingPlan.start_date)} />
+              <DetailField label={t("actionPlan.endDate")} value={fmtDate(viewingPlan.end_date)} />
+              <DetailField label={t("actionPlan.newEndDate", "Nova Data Fim")} value={fmtDate(viewingPlan.new_end_date)} />
+              <DetailField label={t("actionPlan.completionDate", "Data Conclusão")} value={fmtDate(viewingPlan.completion_date)} />
+              <div className="col-span-2">
+                <DetailField label={t("actionPlan.actionDescription", "Descrição da Ação")} value={viewingPlan.action_description || "—"} />
+              </div>
+              {viewingPlan.theme_comment && (
+                <div className="col-span-2">
+                  <DetailField label={t("actionPlan.themeComment", "Comentário do Tema")} value={viewingPlan.theme_comment} />
+                </div>
+              )}
+              {viewingPlan.question_comment && (
+                <div className="col-span-2">
+                  <DetailField label={t("actionPlan.questionComment", "Comentário da Questão")} value={viewingPlan.question_comment} />
+                </div>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
+
+function DetailField({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div>
+      <p className="text-xs font-medium text-muted-foreground mb-0.5">{label}</p>
+      <div className="text-sm text-foreground">{value}</div>
+    </div>
+  );
+}
 
 export default AllActionPlans;
