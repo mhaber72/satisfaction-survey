@@ -170,6 +170,7 @@ const ThemeDetail = () => {
           </>
         )}
       </div>
+      <RowDetailDialog row={selectedRow} open={!!selectedRow} onOpenChange={(open) => !open && setSelectedRow(null)} />
     </div>
   );
 };

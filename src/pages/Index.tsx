@@ -145,6 +145,7 @@ const Index = () => {
           </CardContent>
         </Card>
       </div>
+      <RowDetailDialog row={selectedRow} open={!!selectedRow} onOpenChange={(open) => !open && setSelectedRow(null)} />
     </div>
   );
 };
