@@ -30,6 +30,20 @@ export function useDataFilters(records: any[] | undefined) {
       }
       if (filters.theme?.length && !filters.theme.includes(r.theme)) return false;
       if (filters.score?.length && !filters.score.includes(String(r.score))) return false;
+      if (filters.theme_comment?.length) {
+        const hasComment = r.theme_comment != null && String(r.theme_comment).trim() !== "";
+        const wantFilled = filters.theme_comment.includes("filled");
+        const wantEmpty = filters.theme_comment.includes("empty");
+        if (wantFilled && !wantEmpty && !hasComment) return false;
+        if (wantEmpty && !wantFilled && hasComment) return false;
+      }
+      if (filters.question_comment?.length) {
+        const hasComment = r.question_comment != null && String(r.question_comment).trim() !== "";
+        const wantFilled = filters.question_comment.includes("filled");
+        const wantEmpty = filters.question_comment.includes("empty");
+        if (wantFilled && !wantEmpty && !hasComment) return false;
+        if (wantEmpty && !wantFilled && hasComment) return false;
+      }
       return true;
     });
   }, [records, filters, allowedThemes, isAdmin]);
