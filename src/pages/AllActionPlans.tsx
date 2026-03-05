@@ -4,19 +4,20 @@ import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Pencil, Search, BarChart3 } from "lucide-react";
 import { format } from "date-fns";
 import ActionPlanForm from "@/components/ActionPlanForm";
 import ActionPlanDashboard from "@/components/ActionPlanDashboard";
+import MultiSelectFilter from "@/components/MultiSelectFilter";
 
 const AllActionPlans = () => {
   const { t } = useTranslation();
   const [editingPlan, setEditingPlan] = useState<any>(null);
   const [showDashboard, setShowDashboard] = useState(false);
   const [searchText, setSearchText] = useState("");
-  const [filterStatus, setFilterStatus] = useState<string>("all");
-  const [filterYear, setFilterYear] = useState<string>("all");
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+  const [selectedYears, setSelectedYears] = useState<string[]>([]);
+  const [selectedClients, setSelectedClients] = useState<string[]>([]);
 
   const { data: plans, isLoading } = useQuery({
     queryKey: ["all_action_plans"],
@@ -39,10 +40,16 @@ const AllActionPlans = () => {
   });
 
   const years = [...new Set(plans?.map((p) => p.survey_year).filter(Boolean))].sort((a, b) => (b ?? 0) - (a ?? 0));
+  const clients = [...new Set(plans?.map((p) => p.client_name).filter(Boolean) as string[])].sort();
+  const statusOptions = statuses?.map((s) => s.name) || [];
 
   const filtered = plans?.filter((p) => {
-    if (filterStatus !== "all" && p.status_id !== filterStatus) return false;
-    if (filterYear !== "all" && String(p.survey_year) !== filterYear) return false;
+    if (selectedStatuses.length > 0) {
+      const statusName = (p.action_statuses as any)?.name;
+      if (!statusName || !selectedStatuses.includes(statusName)) return false;
+    }
+    if (selectedYears.length > 0 && !selectedYears.includes(String(p.survey_year))) return false;
+    if (selectedClients.length > 0 && (!p.client_name || !selectedClients.includes(p.client_name))) return false;
     if (searchText) {
       const s = searchText.toLowerCase();
       const match =
@@ -69,41 +76,47 @@ const AllActionPlans = () => {
       {/* Filters */}
       <div className="flex flex-wrap gap-3 items-end">
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder={t("actionPlan.searchPlaceholder")}
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            className="pl-9"
+          <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("actionPlan.searchPlaceholder", "Buscar")}</label>
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder={t("actionPlan.searchPlaceholder")}
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              className="pl-9"
+            />
+          </div>
+        </div>
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("actionPlan.client", "Cliente")}</label>
+          <MultiSelectFilter
+            label={t("actionPlan.client", "Cliente")}
+            options={clients}
+            selected={selectedClients}
+            onChange={setSelectedClients}
+            width="w-[200px]"
           />
         </div>
-        <Select value={filterStatus} onValueChange={setFilterStatus}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder={t("actionPlan.status")} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{t("filters.all")}</SelectItem>
-            {statuses?.map((s) => (
-              <SelectItem key={s.id} value={s.id}>
-                <span className="flex items-center gap-2">
-                  <span className="inline-block h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
-                  {s.name}
-                </span>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select value={filterYear} onValueChange={setFilterYear}>
-          <SelectTrigger className="w-[120px]">
-            <SelectValue placeholder={t("filters.year")} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{t("filters.all")}</SelectItem>
-            {years.map((y) => (
-              <SelectItem key={y} value={String(y)}>{y}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("actionPlan.status", "Status")}</label>
+          <MultiSelectFilter
+            label={t("actionPlan.status", "Status")}
+            options={statusOptions}
+            selected={selectedStatuses}
+            onChange={setSelectedStatuses}
+            width="w-[180px]"
+          />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("filters.year", "Ano")}</label>
+          <MultiSelectFilter
+            label={t("filters.year", "Ano")}
+            options={years.map(String)}
+            selected={selectedYears}
+            onChange={setSelectedYears}
+            width="w-[120px]"
+          />
+        </div>
       </div>
 
       {/* Table */}
