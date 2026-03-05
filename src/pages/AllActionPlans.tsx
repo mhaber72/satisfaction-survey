@@ -13,6 +13,7 @@ import ActionPlanDashboard from "@/components/ActionPlanDashboard";
 const AllActionPlans = () => {
   const { t } = useTranslation();
   const [editingPlan, setEditingPlan] = useState<any>(null);
+  const [showDashboard, setShowDashboard] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [filterYear, setFilterYear] = useState<string>("all");
