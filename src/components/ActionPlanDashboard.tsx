@@ -241,7 +241,7 @@ export default function ActionPlanDashboard({ open, onOpenChange, plans, statuse
         </div>
 
         {/* Donut Charts */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
           {/* Status Projeto Donut */}
           <div className="border border-white/20 rounded-md overflow-hidden">
             <div className="bg-white/10 px-6 py-2 text-center">
