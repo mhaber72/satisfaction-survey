@@ -19,6 +19,7 @@ const ThemeDetail = () => {
   const decodedTheme = decodeURIComponent(theme || "");
   const isCorporatePerception = decodedTheme.toUpperCase() === "CORPORATE PERCEPTION";
   const { t } = useTranslation();
+  const [selectedRow, setSelectedRow] = useState<any>(null);
 
   const { data: records, isLoading } = useQuery({
     queryKey: ["pesquisa-theme", decodedTheme],
