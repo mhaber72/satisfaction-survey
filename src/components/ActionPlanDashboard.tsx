@@ -354,7 +354,7 @@ function ThemeStatusChart({ filtered, statuses }: { filtered: any[]; statuses: a
           height={60}
           interval={0}
         />
-        <YAxis tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 12 }} allowDecimals={false} />
+        <YAxis tick={{ fill: "rgba(255,255,255,0.7)", fontSize: 10 }} allowDecimals={false} />
         <Tooltip
           contentStyle={{ backgroundColor: "hsl(210,70%,15%)", border: "1px solid rgba(255,255,255,0.2)", color: "white" }}
           labelStyle={{ color: "white", fontWeight: "bold" }}
