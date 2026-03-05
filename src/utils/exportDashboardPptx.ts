@@ -515,13 +515,14 @@ function addContentSlide(pptx: PptxGenJS, clientName: string, clientPlans: Actio
   });
 
   const headers = [
-    { text: "Ano", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG }, align: "center" as const } },
+    { text: "Cliente", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG } } },
     { text: "Tema", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG } } },
     { text: "Ação", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG } } },
     { text: "Status", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG } } },
-    { text: "Gestor", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG } } },
+    { text: "Responsável", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG } } },
     { text: "Início", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG }, align: "center" as const } },
     { text: "Fim", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG }, align: "center" as const } },
+    { text: "Novo Fim", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG }, align: "center" as const } },
     { text: "Conclusão", options: { bold: true, fontSize: 7, color: "FFFFFF", fill: { color: HEADER_BG }, align: "center" as const } },
   ];
 
@@ -534,21 +535,23 @@ function addContentSlide(pptx: PptxGenJS, clientName: string, clientPlans: Actio
     const p = sortedPlans[i];
     const statusColor = hexFromCss((p.action_statuses as any)?.color || "#6b7280");
     const rowBg = i % 2 === 0 ? "f0f4f8" : "e2e8f0";
+    const responsible = p.action_responsibles ? `${p.action_responsibles.first_name} ${p.action_responsibles.last_name}` : "—";
     rows.push([
-      { text: String(p.survey_year ?? "—"), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg }, align: "center" } },
-      { text: (p.theme || "—").substring(0, 30), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg } } },
-      { text: (p.action_name || "—").substring(0, 40), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg } } },
+      { text: (p.client_name || "—").substring(0, 20), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg } } },
+      { text: (p.theme || "—").substring(0, 25), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg } } },
+      { text: (p.action_name || "—").substring(0, 35), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg } } },
       { text: (p.action_statuses as any)?.name || "—", options: { fontSize: 7, color: statusColor, bold: true, fill: { color: rowBg } } },
-      { text: ((p.contract_managers as any)?.name || "—").substring(0, 20), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg } } },
+      { text: responsible.substring(0, 20), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg } } },
       { text: fmtDate(p.start_date), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg }, align: "center" } },
       { text: fmtDate(p.end_date), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg }, align: "center" } },
+      { text: fmtDate(p.new_end_date), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg }, align: "center" } },
       { text: fmtDate(p.completion_date), options: { fontSize: 7, color: TEXT_COLOR, fill: { color: rowBg }, align: "center" } },
     ]);
   }
 
   if (sortedPlans.length > maxRows) {
     rows.push([
-      { text: `... +${sortedPlans.length - maxRows} ações`, options: { fontSize: 7, color: MUTED_COLOR, fill: { color: "f0f4f8" }, colSpan: 8 } },
+      { text: `... +${sortedPlans.length - maxRows} ações`, options: { fontSize: 7, color: MUTED_COLOR, fill: { color: "f0f4f8" }, colSpan: 9 } },
     ]);
   }
 
@@ -556,7 +559,7 @@ function addContentSlide(pptx: PptxGenJS, clientName: string, clientPlans: Actio
     x: 0.4,
     y: 4.7,
     w: 12.5,
-    colW: [0.6, 2.0, 3.0, 1.5, 1.8, 1.0, 1.0, 1.0],
+    colW: [1.4, 1.8, 2.4, 1.2, 1.5, 0.9, 0.9, 0.9, 0.9],
     border: { type: "solid", color: "c0cfe0", pt: 0.5 },
     margin: [2, 4, 2, 4],
     autoPage: false,
