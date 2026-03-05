@@ -46,6 +46,23 @@ function computeNPSByClient(records: any[] | undefined) {
 export default function CorporatePerceptionCharts({ records, isLoading }: Props) {
   const { t } = useTranslation();
   const [showNoClients, setShowNoClients] = useState(false);
+  const [selectedVertical, setSelectedVertical] = useState<string>("all");
+
+  const { data: verticals } = useQuery({
+    queryKey: ["verticals"],
+    queryFn: async () => {
+      const { data } = await supabase.from("verticals").select("*").order("name");
+      return data || [];
+    },
+  });
+
+  const { data: clients } = useQuery({
+    queryKey: ["clients-verticals"],
+    queryFn: async () => {
+      const { data } = await supabase.from("clients").select("name, vertical_id");
+      return data || [];
+    },
+  });
 
   const availableYears = useMemo(() => {
     if (!records) return [];
@@ -62,10 +79,19 @@ export default function CorporatePerceptionCharts({ records, isLoading }: Props)
     }
   }, [availableYears]);
 
-  const filteredRecords = useMemo(() => {
+  // Filter by year first, then by vertical
+  const yearFilteredRecords = useMemo(() => {
     if (!records || !selectedYear) return records;
     return records.filter((r) => String(r.survey_year) === selectedYear);
   }, [records, selectedYear]);
+
+  const filteredRecords = useMemo(() => {
+    if (!yearFilteredRecords || selectedVertical === "all" || !clients) return yearFilteredRecords;
+    const verticalClients = new Set(
+      clients.filter((c) => c.vertical_id === selectedVertical).map((c) => c.name)
+    );
+    return yearFilteredRecords.filter((r) => verticalClients.has(r.client_name));
+  }, [yearFilteredRecords, selectedVertical, clients]);
 
   const npsData = useMemo(() => computeNPSByClient(filteredRecords), [filteredRecords]);
 
