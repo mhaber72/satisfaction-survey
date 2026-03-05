@@ -97,7 +97,7 @@ export default function BookBoard() {
 
   return (
     <div
-      className="min-h-screen bg-[hsl(220,30%,8%)] flex flex-col items-center justify-center p-4 outline-none"
+      className="min-h-screen bg-white flex flex-col items-center justify-center p-4 outline-none"
       tabIndex={0}
       onKeyDown={handleKeyDown}
     >
