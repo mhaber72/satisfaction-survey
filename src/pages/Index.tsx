@@ -36,6 +36,17 @@ const Index = () => {
     },
   });
 
+  const { data: pesquisaIdsWithPlans } = useQuery({
+    queryKey: ["pesquisa_ids_with_plans"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("action_plans").select("pesquisa_id");
+      if (error) throw error;
+      return new Set(data?.map((d) => d.pesquisa_id) ?? []);
+    },
+  });
+
+  const hasActionPlan = (id: number) => pesquisaIdsWithPlans?.has(id) ?? false;
+
   const { filters, onFilterChange, filtered } = useDataFilters(records);
   const { sorted, sort, toggle } = useTableSort(filtered);
 
