@@ -11,6 +11,8 @@ import { useDataFilters } from "@/hooks/useDataFilters";
 import { useTableSort } from "@/hooks/useTableSort";
 import SortableTh from "@/components/SortableTh";
 import CorporatePerceptionCharts from "@/components/CorporatePerceptionCharts";
+import { ScoreDot } from "@/components/ScoreDot";
+import { useScoreColors } from "@/hooks/useScoreColors";
 import { useState } from "react";
 
 const ThemeDetail = () => {
@@ -20,6 +22,7 @@ const ThemeDetail = () => {
   const isCorporatePerception = decodedTheme.toUpperCase() === "CORPORATE PERCEPTION";
   const { t } = useTranslation();
   const [selectedRow, setSelectedRow] = useState<any>(null);
+  const { getColor } = useScoreColors();
 
   const { data: records, isLoading } = useQuery({
     queryKey: ["pesquisa-theme", decodedTheme],
@@ -156,7 +159,7 @@ const ThemeDetail = () => {
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.question}</td>
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.applicability}</td>
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.importance}</td>
-                              <td className="p-4 align-middle font-medium whitespace-nowrap text-white">{r.score}</td>
+                              <td className="p-4 align-middle font-medium whitespace-nowrap text-white"><span className="flex items-center"><ScoreDot color={getColor(r.score)} />{r.score}</span></td>
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.question_comment}</td>
                             </tr>
                           ))}

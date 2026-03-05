@@ -5,6 +5,7 @@
     "users": "Users",
     "accessProfiles": "Access Profiles",
     "importData": "Import Data",
+    "scoreColors": "Score Colors",
     "navigation": "Navigation",
     "administration": "Administration",
     "signOut": "Sign Out"
@@ -156,6 +157,15 @@
     "noClientsTitle": "Clients who answered \"No\" ({{year}})",
     "client": "Client",
     "count": "Count",
+    "loading": "Loading..."
+  },
+  "adminScoreColors": {
+    "title": "Score Colors",
+    "subtitle": "Configure the color indicator for each score value",
+    "colorsConfig": "Color Configuration",
+    "save": "Save",
+    "saved": "Colors saved successfully",
+    "saveError": "Error saving colors",
     "loading": "Loading..."
   },
   "language": {

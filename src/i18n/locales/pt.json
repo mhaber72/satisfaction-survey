@@ -5,6 +5,7 @@
     "users": "Usuários",
     "accessProfiles": "Perfis de Acesso",
     "importData": "Importar Dados",
+    "scoreColors": "Cores dos Scores",
     "navigation": "Navegação",
     "administration": "Administração",
     "signOut": "Sair"
@@ -156,6 +157,15 @@
     "noClientsTitle": "Clientes que responderam \"Não\" ({{year}})",
     "client": "Cliente",
     "count": "Quantidade",
+    "loading": "Carregando..."
+  },
+  "adminScoreColors": {
+    "title": "Cores dos Scores",
+    "subtitle": "Configure o indicador de cor para cada valor de score",
+    "colorsConfig": "Configuração de Cores",
+    "save": "Salvar",
+    "saved": "Cores salvas com sucesso",
+    "saveError": "Erro ao salvar cores",
     "loading": "Carregando..."
   },
   "language": {

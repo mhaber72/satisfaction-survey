@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users, Shield, LogOut, Home, Upload } from "lucide-react";
+import { LayoutDashboard, Users, Shield, LogOut, Home, Upload, Palette } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslation } from "react-i18next";
@@ -34,6 +34,7 @@ export function AppSidebar() {
     { title: t("nav.users"), url: "/admin/users", icon: Users },
     { title: t("nav.accessProfiles"), url: "/admin/profiles", icon: Shield },
     { title: t("nav.importData"), url: "/admin/import", icon: Upload },
+    { title: t("nav.scoreColors"), url: "/admin/score-colors", icon: Palette },
   ];
 
   return (
