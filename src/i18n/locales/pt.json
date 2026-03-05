@@ -13,7 +13,8 @@
     "navigation": "Navegação",
     "administration": "Administração",
     "actionPlans": "Planos de Ação",
-    "signOut": "Sair"
+    "signOut": "Sair",
+    "actionResponsibles": "Responsáveis das Ações"
   },
   "login": {
     "title": "Entrar",
