@@ -478,14 +478,14 @@ function StatusDonutChart({ data, total }: { data: { name: string; value: number
   };
 
   return (
-    <ResponsiveContainer width={350} height={300}>
+    <ResponsiveContainer width={300} height={220}>
       <PieChart>
         <Pie
           data={data}
           cx="50%"
           cy="45%"
-          innerRadius={70}
-          outerRadius={100}
+          innerRadius={50}
+          outerRadius={75}
           dataKey="value"
           label={renderCustomLabel}
           labelLine={{ stroke: "rgba(255,255,255,0.3)", strokeWidth: 1 }}
