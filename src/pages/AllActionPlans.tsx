@@ -140,9 +140,15 @@ const AllActionPlans = () => {
                   <td className="p-3">{fmtDate(plan.start_date)}</td>
                   <td className="p-3">{fmtDate(plan.end_date)}</td>
                   <td className="p-3 text-right">
-                    <Button size="icon" variant="ghost" onClick={() => setEditingPlan(plan)}>
-                      <Pencil className="h-4 w-4" />
-                    </Button>
+                    {(() => {
+                      const statusName = ((plan.action_statuses as any)?.name || "").toLowerCase();
+                      const isTerminal = statusName.includes("conclu") || statusName.includes("cancel");
+                      return !isTerminal ? (
+                        <Button size="icon" variant="ghost" onClick={() => setEditingPlan(plan)}>
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                      ) : null;
+                    })()}
                   </td>
                 </tr>
               ))}
