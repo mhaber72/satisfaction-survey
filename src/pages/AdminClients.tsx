@@ -114,6 +114,7 @@ const AdminClients = () => {
                   <tr className="border-b">
                     <th className="p-4 text-left font-medium text-muted-foreground w-16">Logo</th>
                     <th className="p-4 text-left font-medium text-muted-foreground">{t("adminLookup.name")}</th>
+                    <th className="p-4 text-left font-medium text-muted-foreground">{t("adminClients.vertical", "Vertical")}</th>
                     <th className="p-4 text-right font-medium text-muted-foreground">{t("adminLookup.actions")}</th>
                   </tr>
                 </thead>
