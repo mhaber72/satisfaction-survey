@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Database, BarChart3, Users, FileSpreadsheet } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -77,48 +78,50 @@ const Index = () => {
           ))}
         </div>
 
-        <Card className="overflow-hidden">
+        <Card>
           <CardHeader><CardTitle>{t("dashboard.surveyData")}</CardTitle></CardHeader>
-          <CardContent>
+          <CardContent className="p-0">
             {isLoading ? (
-              <p className="text-muted-foreground">{t("dashboard.loading")}</p>
+              <p className="text-muted-foreground p-6">{t("dashboard.loading")}</p>
             ) : totalRecords === 0 ? (
               <div className="flex flex-col items-center gap-4 py-12 text-muted-foreground">
                 <FileSpreadsheet className="h-12 w-12" />
                 <p>{t("dashboard.noData")}</p>
               </div>
             ) : (
-              <div className="max-h-[380px] overflow-scroll relative scrollbar-always">
-                <table className="w-max min-w-full caption-bottom text-sm">
-                  <thead className="sticky top-0 z-10 bg-background [&_tr]:border-b">
-                    <tr className="border-b transition-colors hover:bg-muted/50">
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.client")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.name")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.theme")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.themeComment")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.question")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.applicability")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.importance")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.score")}</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.questionComment")}</th>
-                    </tr>
-                  </thead>
-                  <tbody className="[&_tr:last-child]:border-0">
-                    {filtered?.map((r) => (
-                      <tr key={r.id} className="border-b transition-colors hover:bg-muted/50">
-                         <td className="p-4 align-middle whitespace-nowrap">{r.client_name}</td>
-                         <td className="p-4 align-middle whitespace-nowrap">{r.firstname} {r.lastname}</td>
-                         <td className="p-4 align-middle whitespace-nowrap">{r.theme}</td>
-                         <td className="p-4 align-middle whitespace-nowrap">{r.theme_comment}</td>
-                         <td className="p-4 align-middle whitespace-nowrap">{r.question}</td>
-                         <td className="p-4 align-middle whitespace-nowrap">{r.applicability}</td>
-                         <td className="p-4 align-middle whitespace-nowrap">{r.importance}</td>
-                         <td className="p-4 align-middle whitespace-nowrap">{r.score}</td>
-                         <td className="p-4 align-middle whitespace-nowrap">{r.question_comment}</td>
+              <div className="relative border rounded-md" style={{ height: "380px" }}>
+                <div className="absolute inset-0 overflow-auto" style={{ scrollbarWidth: "auto", scrollbarColor: "#888 #f1f1f1" }}>
+                  <table className="w-max min-w-full caption-bottom text-sm">
+                    <thead className="sticky top-0 z-10 bg-background [&_tr]:border-b">
+                      <tr className="border-b transition-colors hover:bg-muted/50">
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.client")}</th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.name")}</th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.theme")}</th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.themeComment")}</th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.question")}</th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.applicability")}</th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.importance")}</th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.score")}</th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">{t("dashboard.questionComment")}</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="[&_tr:last-child]:border-0">
+                      {filtered?.map((r) => (
+                        <tr key={r.id} className="border-b transition-colors hover:bg-muted/50">
+                           <td className="p-4 align-middle whitespace-nowrap">{r.client_name}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.firstname} {r.lastname}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.theme}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.theme_comment}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.question}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.applicability}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.importance}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.score}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{r.question_comment}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
           </CardContent>
