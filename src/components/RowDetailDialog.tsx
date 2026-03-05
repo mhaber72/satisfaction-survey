@@ -60,7 +60,7 @@ const RowDetailDialog = ({ row, open, onOpenChange }: RowDetailDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{t("rowDetail.title", "Record Details")}</DialogTitle>
         </DialogHeader>
