@@ -204,8 +204,9 @@ const ActionPlanForm = ({
       }
     },
     onSuccess: async () => {
-      await qc.invalidateQueries({ queryKey: ["action_plans"] });
-      await qc.invalidateQueries({ queryKey: ["all_action_plans"] });
+      await qc.invalidateQueries({ queryKey: ["action_plans"], refetchType: "all" });
+      await qc.invalidateQueries({ queryKey: ["all_action_plans"], refetchType: "all" });
+      await qc.refetchQueries({ queryKey: ["all_action_plans"] });
       onOpenChange(false);
       toast({ title: t("actionPlan.saved") });
     },
