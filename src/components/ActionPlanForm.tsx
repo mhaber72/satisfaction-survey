@@ -203,9 +203,9 @@ const ActionPlanForm = ({
         if (error) throw error;
       }
     },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["action_plans"] });
-      qc.invalidateQueries({ queryKey: ["all_action_plans"] });
+    onSuccess: async () => {
+      await qc.invalidateQueries({ queryKey: ["action_plans"] });
+      await qc.invalidateQueries({ queryKey: ["all_action_plans"] });
       onOpenChange(false);
       toast({ title: t("actionPlan.saved") });
     },
