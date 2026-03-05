@@ -42,6 +42,7 @@ export function AppSidebar() {
     { title: t("nav.actionStatuses"), url: "/admin/action-statuses", icon: ListChecks },
     { title: t("nav.clients", "Clientes"), url: "/admin/clients", icon: Briefcase },
     { title: t("nav.actionResponsibles"), url: "/admin/action-responsibles", icon: UserCog },
+    { title: t("nav.verticals", "Verticais"), url: "/admin/verticals", icon: Layers },
   ];
 
   return (
