@@ -59,7 +59,12 @@ const AllActionPlans = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">{t("actionPlan.listTitle")}</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">{t("actionPlan.listTitle")}</h1>
+        <Button variant="outline" size="icon" onClick={() => setShowDashboard(true)} title="Dashboard">
+          <BarChart3 className="h-5 w-5" />
+        </Button>
+      </div>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-3 items-end">
