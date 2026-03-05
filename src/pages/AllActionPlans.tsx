@@ -133,6 +133,26 @@ const AllActionPlans = () => {
           />
         </div>
         <div>
+          <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("actionPlan.theme", "Tema")}</label>
+          <MultiSelectFilter
+            label={t("actionPlan.theme", "Tema")}
+            options={themes}
+            selected={selectedThemes}
+            onChange={setSelectedThemes}
+            width="w-[200px]"
+          />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("actionPlan.responsible", "Responsável")}</label>
+          <MultiSelectFilter
+            label={t("actionPlan.responsible", "Responsável")}
+            options={responsibles}
+            selected={selectedResponsibles}
+            onChange={setSelectedResponsibles}
+            width="w-[200px]"
+          />
+        </div>
+        <div>
           <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("filters.year", "Ano")}</label>
           <MultiSelectFilter
             label={t("filters.year", "Ano")}
