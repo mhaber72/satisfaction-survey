@@ -12,6 +12,7 @@
     "actionStatuses": "Statuts des Actions",
     "navigation": "Navigation",
     "administration": "Administration",
+    "actionPlans": "Plans d'Action",
     "signOut": "Déconnexion"
   },
   "login": {
@@ -215,7 +216,8 @@
     "save": "Enregistrer",
     "saved": "Plan d'action sauvegardé",
     "saveError": "Erreur lors de la sauvegarde",
-    "noActions": "Aucun plan d'action enregistré pour cet enregistrement.",
+    "noActions": "Aucun plan d'action trouvé.",
+    "searchPlaceholder": "Rechercher par nom, client, thème...",
     "confirmTitle": "Confirmation",
     "confirmStatusChange": "Êtes-vous sûr de vouloir changer le statut en \"{{status}}\" ?",
     "confirmCancel": "Annuler",

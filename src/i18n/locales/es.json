@@ -12,6 +12,7 @@
     "actionStatuses": "Estados de Acciones",
     "navigation": "Navegación",
     "administration": "Administración",
+    "actionPlans": "Planes de Acción",
     "signOut": "Cerrar Sesión"
   },
   "login": {
@@ -215,7 +216,8 @@
     "save": "Guardar",
     "saved": "Plan de acción guardado",
     "saveError": "Error al guardar plan de acción",
-    "noActions": "No hay planes de acción registrados para este registro.",
+    "noActions": "No se encontraron planes de acción.",
+    "searchPlaceholder": "Buscar por nombre, cliente, tema...",
     "confirmTitle": "Confirmación",
     "confirmStatusChange": "¿Está seguro que desea cambiar el estado a \"{{status}}\"?",
     "confirmCancel": "Cancelar",

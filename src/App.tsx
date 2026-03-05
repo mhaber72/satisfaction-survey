@@ -16,6 +16,7 @@ import AdminImport from "./pages/AdminImport";
 import AdminScoreColors from "./pages/AdminScoreColors";
 import AdminLookupTable from "./pages/AdminLookupTable";
 import AdminActionStatuses from "./pages/AdminActionStatuses";
+import AllActionPlans from "./pages/AllActionPlans";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/admin/regional-managers" element={<ProtectedRoute adminOnly><AppLayout><AdminLookupTable tableName="regional_managers" titleKey="nav.regionalManagers" /></AppLayout></ProtectedRoute>} />
             <Route path="/admin/directories" element={<ProtectedRoute adminOnly><AppLayout><AdminLookupTable tableName="directories" titleKey="nav.directories" /></AppLayout></ProtectedRoute>} />
             <Route path="/admin/action-statuses" element={<ProtectedRoute adminOnly><AppLayout><AdminActionStatuses /></AppLayout></ProtectedRoute>} />
+            <Route path="/action-plans" element={<ProtectedRoute><AppLayout><AllActionPlans /></AppLayout></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
