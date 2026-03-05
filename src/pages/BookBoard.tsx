@@ -102,7 +102,7 @@ export default function BookBoard() {
       onKeyDown={handleKeyDown}
     >
       {/* Book container */}
-      <div className="relative w-full max-w-4xl px-16" style={{ perspective: "2000px" }}>
+      <div className="relative w-full max-w-5xl px-16" style={{ perspective: "2000px" }}>
         {/* Page counter */}
         <div className="absolute -top-10 left-0 right-0 flex items-center justify-center gap-3">
           <span className="text-sm text-[hsl(200,20%,40%)]">
