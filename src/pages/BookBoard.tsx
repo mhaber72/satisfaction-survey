@@ -14,7 +14,7 @@ function CoverPage() {
       <p className="text-xl text-[hsl(200,30%,45%)] text-center max-w-lg">
         Customer Satisfaction Survey — Book Board
       </p>
-      <div className="mt-8 flex items-center gap-2 text-sm text-[hsl(200,40%,50%)]">
+      <div className="mt-8 flex items-center gap-2 text-sm text-[hsl(200,20%,60%)]">
         <ChevronRight className="h-4 w-4 animate-pulse" />
         <span>Deslize para começar</span>
       </div>
