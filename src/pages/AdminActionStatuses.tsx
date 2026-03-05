@@ -41,6 +41,7 @@ const AdminActionStatuses = () => {
     mutationFn: async (item: StatusForm) => {
       const payload = {
         name: item.name,
+        color: item.color,
         requires_start_date: item.requires_start_date,
         requires_end_date: item.requires_end_date,
         requires_new_end_date: item.requires_new_end_date,
