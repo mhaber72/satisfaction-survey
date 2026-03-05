@@ -3,6 +3,16 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -113,6 +123,21 @@ const ActionPlanForm = ({
   });
 
   const selectedStatus = statuses?.find((s) => s.id === form.status_id);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const isConfirmationStatus = () => {
+    if (!selectedStatus) return false;
+    const name = selectedStatus.name.toLowerCase();
+    return name.includes("conclu") || name.includes("cancel");
+  };
+
+  const handleSave = () => {
+    if (isConfirmationStatus()) {
+      setShowConfirm(true);
+    } else {
+      saveMutation.mutate();
+    }
+  };
 
   const saveMutation = useMutation({
     mutationFn: async () => {
@@ -199,6 +224,7 @@ const ActionPlanForm = ({
   );
 
   return (
+    <>
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
@@ -291,12 +317,28 @@ const ActionPlanForm = ({
             />
           </div>
 
-          <Button className="w-full" disabled={!isValid()} onClick={() => saveMutation.mutate()}>
+          <Button className="w-full" disabled={!isValid()} onClick={handleSave}>
             {t("actionPlan.save")}
           </Button>
         </div>
       </DialogContent>
     </Dialog>
+
+    <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{t("actionPlan.confirmTitle")}</AlertDialogTitle>
+          <AlertDialogDescription>
+            {t("actionPlan.confirmStatusChange", { status: selectedStatus?.name })}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>{t("actionPlan.confirmCancel")}</AlertDialogCancel>
+          <AlertDialogAction onClick={() => saveMutation.mutate()}>{t("actionPlan.confirmOk")}</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    </>
   );
 };
 

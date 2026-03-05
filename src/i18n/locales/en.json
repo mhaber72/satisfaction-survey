@@ -214,7 +214,11 @@
     "save": "Save",
     "saved": "Action plan saved",
     "saveError": "Error saving action plan",
-    "noActions": "No action plans registered for this record."
+    "noActions": "No action plans registered for this record.",
+    "confirmTitle": "Confirmation",
+    "confirmStatusChange": "Are you sure you want to change the status to \"{{status}}\"?",
+    "confirmCancel": "Cancel",
+    "confirmOk": "Confirm"
   },
   "language": {
     "en": "English",
