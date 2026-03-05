@@ -143,6 +143,9 @@
     "theme": "Thème",
     "all": "Tous"
   },
+  "corporatePerception": {
+    "wouldHireQuestion": "Engageriez-vous ID pour un nouveau service ou une nouvelle opération ?"
+  },
   "language": {
     "en": "English",
     "fr": "Français",
