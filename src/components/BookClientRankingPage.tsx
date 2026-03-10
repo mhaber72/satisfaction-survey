@@ -87,21 +87,21 @@ function TrendIcon({ current, previous }: { current: number; previous: number | 
   const diff = current - previous;
   if (Math.abs(diff) < 0.01) {
     return (
-      <div className="w-6 h-6 rounded-full border-2 border-[hsl(200,60%,50%)] flex items-center justify-center">
-        <Minus className="w-3 h-3 text-[hsl(200,60%,50%)]" />
+      <div className="w-7 h-7 rounded-full border-2 border-[hsl(200,60%,50%)] flex items-center justify-center">
+        <Minus className="w-3.5 h-3.5 text-[hsl(200,60%,50%)]" />
       </div>
     );
   }
   if (diff > 0) {
     return (
-      <div className="w-6 h-6 rounded-full border-2 border-[hsl(200,60%,50%)] flex items-center justify-center">
-        <TrendingUp className="w-3 h-3 text-[hsl(200,60%,50%)]" />
+      <div className="w-7 h-7 rounded-full border-2 border-[hsl(200,60%,50%)] flex items-center justify-center">
+        <TrendingUp className="w-3.5 h-3.5 text-[hsl(200,60%,50%)]" />
       </div>
     );
   }
   return (
-    <div className="w-6 h-6 rounded-full border-2 border-[hsl(0,70%,50%)] flex items-center justify-center">
-      <TrendingDown className="w-3 h-3 text-[hsl(0,70%,50%)]" />
+    <div className="w-7 h-7 rounded-full border-2 border-[hsl(0,70%,50%)] flex items-center justify-center">
+      <TrendingDown className="w-3.5 h-3.5 text-[hsl(0,70%,50%)]" />
     </div>
   );
 }
@@ -151,7 +151,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
   const rightCol = clientsData.slice(half);
 
   const renderColumn = (items: typeof clientsData) => (
-    <div className="flex flex-col gap-[5px] flex-1 justify-center">
+    <div className="flex flex-col gap-[6px] flex-1 justify-center">
       {items.map((item) => {
         const curPct = (item.current / maxScore) * 100;
         const prevPct = item.previous != null ? (item.previous / maxScore) * 100 : 0;
@@ -162,8 +162,8 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
         return (
           <div key={item.client} className="flex items-center gap-2">
             {/* Client name */}
-            <div className="w-[150px] shrink-0 text-right pr-2">
-              <span className="text-xs font-bold uppercase leading-tight">
+            <div className="w-[160px] shrink-0 text-right pr-2">
+              <span className="text-[13px] font-bold uppercase leading-tight">
                 {item.client}
               </span>
             </div>
@@ -171,7 +171,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
             <div className="flex-1 flex flex-col gap-[2px]">
               {/* Current year bar */}
               <div className="flex items-center gap-1">
-                <div className="flex-1 h-[14px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
+                <div className="flex-1 h-[16px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
                   <div
                     className="h-full rounded-sm"
                     style={{
@@ -180,11 +180,11 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
                     }}
                   />
                 </div>
-                <span className="text-xs font-bold w-[36px] shrink-0">{fmt(item.current)}</span>
+                <span className="text-[13px] font-bold w-[38px] shrink-0">{fmt(item.current)}</span>
               </div>
               {/* Previous year bar */}
               <div className="flex items-center gap-1">
-                <div className="flex-1 h-[14px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
+                <div className="flex-1 h-[16px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
                   <div
                     className="h-full rounded-sm"
                     style={{
@@ -193,7 +193,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
                     }}
                   />
                 </div>
-                <span className="text-xs font-semibold text-[hsl(210,10%,55%)] w-[36px] shrink-0">
+                <span className="text-[13px] font-semibold text-[hsl(210,10%,55%)] w-[38px] shrink-0">
                   {item.previous != null ? fmt(item.previous) : "—"}
                 </span>
               </div>
