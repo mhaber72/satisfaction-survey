@@ -14,7 +14,8 @@
     "administration": "Administration",
     "actionPlans": "Action Plans",
     "signOut": "Sign Out",
-    "actionResponsibles": "Action Responsibles"
+    "actionResponsibles": "Action Responsibles",
+    "questions": "Questions"
   },
   "login": {
     "title": "Sign In",
