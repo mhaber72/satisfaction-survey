@@ -119,9 +119,9 @@ export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
       </div>
 
       {/* Content */}
-      <div className="flex-1 min-h-0 overflow-hidden flex flex-col px-6 py-2 gap-2">
+      <div className="flex-1 min-h-0 overflow-hidden flex flex-col px-6 py-1 gap-1">
         {/* KPI Cards Row */}
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-4 gap-2 shrink-0">
           {/* Clients */}
           <KPICard
             icon={<Users className="h-5 w-5 text-[hsl(210,80%,50%)]" />}
