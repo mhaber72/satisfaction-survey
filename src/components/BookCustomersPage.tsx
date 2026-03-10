@@ -102,15 +102,14 @@ export default function BookCustomersPage({ surveyYear }: Props) {
             No clients found for this year
           </div>
         ) : (
-          <div className="grid grid-cols-3 gap-3 h-full auto-rows-fr">
+          <div className="grid grid-cols-3 grid-rows-2 gap-3 h-full">
             {verticalNames.map((vertName) => {
               const items = grouped[vertName];
               const size = getLogoSize(items.length);
-              const span = getColSpan(items.length, verticalNames.length);
               return (
                 <div
                   key={vertName}
-                  className={`flex flex-col rounded-xl border-2 border-[hsl(210,60%,75%)] overflow-hidden ${span}`}
+                  className="flex flex-col rounded-xl border-2 border-[hsl(210,60%,75%)] overflow-hidden"
                 >
                   {/* Vertical title */}
                   <div className="bg-white border-b border-[hsl(210,30%,90%)] px-3 py-2 text-center">
