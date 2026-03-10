@@ -105,23 +105,23 @@ export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
   return (
     <div className="flex h-full w-full flex-col bg-white text-[hsl(215,85%,15%)]">
       {/* Header */}
-      <div className="flex items-center justify-between px-10 py-4 border-b border-[hsl(210,30%,90%)]">
+      <div className="flex items-center justify-between px-10 py-2 border-b border-[hsl(210,30%,90%)]">
         <div>
-          <h2 className="text-2xl font-extrabold uppercase tracking-tight">
+          <h2 className="text-xl font-extrabold uppercase tracking-tight">
             Corporate Perception {surveyYear || ""}
           </h2>
-          <div className="flex items-center gap-2 mt-0.5">
-            <p className="text-xs font-bold text-[hsl(0,85%,45%)] uppercase tracking-wide">BRAZIL</p>
-            <div className="h-[3px] w-6 bg-[hsl(0,85%,45%)] rounded-full" />
+          <div className="flex items-center gap-2">
+            <p className="text-[10px] font-bold text-[hsl(0,85%,45%)] uppercase tracking-wide">BRAZIL</p>
+            <div className="h-[2px] w-5 bg-[hsl(0,85%,45%)] rounded-full" />
           </div>
         </div>
-        <img src={logoIdl} alt="ID Logistics" className="h-8 object-contain" />
+        <img src={logoIdl} alt="ID Logistics" className="h-7 object-contain" />
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-hidden flex flex-col px-6 py-3 gap-3">
+      <div className="flex-1 min-h-0 overflow-hidden flex flex-col px-6 py-2 gap-2">
         {/* KPI Cards Row */}
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-4 gap-2">
           {/* Clients */}
           <KPICard
             icon={<Users className="h-5 w-5 text-[hsl(210,80%,50%)]" />}
