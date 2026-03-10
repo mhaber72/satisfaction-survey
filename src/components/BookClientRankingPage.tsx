@@ -123,11 +123,17 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
     const prevAvgsArr = prevYear ? computeClientAvgs(records, prevYear) : [];
     const prevMap = new Map(prevAvgsArr.map((c) => [c.client, c.avg]));
 
-    const merged = currentAvgs.map((c) => ({
-      client: c.client,
-      current: c.avg,
-      previous: prevMap.get(c.client) ?? null,
-    }));
+    const merged = currentAvgs
+      .map((c) => ({
+        client: c.client,
+        current: c.avg,
+        previous: prevMap.get(c.client) ?? null,
+      }))
+      .sort((a, b) => {
+        const diff = b.current - a.current;
+        if (Math.abs(diff) > 0.001) return diff;
+        return a.client.localeCompare(b.client);
+      });
 
     const gCur = computeGlobalAvg(records, surveyYear);
     const gPrev = prevYear ? computeGlobalAvg(records, prevYear) : 0;
@@ -145,7 +151,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
   const rightCol = clientsData.slice(half);
 
   const renderColumn = (items: typeof clientsData) => (
-    <div className="flex flex-col gap-[4px] flex-1 justify-center">
+    <div className="flex flex-col gap-[5px] flex-1 justify-center">
       {items.map((item) => {
         const curPct = (item.current / maxScore) * 100;
         const prevPct = item.previous != null ? (item.previous / maxScore) * 100 : 0;
@@ -156,8 +162,8 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
         return (
           <div key={item.client} className="flex items-center gap-2">
             {/* Client name */}
-            <div className="w-[140px] shrink-0 text-right pr-2">
-              <span className="text-[11px] font-bold uppercase leading-tight">
+            <div className="w-[150px] shrink-0 text-right pr-2">
+              <span className="text-xs font-bold uppercase leading-tight">
                 {item.client}
               </span>
             </div>
@@ -165,7 +171,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
             <div className="flex-1 flex flex-col gap-[2px]">
               {/* Current year bar */}
               <div className="flex items-center gap-1">
-                <div className="flex-1 h-[12px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
+                <div className="flex-1 h-[14px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
                   <div
                     className="h-full rounded-sm"
                     style={{
@@ -174,11 +180,11 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
                     }}
                   />
                 </div>
-                <span className="text-[11px] font-bold w-[34px] shrink-0">{fmt(item.current)}</span>
+                <span className="text-xs font-bold w-[36px] shrink-0">{fmt(item.current)}</span>
               </div>
               {/* Previous year bar */}
               <div className="flex items-center gap-1">
-                <div className="flex-1 h-[12px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
+                <div className="flex-1 h-[14px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
                   <div
                     className="h-full rounded-sm"
                     style={{
@@ -187,7 +193,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
                     }}
                   />
                 </div>
-                <span className="text-[11px] font-semibold text-[hsl(210,10%,55%)] w-[34px] shrink-0">
+                <span className="text-xs font-semibold text-[hsl(210,10%,55%)] w-[36px] shrink-0">
                   {item.previous != null ? fmt(item.previous) : "—"}
                 </span>
               </div>
