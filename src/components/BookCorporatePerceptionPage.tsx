@@ -119,9 +119,9 @@ export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
       </div>
 
       {/* Content */}
-      <div className="flex-1 min-h-0 overflow-hidden flex flex-col px-6 py-2 gap-2">
+      <div className="flex-1 min-h-0 overflow-hidden flex flex-col px-6 py-1 gap-1">
         {/* KPI Cards Row */}
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-4 gap-2 shrink-0">
           {/* Clients */}
           <KPICard
             icon={<Users className="h-5 w-5 text-[hsl(210,80%,50%)]" />}
@@ -131,10 +131,10 @@ export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
             prevYear={prevYear}
           />
           {/* Global NPS Gauge */}
-          <div className="rounded-lg border border-[hsl(210,30%,88%)] bg-[hsl(210,40%,97%)] flex flex-col items-center justify-center p-2">
+          <div className="rounded-lg border border-[hsl(210,30%,88%)] bg-[hsl(210,40%,97%)] flex items-center justify-center gap-2 px-3 py-1.5">
             <MiniGauge nps={globalNPS.nps} promoters={globalNPS.promoters} passives={globalNPS.passives} detractors={globalNPS.detractors} year={surveyYear} />
             {prevRecords.length > 0 && (
-              <p className="text-[10px] text-[hsl(200,20%,55%)] mt-0.5">{prevGlobalNPS.nps} in {prevYear}</p>
+              <p className="text-[9px] text-[hsl(200,20%,55%)]">{prevGlobalNPS.nps} in {prevYear}</p>
             )}
           </div>
           {/* Answers */}
@@ -146,20 +146,20 @@ export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
             prevYear={prevYear}
           />
           {/* Q2 */}
-          <div className="rounded-lg border border-[hsl(210,30%,88%)] bg-[hsl(210,40%,97%)] flex flex-col items-center justify-center p-2">
-            <p className="text-[9px] font-bold text-[hsl(215,85%,25%)] text-center leading-tight mb-1">
-              Would hire ID for a new service?
+          <div className="rounded-lg border border-[hsl(210,30%,88%)] bg-[hsl(210,40%,97%)] flex items-center gap-3 px-3 py-1.5">
+            <p className="text-[8px] font-bold text-[hsl(215,85%,25%)] leading-tight max-w-[60px]">
+              Would hire ID?
             </p>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <div className="flex flex-col items-center">
-                <span className="text-[10px] font-bold text-[hsl(210,80%,50%)]">YES</span>
-                <span className="text-xl font-bold text-[hsl(140,60%,35%)]">{q2Stats.yes}</span>
-                {q2PrevStats && <span className="text-[9px] text-[hsl(200,20%,55%)]">{q2PrevStats.yes} in {prevYear}</span>}
+                <span className="text-[9px] font-bold text-[hsl(210,80%,50%)]">YES</span>
+                <span className="text-lg font-bold text-[hsl(140,60%,35%)] leading-tight">{q2Stats.yes}</span>
+                {q2PrevStats && <span className="text-[8px] text-[hsl(200,20%,55%)]">{q2PrevStats.yes} in {prevYear}</span>}
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-[10px] font-bold text-[hsl(210,80%,50%)]">NO</span>
-                <span className="text-xl font-bold text-[hsl(0,70%,50%)]">{q2Stats.no}</span>
-                {q2PrevStats && <span className="text-[9px] text-[hsl(200,20%,55%)]">{q2PrevStats.no} in {prevYear}</span>}
+                <span className="text-[9px] font-bold text-[hsl(210,80%,50%)]">NO</span>
+                <span className="text-lg font-bold text-[hsl(0,70%,50%)] leading-tight">{q2Stats.no}</span>
+                {q2PrevStats && <span className="text-[8px] text-[hsl(200,20%,55%)]">{q2PrevStats.no} in {prevYear}</span>}
               </div>
             </div>
           </div>
@@ -189,15 +189,17 @@ export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
 
 function KPICard({ icon, value, label, prevValue, prevYear }: { icon: React.ReactNode; value: number; label: string; prevValue: number | null; prevYear: number | null }) {
   return (
-    <div className="rounded-lg border border-[hsl(210,30%,88%)] bg-[hsl(210,40%,97%)] flex flex-col items-center justify-center p-3">
-      <div className="mb-1 flex h-10 w-10 items-center justify-center rounded-full border border-[hsl(210,60%,75%)]">
+    <div className="rounded-lg border border-[hsl(210,30%,88%)] bg-[hsl(210,40%,97%)] flex items-center gap-2 px-3 py-1.5">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[hsl(210,60%,75%)]">
         {icon}
       </div>
-      <p className="text-2xl font-bold text-[hsl(215,85%,15%)]">{value}</p>
-      <p className="text-[10px] font-semibold text-[hsl(215,85%,25%)] uppercase">{label}</p>
-      {prevValue !== null && prevYear && (
-        <p className="text-[10px] text-[hsl(200,20%,55%)] mt-0.5">{prevValue} in {prevYear}</p>
-      )}
+      <div className="flex flex-col">
+        <p className="text-xl font-bold text-[hsl(215,85%,15%)] leading-tight">{value}</p>
+        <p className="text-[9px] font-semibold text-[hsl(215,85%,25%)] uppercase leading-tight">{label}</p>
+        {prevValue !== null && prevYear && (
+          <p className="text-[9px] text-[hsl(200,20%,55%)] leading-tight">{prevValue} in {prevYear}</p>
+        )}
+      </div>
     </div>
   );
 }
@@ -230,9 +232,9 @@ function BookNPSBar({ client, nps, maxAbs }: { client: string; nps: number; maxA
 }
 
 function MiniGauge({ nps, promoters, passives, detractors, year }: { nps: number; promoters: number; passives: number; detractors: number; year: number | null }) {
-  const size = 100;
-  const strokeOuter = 18;
-  const gap = 4;
+  const size = 70;
+  const strokeOuter = 12;
+  const gap = 3;
   const rOuter = (size - strokeOuter) / 2;
   const cx = size / 2;
   const cy = size / 2;
@@ -274,8 +276,8 @@ function MiniGauge({ nps, promoters, passives, detractors, year }: { nps: number
           {redSweep > 0.5 && <path d={arcPath(rOuter, redStart, redSweep)} fill="none" stroke="hsl(0,70%,75%)" strokeWidth={strokeOuter} strokeLinecap="butt" />}
         </>
       )}
-      <text x={cx} y={cy - 4} textAnchor="middle" dominantBaseline="central" fill="hsl(215,85%,15%)" fontSize="24" fontWeight="800">{nps}</text>
-      <text x={cx} y={cy + 14} textAnchor="middle" dominantBaseline="central" fill="hsl(215,85%,25%)" fontSize="8" fontWeight="700">NPS {year}</text>
+      <text x={cx} y={cy - 2} textAnchor="middle" dominantBaseline="central" fill="hsl(215,85%,15%)" fontSize="18" fontWeight="800">{nps}</text>
+      <text x={cx} y={cy + 11} textAnchor="middle" dominantBaseline="central" fill="hsl(215,85%,25%)" fontSize="7" fontWeight="700">NPS {year}</text>
     </svg>
   );
 }
