@@ -239,7 +239,7 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
               className="flex-1 max-w-[120px] text-center"
               style={{ marginTop: i % 2 === 1 ? "14px" : "0px" }}
             >
-              <span className="text-[9px] font-bold uppercase leading-tight block">
+              <span className="text-[10px] font-bold uppercase leading-tight block">
                 {theme}
               </span>
             </div>
