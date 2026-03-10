@@ -10,14 +10,14 @@ function CoverPage() {
   return (
     <div className="relative flex h-full w-full bg-white overflow-hidden">
       {/* Left side content */}
-      <div className="relative z-10 flex flex-col justify-between w-[55%] px-10 py-8">
+      <div className="relative z-10 flex flex-col w-[50%] px-10 py-8">
         {/* Logo */}
         <div>
-          <img src={logoIdl} alt="ID Logistics" className="h-16 object-contain" />
+          <img src={logoIdl} alt="ID Logistics" className="h-14 object-contain" />
         </div>
 
         {/* Title block */}
-        <div className="flex-1 flex flex-col justify-center -mt-4">
+        <div className="flex-1 flex flex-col justify-center">
           <h1 className="text-4xl font-extrabold tracking-tight leading-tight text-[hsl(215,85%,15%)] uppercase">
             Customer Satisfaction<br />Survey Analysis
           </h1>
@@ -37,22 +37,24 @@ function CoverPage() {
         </div>
       </div>
 
-      {/* Right side - warehouse image with curved mask */}
-      <div className="absolute right-0 top-0 bottom-0 w-[55%]">
+      {/* Right side - warehouse image with curved edge */}
+      <div className="absolute right-0 top-0 bottom-0 w-[52%]">
+        {/* Curved dark border on left edge */}
         <div
-          className="absolute inset-0"
+          className="absolute left-0 top-0 bottom-0 w-8 z-10"
           style={{
-            clipPath: "ellipse(85% 100% at 70% 50%)",
+            background: "linear-gradient(to right, hsl(215,30%,20%), transparent)",
+            borderRadius: "50% 0 0 50% / 100% 0 0 100%",
           }}
-        >
-          <img
-            src={coverWarehouse}
-            alt="Warehouse"
-            className="h-full w-full object-cover"
-          />
-          {/* Dark overlay for depth */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[hsl(215,30%,20%,0.3)] to-transparent" />
-        </div>
+        />
+        <img
+          src={coverWarehouse}
+          alt="Warehouse"
+          className="h-full w-full object-cover object-center"
+          style={{
+            borderRadius: "40% 0 0 40% / 50% 0 0 50%",
+          }}
+        />
       </div>
     </div>
   );
