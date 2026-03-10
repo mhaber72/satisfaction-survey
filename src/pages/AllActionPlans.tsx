@@ -5,10 +5,11 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Pencil, Search, BarChart3, Eye } from "lucide-react";
+import { Pencil, Search, BarChart3, Eye, Upload } from "lucide-react";
 import { format } from "date-fns";
 import ActionPlanForm from "@/components/ActionPlanForm";
 import ActionPlanDashboard from "@/components/ActionPlanDashboard";
+import ActionPlanImport from "@/components/ActionPlanImport";
 import MultiSelectFilter from "@/components/MultiSelectFilter";
 
 const AllActionPlans = () => {
