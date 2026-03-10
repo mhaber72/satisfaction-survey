@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
-import { Pencil, Search } from "lucide-react";
+import { Filter } from "lucide-react";
 
 interface SurveyQuestion {
   id: string;
@@ -27,7 +27,8 @@ const AdminQuestions = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [editing, setEditing] = useState<SurveyQuestion | null>(null);
-  const [search, setSearch] = useState("");
+  const [filterYear, setFilterYear] = useState<string>("all");
+  const [filterTheme, setFilterTheme] = useState<string>("all");
   const [formData, setFormData] = useState({
     question_fr: "",
     question_en: "",
@@ -51,17 +52,25 @@ const AdminQuestions = () => {
     },
   });
 
-  const filtered = questions.filter((q) => {
-    const s = search.toLowerCase();
-    return (
-      !s ||
-      q.question_fr.toLowerCase().includes(s) ||
-      q.question_en.toLowerCase().includes(s) ||
-      q.question_pt.toLowerCase().includes(s) ||
-      q.question_es.toLowerCase().includes(s) ||
-      (q.theme ?? "").toLowerCase().includes(s)
-    );
-  });
+  const years = useMemo(() => {
+    const set = new Set<number>();
+    questions.forEach((q) => q.survey_year && set.add(q.survey_year));
+    return Array.from(set).sort((a, b) => b - a);
+  }, [questions]);
+
+  const themes = useMemo(() => {
+    const set = new Set<string>();
+    questions.forEach((q) => q.theme && set.add(q.theme));
+    return Array.from(set).sort();
+  }, [questions]);
+
+  const filtered = useMemo(() => {
+    return questions.filter((q) => {
+      if (filterYear !== "all" && String(q.survey_year) !== filterYear) return false;
+      if (filterTheme !== "all" && q.theme !== filterTheme) return false;
+      return true;
+    });
+  }, [questions, filterYear, filterTheme]);
 
   const openEdit = (q: SurveyQuestion) => {
     setEditing(q);
@@ -104,18 +113,34 @@ const AdminQuestions = () => {
 
         <Card className="border-[hsla(200,80%,60%,0.15)] bg-[hsla(210,70%,15%,0.6)] backdrop-blur-md">
           <CardHeader>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap gap-4">
               <CardTitle className="text-white">
                 {t("adminQuestions.subtitle", { count: filtered.length })}
               </CardTitle>
-              <div className="relative w-72">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[hsl(200,40%,60%)]" />
-                <Input
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder={t("adminQuestions.searchPlaceholder")}
-                  className="pl-9 border-[hsla(200,80%,60%,0.3)] bg-[hsla(210,70%,15%,0.5)] text-white placeholder:text-[hsl(200,40%,60%)]"
-                />
+              <div className="flex items-center gap-3">
+                <Filter className="h-4 w-4 text-[hsl(200,40%,60%)]" />
+                <Select value={filterYear} onValueChange={setFilterYear}>
+                  <SelectTrigger className="w-[130px] border-[hsla(200,80%,60%,0.3)] bg-[hsla(210,70%,15%,0.5)] text-white">
+                    <SelectValue placeholder={t("adminQuestions.year")} />
+                  </SelectTrigger>
+                  <SelectContent className="border-[hsla(200,80%,60%,0.3)] bg-[hsl(215,85%,12%)]">
+                    <SelectItem value="all" className="text-white">{t("filters.all")}</SelectItem>
+                    {years.map((y) => (
+                      <SelectItem key={y} value={String(y)} className="text-white">{y}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={filterTheme} onValueChange={setFilterTheme}>
+                  <SelectTrigger className="w-[220px] border-[hsla(200,80%,60%,0.3)] bg-[hsla(210,70%,15%,0.5)] text-white">
+                    <SelectValue placeholder={t("adminQuestions.theme")} />
+                  </SelectTrigger>
+                  <SelectContent className="border-[hsla(200,80%,60%,0.3)] bg-[hsl(215,85%,12%)]">
+                    <SelectItem value="all" className="text-white">{t("filters.all")}</SelectItem>
+                    {themes.map((th) => (
+                      <SelectItem key={th} value={th} className="text-white">{th}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </CardHeader>
@@ -128,19 +153,22 @@ const AdminQuestions = () => {
                   <TableHeader className="sticky top-0 bg-[hsl(215,85%,12%)] z-10">
                     <TableRow className="border-[hsla(200,80%,60%,0.1)]">
                       <TableHead className="text-[hsl(200,60%,70%)] min-w-[60px]">{t("adminQuestions.year")}</TableHead>
-                      <TableHead className="text-[hsl(200,60%,70%)] min-w-[120px]">{t("adminQuestions.theme")}</TableHead>
-                      <TableHead className="text-[hsl(200,60%,70%)] min-w-[250px]">{t("adminQuestions.questionFr")}</TableHead>
-                      <TableHead className="text-[hsl(200,60%,70%)] min-w-[250px]">{t("adminQuestions.questionEn")}</TableHead>
-                      <TableHead className="text-[hsl(200,60%,70%)] min-w-[250px]">{t("adminQuestions.questionPt")}</TableHead>
-                      <TableHead className="text-[hsl(200,60%,70%)] min-w-[250px]">{t("adminQuestions.questionEs")}</TableHead>
-                      <TableHead className="text-[hsl(200,60%,70%)] w-16">{t("adminQuestions.actions")}</TableHead>
+                      <TableHead className="text-[hsl(200,60%,70%)] min-w-[140px]">{t("adminQuestions.theme")}</TableHead>
+                      <TableHead className="text-[hsl(200,60%,70%)] min-w-[280px]">{t("adminQuestions.questionFr")}</TableHead>
+                      <TableHead className="text-[hsl(200,60%,70%)] min-w-[280px]">{t("adminQuestions.questionEn")}</TableHead>
+                      <TableHead className="text-[hsl(200,60%,70%)] min-w-[280px]">{t("adminQuestions.questionPt")}</TableHead>
+                      <TableHead className="text-[hsl(200,60%,70%)] min-w-[280px]">{t("adminQuestions.questionEs")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filtered.map((q) => (
-                      <TableRow key={q.id} className="border-[hsla(200,80%,60%,0.1)] hover:bg-[hsla(200,80%,50%,0.05)]">
-                        <TableCell className="text-white">{q.survey_year ?? "-"}</TableCell>
-                        <TableCell className="text-[hsl(200,60%,70%)]">{q.theme ?? "-"}</TableCell>
+                      <TableRow
+                        key={q.id}
+                        className="border-[hsla(200,80%,60%,0.1)] hover:bg-[hsla(200,80%,50%,0.1)] cursor-pointer transition-colors"
+                        onClick={() => openEdit(q)}
+                      >
+                        <TableCell className="text-white font-medium">{q.survey_year ?? "-"}</TableCell>
+                        <TableCell className="text-[hsl(200,60%,70%)] text-xs font-medium">{q.theme ?? "-"}</TableCell>
                         <TableCell className="text-white text-xs">{q.question_fr}</TableCell>
                         <TableCell className="text-[hsl(200,60%,70%)] text-xs">
                           {q.question_en || <span className="text-[hsl(0,60%,60%)] italic">{t("adminQuestions.noTranslation")}</span>}
@@ -150,11 +178,6 @@ const AdminQuestions = () => {
                         </TableCell>
                         <TableCell className="text-[hsl(200,60%,70%)] text-xs">
                           {q.question_es || <span className="text-[hsl(0,60%,60%)] italic">{t("adminQuestions.noTranslation")}</span>}
-                        </TableCell>
-                        <TableCell>
-                          <Button variant="ghost" size="icon" onClick={() => openEdit(q)} className="text-[hsl(200,60%,70%)] hover:text-white">
-                            <Pencil className="h-4 w-4" />
-                          </Button>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -175,29 +198,22 @@ const AdminQuestions = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
                 <Label className="text-[hsl(200,60%,70%)]">{t("adminQuestions.theme")}</Label>
-                <Input
-                  value={formData.theme}
-                  onChange={(e) => setFormData({ ...formData, theme: e.target.value })}
-                  className="border-[hsla(200,80%,60%,0.3)] bg-[hsla(210,70%,15%,0.5)] text-white"
-                />
+                <div className="rounded-md border border-[hsla(200,80%,60%,0.2)] bg-[hsla(210,70%,15%,0.3)] px-3 py-2 text-sm text-[hsl(200,40%,60%)]">
+                  {formData.theme || "-"}
+                </div>
               </div>
               <div className="space-y-1">
                 <Label className="text-[hsl(200,60%,70%)]">{t("adminQuestions.year")}</Label>
-                <Input
-                  value={formData.survey_year}
-                  onChange={(e) => setFormData({ ...formData, survey_year: e.target.value })}
-                  className="border-[hsla(200,80%,60%,0.3)] bg-[hsla(210,70%,15%,0.5)] text-white"
-                  type="number"
-                />
+                <div className="rounded-md border border-[hsla(200,80%,60%,0.2)] bg-[hsla(210,70%,15%,0.3)] px-3 py-2 text-sm text-[hsl(200,40%,60%)]">
+                  {formData.survey_year || "-"}
+                </div>
               </div>
             </div>
             <div className="space-y-1">
               <Label className="text-[hsl(200,60%,70%)]">{t("adminQuestions.questionFr")} (Original)</Label>
-              <Textarea
-                value={formData.question_fr}
-                onChange={(e) => setFormData({ ...formData, question_fr: e.target.value })}
-                className="border-[hsla(200,80%,60%,0.3)] bg-[hsla(210,70%,15%,0.5)] text-white min-h-[80px]"
-              />
+              <div className="rounded-md border border-[hsla(200,80%,60%,0.2)] bg-[hsla(210,70%,15%,0.3)] px-3 py-2 text-sm text-white min-h-[60px]">
+                {formData.question_fr}
+              </div>
             </div>
             <div className="space-y-1">
               <Label className="text-[hsl(200,60%,70%)]">{t("adminQuestions.questionEn")}</Label>
