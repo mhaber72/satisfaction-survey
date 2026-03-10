@@ -166,11 +166,11 @@ export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
         </div>
 
         {/* NPS by Client Chart */}
-        <div className="flex-[0.8] min-h-[180px] rounded-lg border border-[hsl(210,30%,88%)] bg-[hsl(210,40%,97%)] overflow-hidden flex flex-col">
-          <div className="px-4 py-2 border-b border-[hsl(210,30%,90%)]">
+        <div className="flex-1 min-h-0 rounded-lg border border-[hsl(210,30%,88%)] bg-[hsl(210,40%,97%)] overflow-hidden flex flex-col">
+          <div className="px-4 py-1.5 border-b border-[hsl(210,30%,90%)]">
             <span className="text-xs font-bold uppercase tracking-wider text-[hsl(215,85%,25%)]">NPS by Client</span>
           </div>
-          <div className="flex-1 overflow-auto px-4 py-2">
+          <div className="flex-1 min-h-0 px-4 py-1">
             {npsData.length === 0 ? (
               <div className="flex h-full items-center justify-center text-[hsl(200,20%,55%)] text-sm">No data</div>
             ) : (
