@@ -11,12 +11,14 @@ import { useTableSort } from "@/hooks/useTableSort";
 import SortableTh from "@/components/SortableTh";
 import { ScoreDot } from "@/components/ScoreDot";
 import { useScoreColors } from "@/hooks/useScoreColors";
+import { useTranslatedQuestions } from "@/hooks/useTranslatedQuestions";
 import { useState } from "react";
 
 const Index = () => {
   const { t } = useTranslation();
   const [selectedRow, setSelectedRow] = useState<any>(null);
   const { getColor } = useScoreColors();
+  const { translateQuestion } = useTranslatedQuestions();
 
   const { data: records, isLoading } = useQuery({
     queryKey: ["pesquisa"],
@@ -144,7 +146,7 @@ const Index = () => {
                            <td className="p-4 align-middle whitespace-nowrap">{r.firstname} {r.lastname}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.theme}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.theme_comment}</td>
-                           <td className="p-4 align-middle whitespace-nowrap">{r.question}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{translateQuestion(r.question)}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.applicability}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.importance}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.score}</td>

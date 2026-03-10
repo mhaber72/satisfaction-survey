@@ -13,6 +13,7 @@ import SortableTh from "@/components/SortableTh";
 import CorporatePerceptionCharts from "@/components/CorporatePerceptionCharts";
 import { ScoreDot } from "@/components/ScoreDot";
 import { useScoreColors } from "@/hooks/useScoreColors";
+import { useTranslatedQuestions } from "@/hooks/useTranslatedQuestions";
 import { useState } from "react";
 
 const ThemeDetail = () => {
@@ -23,6 +24,7 @@ const ThemeDetail = () => {
   const { t } = useTranslation();
   const [selectedRow, setSelectedRow] = useState<any>(null);
   const { getColor } = useScoreColors();
+  const { translateQuestion } = useTranslatedQuestions();
 
   const { data: records, isLoading } = useQuery({
     queryKey: ["pesquisa-theme", decodedTheme],
@@ -167,7 +169,7 @@ const ThemeDetail = () => {
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.firstname} {r.lastname}</td>
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.theme}</td>
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.theme_comment}</td>
-                              <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.question}</td>
+                              <td className="p-4 align-middle whitespace-nowrap text-white/80">{translateQuestion(r.question)}</td>
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.applicability}</td>
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.importance}</td>
                               <td className="p-4 align-middle font-medium whitespace-nowrap text-white">{r.score}</td>
