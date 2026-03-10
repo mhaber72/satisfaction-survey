@@ -11,16 +11,26 @@ export default function BookCustomersPage({ surveyYear }: Props) {
   const { data: surveyClients } = useQuery({
     queryKey: ["book-survey-clients", surveyYear],
     queryFn: async () => {
-      let query = supabase
-        .from("pesquisa_satisfacao")
-        .select("client_name");
-      if (surveyYear) {
-        query = query.eq("survey_year", surveyYear);
+      const allRows: { client_name: string | null }[] = [];
+      const PAGE_SIZE = 1000;
+      let from = 0;
+      let hasMore = true;
+      while (hasMore) {
+        let query = supabase
+          .from("pesquisa_satisfacao")
+          .select("client_name")
+          .range(from, from + PAGE_SIZE - 1);
+        if (surveyYear) {
+          query = query.eq("survey_year", surveyYear);
+        }
+        const { data, error } = await query;
+        if (error) throw error;
+        allRows.push(...(data || []));
+        hasMore = (data?.length || 0) === PAGE_SIZE;
+        from += PAGE_SIZE;
       }
-      const { data, error } = await query;
-      if (error) throw error;
       const unique = new Set(
-        (data || []).map((r) => r.client_name?.trim()).filter(Boolean)
+        allRows.map((r) => r.client_name?.trim()).filter(Boolean)
       );
       return Array.from(unique) as string[];
     },
