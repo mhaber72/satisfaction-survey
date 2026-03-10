@@ -76,7 +76,7 @@ const ActionPlanImport = ({ open, onOpenChange }: ActionPlanImportProps) => {
     },
   });
 
-  const findByName = (list: { id: string; name: string }[] | undefined, name: string) => {
+  const findByName = (list: { id: string; name: string }[] | undefined, name: string): any => {
     if (!list || !name) return null;
     return list.find((i) => i.name.toLowerCase().trim() === name.toLowerCase().trim()) || null;
   };
