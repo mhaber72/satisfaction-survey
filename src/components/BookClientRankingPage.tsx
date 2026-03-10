@@ -193,7 +193,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
                     }}
                   />
                 </div>
-                <span className="text-[13px] font-semibold text-[hsl(210,10%,55%)] w-[38px] shrink-0">
+                <span className="text-sm font-semibold text-[hsl(210,10%,55%)] w-[40px] shrink-0">
                   {item.previous != null ? fmt(item.previous) : "—"}
                 </span>
               </div>
