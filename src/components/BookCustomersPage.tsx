@@ -74,8 +74,20 @@ export default function BookCustomersPage({ surveyYear, verticalName, filterClie
 
   const verticalNames = Object.keys(grouped).sort();
 
-  // Determine logo size per vertical based on client count
+  // Total clients across all groups for this page
+  const totalClients = Object.values(grouped).reduce((sum, items) => sum + items.length, 0);
+  const isVerticalPage = !!filterClients;
+
+  // Determine logo size based on total client count and whether it's a vertical page
   const getLogoSize = (count: number) => {
+    if (isVerticalPage) {
+      // Vertical pages: much larger logos since fewer clients
+      if (totalClients <= 2) return { h: "max-h-28", w: "max-w-[280px]" };
+      if (totalClients <= 4) return { h: "max-h-24", w: "max-w-[240px]" };
+      if (totalClients <= 6) return { h: "max-h-20", w: "max-w-[220px]" };
+      if (totalClients <= 8) return { h: "max-h-16", w: "max-w-[200px]" };
+      return { h: "max-h-14", w: "max-w-[180px]" };
+    }
     if (count <= 1) return { h: "max-h-20", w: "max-w-[200px]" };
     if (count <= 3) return { h: "max-h-16", w: "max-w-[180px]" };
     if (count <= 5) return { h: "max-h-14", w: "max-w-[160px]" };
