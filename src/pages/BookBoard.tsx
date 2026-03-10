@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -180,22 +180,21 @@ export default function BookBoard() {
     }, 600);
   }, [currentPage, flipping]);
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" || e.key === " ") goNext();
       if (e.key === "ArrowLeft") goPrev();
-    },
-    [goNext, goPrev]
-  );
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [goNext, goPrev]);
 
   const nextPageIndex = currentPage + 1 < totalPages ? currentPage + 1 : null;
   const prevPageIndex = currentPage - 1 >= 0 ? currentPage - 1 : null;
 
   return (
     <div
-      className="min-h-screen bg-[hsl(210,60%,95%)] flex flex-col items-center justify-center p-4 outline-none"
-      tabIndex={0}
-      onKeyDown={handleKeyDown}
+      className="min-h-screen bg-[hsl(210,60%,95%)] flex flex-col items-center justify-center p-4"
     >
       <div className="relative w-full max-w-[72rem] px-16" style={{ perspective: "2000px" }}>
         <div className="absolute -top-10 left-0 right-0 flex items-center justify-center gap-4">
