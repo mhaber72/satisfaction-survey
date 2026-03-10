@@ -162,8 +162,8 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
         return (
           <div key={item.client} className="flex items-center gap-2">
             {/* Client name */}
-            <div className="w-[150px] shrink-0 text-right pr-2">
-              <span className="text-xs font-bold uppercase leading-tight">
+            <div className="w-[160px] shrink-0 text-right pr-2">
+              <span className="text-[13px] font-bold uppercase leading-tight">
                 {item.client}
               </span>
             </div>
