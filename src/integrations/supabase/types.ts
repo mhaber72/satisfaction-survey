@@ -485,6 +485,42 @@ export type Database = {
         }
         Relationships: []
       }
+      survey_questions: {
+        Row: {
+          created_at: string
+          id: string
+          question_en: string
+          question_es: string
+          question_fr: string
+          question_pt: string
+          survey_year: number | null
+          theme: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          question_en?: string
+          question_es?: string
+          question_fr: string
+          question_pt?: string
+          survey_year?: number | null
+          theme?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          question_en?: string
+          question_es?: string
+          question_fr?: string
+          question_pt?: string
+          survey_year?: number | null
+          theme?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
