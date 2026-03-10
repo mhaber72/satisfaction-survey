@@ -13,7 +13,7 @@ function CoverPage() {
       <div className="relative z-10 flex flex-col w-[50%] px-10 py-8">
         {/* Logo */}
         <div>
-          <img src={logoIdl} alt="ID Logistics" className="h-16 object-contain" />
+          <img src={logoIdl} alt="ID Logistics" className="h-20 object-contain" />
         </div>
 
         {/* Title block */}
