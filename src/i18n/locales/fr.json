@@ -14,7 +14,8 @@
     "administration": "Administration",
     "actionPlans": "Plans d'Action",
     "signOut": "Déconnexion",
-    "actionResponsibles": "Responsables des Actions"
+    "actionResponsibles": "Responsables des Actions",
+    "questions": "Questions"
   },
   "login": {
     "title": "Connexion",
