@@ -22,7 +22,6 @@ Deno.serve(async (req) => {
     const isBootstrap = action === "create_user" && !authHeader;
 
     if (isBootstrap) {
-      // Only allow if no users exist
       const { data: existingUsers } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1 });
       if (existingUsers?.users?.length > 0) {
         return new Response(JSON.stringify({ error: "Unauthorized" }), {
@@ -31,7 +30,6 @@ Deno.serve(async (req) => {
         });
       }
     } else {
-      // Verify caller is admin
       if (!authHeader) {
         return new Response(JSON.stringify({ error: "Unauthorized" }), {
           status: 401,
@@ -51,7 +49,6 @@ Deno.serve(async (req) => {
         });
       }
 
-      // Check admin role
       const { data: roleData } = await supabaseAdmin
         .from("user_roles")
         .select("role")
@@ -68,7 +65,7 @@ Deno.serve(async (req) => {
     }
 
     if (action === "create_user") {
-      const { email, password, full_name, role, access_profile_id, language } = params;
+      const { email, password, full_name, role, cargo, language, user_themes, user_clients } = params;
       const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
         email,
         password,
@@ -77,20 +74,36 @@ Deno.serve(async (req) => {
       });
       if (createError) throw createError;
 
-      // Update profile with access_profile_id and language
-      const profileUpdate: any = { full_name };
-      if (access_profile_id) profileUpdate.access_profile_id = access_profile_id;
-      if (language) profileUpdate.language = language;
-      await supabaseAdmin
-        .from("profiles")
-        .update(profileUpdate)
-        .eq("user_id", newUser.user.id);
+      const userId = newUser.user.id;
 
-      // Set role if admin
+      // Update profile with cargo and language
+      const profileUpdate: any = { full_name, cargo: cargo || '' };
+      if (language) profileUpdate.language = language;
+      await supabaseAdmin.from("profiles").update(profileUpdate).eq("user_id", userId);
+
+      // Set role
       if (role === "admin") {
-        await supabaseAdmin
-          .from("user_roles")
-          .insert({ user_id: newUser.user.id, role: "admin" });
+        await supabaseAdmin.from("user_roles").upsert({ user_id: userId, role: "admin" }, { onConflict: "user_id,role" });
+        // Remove default 'user' role
+        await supabaseAdmin.from("user_roles").delete().eq("user_id", userId).eq("role", "user");
+      } else if (role === "superuser") {
+        await supabaseAdmin.from("user_roles").upsert({ user_id: userId, role: "superuser" }, { onConflict: "user_id,role" });
+        await supabaseAdmin.from("user_roles").delete().eq("user_id", userId).eq("role", "user");
+      }
+      // else keep default 'user' role
+
+      // Set user themes
+      if (user_themes?.length) {
+        await supabaseAdmin.from("user_themes").insert(
+          user_themes.map((t: string) => ({ user_id: userId, theme_key: t }))
+        );
+      }
+
+      // Set user clients
+      if (user_clients?.length) {
+        await supabaseAdmin.from("user_clients").insert(
+          user_clients.map((c: string) => ({ user_id: userId, client_name: c }))
+        );
       }
 
       return new Response(JSON.stringify({ user: newUser.user }), {
@@ -99,7 +112,7 @@ Deno.serve(async (req) => {
     }
 
     if (action === "update_user") {
-      const { user_id, email, password, full_name, role, access_profile_id, language } = params;
+      const { user_id, email, password, full_name, role, cargo, language, user_themes, user_clients } = params;
       
       const updateData: any = {};
       if (email) updateData.email = email;
@@ -112,24 +125,28 @@ Deno.serve(async (req) => {
       }
 
       // Update profile
-      const profileUpdate: any = { full_name, access_profile_id, email };
+      const profileUpdate: any = { full_name, email, cargo: cargo || '' };
       if (language) profileUpdate.language = language;
-      await supabaseAdmin
-        .from("profiles")
-        .update(profileUpdate)
-        .eq("user_id", user_id);
+      await supabaseAdmin.from("profiles").update(profileUpdate).eq("user_id", user_id);
 
-      // Update role
-      if (role === "admin") {
-        await supabaseAdmin
-          .from("user_roles")
-          .upsert({ user_id, role: "admin" }, { onConflict: "user_id,role" });
-      } else {
-        await supabaseAdmin
-          .from("user_roles")
-          .delete()
-          .eq("user_id", user_id)
-          .eq("role", "admin");
+      // Update role - clear all roles first, then set the correct one
+      await supabaseAdmin.from("user_roles").delete().eq("user_id", user_id);
+      await supabaseAdmin.from("user_roles").insert({ user_id, role: role || "user" });
+
+      // Update user themes
+      await supabaseAdmin.from("user_themes").delete().eq("user_id", user_id);
+      if (user_themes?.length) {
+        await supabaseAdmin.from("user_themes").insert(
+          user_themes.map((t: string) => ({ user_id: user_id, theme_key: t }))
+        );
+      }
+
+      // Update user clients
+      await supabaseAdmin.from("user_clients").delete().eq("user_id", user_id);
+      if (user_clients?.length) {
+        await supabaseAdmin.from("user_clients").insert(
+          user_clients.map((c: string) => ({ user_id: user_id, client_name: c }))
+        );
       }
 
       return new Response(JSON.stringify({ success: true }), {
@@ -150,17 +167,26 @@ Deno.serve(async (req) => {
     if (action === "list_users") {
       const { data: profiles } = await supabaseAdmin
         .from("profiles")
-        .select("*, access_profiles(name)")
+        .select("*")
         .order("created_at", { ascending: false });
 
-      // Fetch roles separately since there's no FK
       const { data: allRoles } = await supabaseAdmin
         .from("user_roles")
         .select("user_id, role");
 
+      const { data: allUserThemes } = await supabaseAdmin
+        .from("user_themes")
+        .select("user_id, theme_key");
+
+      const { data: allUserClients } = await supabaseAdmin
+        .from("user_clients")
+        .select("user_id, client_name");
+
       const enriched = (profiles ?? []).map((p: any) => ({
         ...p,
         user_roles: (allRoles ?? []).filter((r: any) => r.user_id === p.user_id),
+        user_themes: (allUserThemes ?? []).filter((t: any) => t.user_id === p.user_id),
+        user_clients: (allUserClients ?? []).filter((c: any) => c.user_id === p.user_id),
       }));
 
       return new Response(JSON.stringify({ users: enriched }), {

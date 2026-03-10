@@ -3,13 +3,18 @@ import { supabase } from "@/integrations/supabase/client";
 import type { User, Session } from "@supabase/supabase-js";
 import i18n from "@/i18n";
 
+type UserRole = "admin" | "superuser" | "user";
+
 interface AuthContextType {
   user: User | null;
   session: Session | null;
   isAdmin: boolean;
+  isSuperUser: boolean;
+  userRole: UserRole;
   loading: boolean;
   profile: any;
   allowedThemes: string[];
+  allowedClients: string[];
   signOut: () => Promise<void>;
 }
 
@@ -17,9 +22,12 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   session: null,
   isAdmin: false,
+  isSuperUser: false,
+  userRole: "user",
   loading: true,
   profile: null,
   allowedThemes: [],
+  allowedClients: [],
   signOut: async () => {},
 });
 
@@ -29,9 +37,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isSuperUser, setIsSuperUser] = useState(false);
+  const [userRole, setUserRole] = useState<UserRole>("user");
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<any>(null);
   const [allowedThemes, setAllowedThemes] = useState<string[]>([]);
+  const [allowedClients, setAllowedClients] = useState<string[]>([]);
 
   const fetchUserData = async (userId: string) => {
     // Fetch profile
@@ -47,28 +58,44 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       i18n.changeLanguage(profileData.language);
     }
 
-    // Use server-side SECURITY DEFINER function for admin check
+    // Check admin role
     const { data: adminCheck } = await supabase
       .rpc("has_role", { _user_id: userId, _role: "admin" });
     const admin = adminCheck === true;
     setIsAdmin(admin);
 
-    // If admin, allow all themes
+    // Check superuser role
+    const { data: superCheck } = await supabase
+      .rpc("has_role", { _user_id: userId, _role: "superuser" });
+    const superuser = superCheck === true;
+    setIsSuperUser(superuser);
+
     if (admin) {
+      setUserRole("admin");
       setAllowedThemes([]);
+      setAllowedClients([]);
       return;
     }
 
-    // Fetch allowed themes from access profile
-    if (profileData?.access_profile_id) {
-      const { data: themes } = await supabase
-        .from("access_profile_themes")
-        .select("theme_key")
-        .eq("access_profile_id", profileData.access_profile_id);
-      setAllowedThemes(themes?.map((t: any) => t.theme_key) ?? []);
+    if (superuser) {
+      setUserRole("superuser");
     } else {
-      setAllowedThemes([]);
+      setUserRole("user");
     }
+
+    // Fetch allowed themes from user_themes
+    const { data: themes } = await supabase
+      .from("user_themes")
+      .select("theme_key")
+      .eq("user_id", userId);
+    setAllowedThemes(themes?.map((t: any) => t.theme_key) ?? []);
+
+    // Fetch allowed clients from user_clients
+    const { data: clients } = await supabase
+      .from("user_clients")
+      .select("client_name")
+      .eq("user_id", userId);
+    setAllowedClients(clients?.map((c: any) => c.client_name) ?? []);
   };
 
   useEffect(() => {
@@ -81,7 +108,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         } else {
           setProfile(null);
           setIsAdmin(false);
+          setIsSuperUser(false);
+          setUserRole("user");
           setAllowedThemes([]);
+          setAllowedClients([]);
         }
         setLoading(false);
       }
@@ -104,7 +134,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, isAdmin, loading, profile, allowedThemes, signOut }}>
+    <AuthContext.Provider value={{ user, session, isAdmin, isSuperUser, userRole, loading, profile, allowedThemes, allowedClients, signOut }}>
       {children}
     </AuthContext.Provider>
   );

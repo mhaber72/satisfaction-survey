@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 export function useDataFilters(records: any[] | undefined, pesquisaIdsWithPlans?: Set<number>) {
   const [filters, setFilters] = useState<Record<string, string[]>>({});
-  const { allowedThemes, isAdmin } = useAuth();
+  const { allowedThemes, allowedClients, isAdmin } = useAuth();
 
   const { data: clientsWithVertical } = useQuery({
     queryKey: ["clients-verticals"],
@@ -40,7 +40,10 @@ export function useDataFilters(records: any[] | undefined, pesquisaIdsWithPlans?
   const filtered = useMemo(() => {
     if (!records) return records;
     return records.filter((r) => {
+      // Theme access control
       if (!isAdmin && allowedThemes.length > 0 && !allowedThemes.includes(r.theme)) return false;
+      // Client access control
+      if (!isAdmin && allowedClients.length > 0 && !allowedClients.includes(r.client_name)) return false;
       if (filters.year?.length && !filters.year.includes(String(r.survey_year))) return false;
       if (verticalClientNames && !verticalClientNames.has(r.client_name)) return false;
       if (filters.client?.length && !filters.client.includes(r.client_name)) return false;
@@ -73,7 +76,7 @@ export function useDataFilters(records: any[] | undefined, pesquisaIdsWithPlans?
       }
       return true;
     });
-  }, [records, filters, allowedThemes, isAdmin, pesquisaIdsWithPlans, verticalClientNames]);
+  }, [records, filters, allowedThemes, allowedClients, isAdmin, pesquisaIdsWithPlans, verticalClientNames]);
 
   return { filters, onFilterChange, filtered };
 }
