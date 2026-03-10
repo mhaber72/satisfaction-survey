@@ -82,11 +82,11 @@ export default function BookCustomersPage({ surveyYear, verticalName, filterClie
   const getLogoSize = (count: number) => {
     if (isVerticalPage) {
       // Vertical pages: much larger logos since fewer clients
-      if (totalClients <= 2) return { h: "max-h-28", w: "max-w-[280px]" };
-      if (totalClients <= 4) return { h: "max-h-24", w: "max-w-[240px]" };
-      if (totalClients <= 6) return { h: "max-h-20", w: "max-w-[220px]" };
-      if (totalClients <= 8) return { h: "max-h-16", w: "max-w-[200px]" };
-      return { h: "max-h-14", w: "max-w-[180px]" };
+      if (totalClients <= 2) return { h: "max-h-36", w: "max-w-[320px]" };
+      if (totalClients <= 4) return { h: "max-h-28", w: "max-w-[280px]" };
+      if (totalClients <= 6) return { h: "max-h-24", w: "max-w-[260px]" };
+      if (totalClients <= 8) return { h: "max-h-20", w: "max-w-[240px]" };
+      return { h: "max-h-16", w: "max-w-[200px]" };
     }
     if (count <= 1) return { h: "max-h-20", w: "max-w-[200px]" };
     if (count <= 3) return { h: "max-h-16", w: "max-w-[180px]" };
