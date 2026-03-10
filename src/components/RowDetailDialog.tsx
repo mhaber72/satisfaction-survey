@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { ClipboardPlus, List } from "lucide-react";
 import { useTranslatedQuestions } from "@/hooks/useTranslatedQuestions";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useAuth } from "@/hooks/useAuth";
 import ActionPlanForm from "./ActionPlanForm";
 import ActionPlanList from "./ActionPlanList";
 
