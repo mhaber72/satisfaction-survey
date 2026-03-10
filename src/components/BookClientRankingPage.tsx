@@ -145,7 +145,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
   const rightCol = clientsData.slice(half);
 
   const renderColumn = (items: typeof clientsData) => (
-    <div className="flex flex-col gap-[3px] flex-1 justify-center">
+    <div className="flex flex-col gap-[4px] flex-1 justify-center">
       {items.map((item) => {
         const curPct = (item.current / maxScore) * 100;
         const prevPct = item.previous != null ? (item.previous / maxScore) * 100 : 0;
