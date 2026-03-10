@@ -200,7 +200,7 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
                   <div className="flex items-end gap-1 w-full justify-center h-full">
                     {/* Current year bar */}
                     <div className="flex flex-col items-center justify-end w-[38%] h-full">
-                      <span className="text-[10px] font-bold mb-1">{fmt(cur)}</span>
+                      <span className="text-xs font-bold mb-1">{fmt(cur)}</span>
                       <div
                         className="w-full rounded-t-sm"
                         style={{
