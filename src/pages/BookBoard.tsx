@@ -196,7 +196,6 @@ export default function BookBoard() {
     <div
       className="min-h-screen bg-[hsl(210,60%,95%)] flex flex-col items-center justify-center p-4"
     >
-    >
       <div className="relative w-full max-w-[72rem] px-16" style={{ perspective: "2000px" }}>
         <div className="absolute -top-10 left-0 right-0 flex items-center justify-center gap-4">
           <Select
