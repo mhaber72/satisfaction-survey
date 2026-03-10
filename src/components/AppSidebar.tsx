@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users, Shield, LogOut, Home, Upload, Palette, UserCheck, MapPin, Building, ListChecks, ClipboardList, Briefcase, UserCog, Layers, BookOpen, HelpCircle } from "lucide-react";
+import { LayoutDashboard, Users, LogOut, Home, Upload, Palette, UserCheck, MapPin, Building, ListChecks, ClipboardList, Briefcase, UserCog, Layers, BookOpen, HelpCircle } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslation } from "react-i18next";
