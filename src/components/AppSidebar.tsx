@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users, Shield, LogOut, Home, Upload, Palette, UserCheck, MapPin, Building, ListChecks, ClipboardList, Briefcase, UserCog, Layers, BookOpen, HelpCircle } from "lucide-react";
+import { LayoutDashboard, Users, LogOut, Home, Upload, Palette, UserCheck, MapPin, Building, ListChecks, ClipboardList, Briefcase, UserCog, Layers, BookOpen, HelpCircle } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslation } from "react-i18next";
@@ -34,7 +34,7 @@ export function AppSidebar() {
 
   const adminItems = [
     { title: t("nav.users"), url: "/admin/users", icon: Users },
-    { title: t("nav.accessProfiles"), url: "/admin/profiles", icon: Shield },
+    // Access Profiles removed - access now managed directly on users
     { title: t("nav.importData"), url: "/admin/import", icon: Upload },
     { title: t("nav.scoreColors"), url: "/admin/score-colors", icon: Palette },
     { title: t("nav.contractManagers"), url: "/admin/contract-managers", icon: UserCheck },

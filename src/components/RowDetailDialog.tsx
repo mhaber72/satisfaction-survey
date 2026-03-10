@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { ClipboardPlus, List } from "lucide-react";
 import { useTranslatedQuestions } from "@/hooks/useTranslatedQuestions";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useAuth } from "@/hooks/useAuth";
 import ActionPlanForm from "./ActionPlanForm";
 import ActionPlanList from "./ActionPlanList";
 
@@ -23,6 +24,8 @@ const FIELD_ORDER = [
 const RowDetailDialog = ({ row, open, onOpenChange }: RowDetailDialogProps) => {
   const { t } = useTranslation();
   const { translateQuestion } = useTranslatedQuestions();
+  const { isAdmin, isSuperUser } = useAuth();
+  const canCreateActionPlan = isAdmin || isSuperUser;
   const [showCreateAction, setShowCreateAction] = useState(false);
   const [showListActions, setShowListActions] = useState(false);
 
@@ -60,14 +63,16 @@ const RowDetailDialog = ({ row, open, onOpenChange }: RowDetailDialogProps) => {
             <div className="flex items-center justify-between">
               <DialogTitle>{t("rowDetail.title", "Record Details")}</DialogTitle>
               <div className="flex gap-2 mr-6">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button size="icon" variant="ghost" onClick={() => setShowCreateAction(true)}>
-                      <ClipboardPlus className="h-5 w-5" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>{t("actionPlan.createTitle")}</TooltipContent>
-                </Tooltip>
+                {canCreateActionPlan && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button size="icon" variant="ghost" onClick={() => setShowCreateAction(true)}>
+                        <ClipboardPlus className="h-5 w-5" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>{t("actionPlan.createTitle")}</TooltipContent>
+                  </Tooltip>
+                )}
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button size="icon" variant="ghost" onClick={() => setShowListActions(true)}>
