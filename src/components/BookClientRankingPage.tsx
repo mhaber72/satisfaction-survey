@@ -100,8 +100,8 @@ function TrendIcon({ current, previous }: { current: number; previous: number | 
     );
   }
   return (
-    <div className="w-6 h-6 rounded-full border-2 border-[hsl(0,70%,50%)] flex items-center justify-center">
-      <TrendingDown className="w-3 h-3 text-[hsl(0,70%,50%)]" />
+    <div className="w-7 h-7 rounded-full border-2 border-[hsl(0,70%,50%)] flex items-center justify-center">
+      <TrendingDown className="w-3.5 h-3.5 text-[hsl(0,70%,50%)]" />
     </div>
   );
 }
