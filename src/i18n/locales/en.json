@@ -232,6 +232,28 @@
     "firstName": "First Name",
     "lastName": "Last Name"
   },
+  "importActions": {
+    "title": "Import Action Plans",
+    "templateInfo": "Download Template",
+    "templateDesc": "Download the Excel template with the correct structure, valid values, and an example row.",
+    "downloadTemplate": "Download Template",
+    "importExcel": "Import Excel",
+    "importing": "Importing...",
+    "noRows": "No data rows found in the file.",
+    "importError": "Import error",
+    "successCount": "{{count}} action(s) imported successfully",
+    "failedCount": "{{count}} row(s) failed validation",
+    "validationErrors": "{{count}} validation error(s)",
+    "row": "Row",
+    "field": "Field",
+    "error": "Error",
+    "expectedColumns": "Expected columns",
+    "errRequired": "Required field",
+    "errMaxLen": "Exceeds maximum length ({{max}} chars)",
+    "errNotFound": "\"{{value}}\" not found in lookup table",
+    "errInvalidDate": "Invalid date format (use DD/MM/YYYY)",
+    "errRequiredByStatus": "Required by status \"{{status}}\""
+  },
   "language": {
     "en": "English",
     "fr": "Français",

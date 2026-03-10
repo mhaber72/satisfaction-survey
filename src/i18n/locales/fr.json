@@ -232,6 +232,28 @@
     "firstName": "Prénom",
     "lastName": "Nom"
   },
+  "importActions": {
+    "title": "Importer des Plans d'Action",
+    "templateInfo": "Télécharger le Modèle",
+    "templateDesc": "Téléchargez le modèle Excel avec la structure correcte, les valeurs valides et un exemple.",
+    "downloadTemplate": "Télécharger le Modèle",
+    "importExcel": "Importer Excel",
+    "importing": "Importation...",
+    "noRows": "Aucune ligne de données trouvée dans le fichier.",
+    "importError": "Erreur d'importation",
+    "successCount": "{{count}} action(s) importée(s) avec succès",
+    "failedCount": "{{count}} ligne(s) en erreur de validation",
+    "validationErrors": "{{count}} erreur(s) de validation",
+    "row": "Ligne",
+    "field": "Champ",
+    "error": "Erreur",
+    "expectedColumns": "Colonnes attendues",
+    "errRequired": "Champ obligatoire",
+    "errMaxLen": "Dépasse la longueur maximale ({{max}} caractères)",
+    "errNotFound": "\"{{value}}\" introuvable dans la table de référence",
+    "errInvalidDate": "Format de date invalide (utilisez JJ/MM/AAAA)",
+    "errRequiredByStatus": "Requis par le statut \"{{status}}\""
+  },
   "language": {
     "en": "English",
     "fr": "Français",
