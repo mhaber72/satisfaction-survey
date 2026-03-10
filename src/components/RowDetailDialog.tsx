@@ -24,6 +24,8 @@ const FIELD_ORDER = [
 const RowDetailDialog = ({ row, open, onOpenChange }: RowDetailDialogProps) => {
   const { t } = useTranslation();
   const { translateQuestion } = useTranslatedQuestions();
+  const { isAdmin, isSuperUser } = useAuth();
+  const canCreateActionPlan = isAdmin || isSuperUser;
   const [showCreateAction, setShowCreateAction] = useState(false);
   const [showListActions, setShowListActions] = useState(false);
 
