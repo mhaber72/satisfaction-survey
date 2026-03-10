@@ -84,7 +84,9 @@ const RowDetailDialog = ({ row, open, onOpenChange }: RowDetailDialogProps) => {
               <div key={key} className="contents">
                 <span className="font-medium text-muted-foreground truncate">{labelMap[key] ?? key}</span>
                 <span className="text-foreground break-words">
-                  {row[key] != null && row[key] !== "" ? String(row[key]) : "—"}
+                  {key === "question"
+                    ? translateQuestion(row[key]) || "—"
+                    : (row[key] != null && row[key] !== "" ? String(row[key]) : "—")}
                 </span>
               </div>
             ))}
