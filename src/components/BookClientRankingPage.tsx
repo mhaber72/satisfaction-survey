@@ -232,7 +232,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
       </div>
 
       {/* Legend */}
-      <div className="flex items-center gap-6 px-10 pt-3 pb-1">
+      <div className="flex items-center gap-6 px-10 pt-2 pb-0">
         <div className="flex items-center gap-1.5">
           <div className="w-4 h-3 rounded-sm" style={{ backgroundColor: "hsl(175, 65%, 55%)" }} />
           <span className="text-[9px] font-semibold">{surveyYear} — Score ≥ 3</span>
