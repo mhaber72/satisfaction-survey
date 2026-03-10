@@ -106,7 +106,26 @@ export default function BookBoard() {
   const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(0);
   const [flipping, setFlipping] = useState<"next" | "prev" | null>(null);
+  const [surveyYear, setSurveyYear] = useState<number | null>(null);
 
+  // Fetch available years
+  const { data: availableYears } = useQuery({
+    queryKey: ["book-survey-years"],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("pesquisa_satisfacao")
+        .select("survey_year");
+      const years = [...new Set((data || []).map((r) => r.survey_year).filter(Boolean))] as number[];
+      return years.sort((a, b) => b - a);
+    },
+  });
+
+  // Set default year
+  if (!surveyYear && availableYears?.length) {
+    setSurveyYear(availableYears[0]);
+  }
+
+  const PAGES = buildPages(surveyYear);
   const totalPages = PAGES.length;
 
   const goNext = useCallback(() => {
