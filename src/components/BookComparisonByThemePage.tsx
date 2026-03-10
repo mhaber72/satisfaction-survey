@@ -5,6 +5,8 @@ import logoIdl from "@/assets/logo-idl-dark.png";
 
 interface Props {
   surveyYear: number | null;
+  verticalName?: string;
+  filterClients?: string[];
 }
 
 const THEME_ORDER = [
@@ -44,7 +46,6 @@ function fetchAllRecords(year: number | null) {
 }
 
 function computeAvgScoreByTheme(records: any[], year: number) {
-  // Filter for this year, exclude CORPORATE PERCEPTION, exclude score 0
   const yearRecords = records.filter(
     (r) =>
       r.survey_year === year &&
@@ -53,7 +54,6 @@ function computeAvgScoreByTheme(records: any[], year: number) {
       Number(r.score) !== 0
   );
 
-  // Group by theme -> client -> scores (mean of means)
   const byTheme: Record<string, Record<string, number[]>> = {};
   yearRecords.forEach((r) => {
     const theme = r.theme!.toUpperCase();
@@ -81,7 +81,6 @@ function computeGlobalAvg(records: any[], year: number) {
       r.theme.toUpperCase() !== "CORPORATE PERCEPTION" &&
       Number(r.score) !== 0
   );
-  // Mean of means per client
   const byClient: Record<string, number[]> = {};
   yearRecords.forEach((r) => {
     const client = r.client_name ?? "Unknown";
@@ -96,14 +95,21 @@ function computeGlobalAvg(records: any[], year: number) {
     : 0;
 }
 
-export default function BookComparisonByThemePage({ surveyYear }: Props) {
+export default function BookComparisonByThemePage({ surveyYear, verticalName, filterClients }: Props) {
   const prevYear = surveyYear ? surveyYear - 1 : null;
 
-  const { data: records } = useQuery({
+  const { data: rawRecords } = useQuery({
     queryKey: ["book-comparison-theme", surveyYear],
     queryFn: fetchAllRecords(surveyYear),
     enabled: !!surveyYear,
   });
+
+  const records = useMemo(() => {
+    if (!rawRecords) return null;
+    if (!filterClients) return rawRecords;
+    const filterSet = new Set(filterClients.map((n) => n.toLowerCase()));
+    return rawRecords.filter((r) => filterSet.has((r.client_name ?? "").toLowerCase()));
+  }, [rawRecords, filterClients]);
 
   const { currentByTheme, prevByTheme, globalCurrent, globalPrev, variation } =
     useMemo(() => {
@@ -134,26 +140,23 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
   );
 
   const maxScore = 5;
-
   const fmt = (v: number) => v.toFixed(2).replace(".", ",");
 
   return (
     <div className="flex h-full w-full flex-col bg-white text-[hsl(215,85%,15%)]">
-      {/* Header — same layout as Customers page */}
+      {/* Header */}
       <div className="flex items-center justify-between px-10 py-5 border-b border-[hsl(210,30%,90%)]">
         <div>
           <h2 className="text-3xl font-extrabold uppercase tracking-tight">
             Comparison by Theme
+            {verticalName && <span className="text-[hsl(200,80%,45%)]"> — {verticalName}</span>}
           </h2>
           <div className="flex items-center gap-2 mt-1">
-            <p className="text-sm font-bold text-[hsl(0,85%,45%)] uppercase tracking-wide">
-              BRAZIL
-            </p>
+            <p className="text-sm font-bold text-[hsl(0,85%,45%)] uppercase tracking-wide">BRAZIL</p>
             <div className="h-[3px] w-6 bg-[hsl(0,85%,45%)] rounded-full" />
           </div>
         </div>
         <div className="flex items-center gap-6">
-          {/* Global score */}
           <div className="text-right">
             <p className="text-4xl font-extrabold">{fmt(globalCurrent)}</p>
             {prevYear && globalPrev > 0 && (
@@ -169,9 +172,7 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
 
       {/* Chart area */}
       <div className="flex-1 flex flex-col px-10 py-4 overflow-hidden min-h-0">
-        {/* Y-axis gridlines + bars */}
         <div className="flex-1 relative min-h-0" style={{ display: "flex", flexDirection: "column" }}>
-          {/* Grid lines */}
           {[1, 2, 3, 4, 5].map((tick) => {
             const pct = ((maxScore - tick) / maxScore) * 100;
             return (
@@ -187,7 +188,6 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
             );
           })}
 
-          {/* Bars container - absolute to fill the chart area */}
           <div className="absolute inset-0 left-6 flex items-end justify-around px-4 pb-0">
             {themes.map((theme) => {
               const cur = currentByTheme[theme] ?? 0;
@@ -198,7 +198,6 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
               return (
                 <div key={theme} className="flex flex-col items-center flex-1 max-w-[120px] h-full justify-end">
                   <div className="flex items-end gap-1 w-full justify-center h-full">
-                    {/* Current year bar */}
                     <div className="flex flex-col items-center justify-end w-[38%] h-full">
                       <span className="text-sm font-bold mb-1">{fmt(cur)}</span>
                       <div
@@ -210,7 +209,6 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
                         }}
                       />
                     </div>
-                    {/* Previous year bar */}
                     <div className="flex flex-col items-center justify-end w-[38%] h-full">
                       <span className="text-sm font-bold text-[hsl(215,40%,55%)] mb-1">
                         {prev > 0 ? fmt(prev) : "—"}
@@ -231,7 +229,6 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
           </div>
         </div>
 
-        {/* Theme labels — staggered */}
         <div className="flex justify-around px-4 pl-10 mt-2 shrink-0">
           {themes.map((theme, i) => (
             <div
@@ -246,7 +243,6 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
           ))}
         </div>
 
-        {/* Legend */}
         <div className="flex items-center gap-4 mt-3 shrink-0">
           <div className="flex items-center gap-1.5">
             <div className="w-4 h-3 rounded-sm" style={{ backgroundColor: "hsl(215, 85%, 15%)" }} />

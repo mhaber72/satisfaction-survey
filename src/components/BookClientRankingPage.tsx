@@ -6,6 +6,8 @@ import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 
 interface Props {
   surveyYear: number | null;
+  verticalName?: string;
+  filterClients?: string[];
 }
 
 function fetchAllRecords(year: number | null) {
@@ -106,14 +108,21 @@ function TrendIcon({ current, previous }: { current: number; previous: number | 
   );
 }
 
-export default function BookClientRankingPage({ surveyYear }: Props) {
+export default function BookClientRankingPage({ surveyYear, verticalName, filterClients }: Props) {
   const prevYear = surveyYear ? surveyYear - 1 : null;
 
-  const { data: records } = useQuery({
+  const { data: rawRecords } = useQuery({
     queryKey: ["book-client-ranking", surveyYear],
     queryFn: fetchAllRecords(surveyYear),
     enabled: !!surveyYear,
   });
+
+  const records = useMemo(() => {
+    if (!rawRecords) return null;
+    if (!filterClients) return rawRecords;
+    const filterSet = new Set(filterClients.map((n) => n.toLowerCase()));
+    return rawRecords.filter((r) => filterSet.has((r.client_name ?? "").toLowerCase()));
+  }, [rawRecords, filterClients]);
 
   const { clientsData, globalCurrent, globalPrev, variation } = useMemo(() => {
     if (!records || !surveyYear)
@@ -156,20 +165,17 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
         const curPct = (item.current / maxScore) * 100;
         const prevPct = item.previous != null ? (item.previous / maxScore) * 100 : 0;
         const barColor = item.current >= 3
-          ? "hsl(175, 65%, 55%)"  // teal/green
-          : "hsl(0, 75%, 50%)";  // red
+          ? "hsl(175, 65%, 55%)"
+          : "hsl(0, 75%, 50%)";
 
         return (
           <div key={item.client} className="flex items-center gap-2">
-            {/* Client name */}
             <div className="w-[160px] shrink-0 text-right pr-2">
               <span className="text-sm font-bold uppercase leading-tight">
                 {item.client}
               </span>
             </div>
-            {/* Bars */}
             <div className="flex-1 flex flex-col gap-[2px]">
-              {/* Current year bar */}
               <div className="flex items-center gap-1">
                 <div className="flex-1 h-[18px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
                   <div
@@ -182,7 +188,6 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
                 </div>
                 <span className="text-sm font-bold w-[40px] shrink-0">{fmt(item.current)}</span>
               </div>
-              {/* Previous year bar */}
               <div className="flex items-center gap-1">
                 <div className="flex-1 h-[18px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
                   <div
@@ -198,7 +203,6 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
                 </span>
               </div>
             </div>
-            {/* Trend icon */}
             <div className="shrink-0">
               <TrendIcon current={item.current} previous={item.previous} />
             </div>
@@ -215,6 +219,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
         <div>
           <h2 className="text-3xl font-extrabold uppercase tracking-tight">
             Client Ranking {surveyYear}
+            {verticalName && <span className="text-[hsl(200,80%,45%)]"> — {verticalName}</span>}
           </h2>
           <div className="flex items-center gap-2 mt-1">
             <p className="text-sm font-bold text-[hsl(0,85%,45%)] uppercase tracking-wide">
