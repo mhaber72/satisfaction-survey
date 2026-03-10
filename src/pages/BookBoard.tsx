@@ -1,9 +1,13 @@
 import { useState, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import logoIdl from "@/assets/logo-idl-dark.png";
 import coverWarehouse from "@/assets/cover-warehouse-clean.jpg";
+import BookCustomersPage from "@/components/BookCustomersPage";
 
 /* ─── Sample page components ─── */
 function CoverPage() {
@@ -85,22 +89,43 @@ function PlaceholderPage({ number, title, description }: { number: number; title
   );
 }
 
-/* ─── Pages definition ─── */
-const PAGES = [
-  { component: <CoverPage /> },
-  { component: <PlaceholderPage number={1} title="Visão Geral" description="KPIs e métricas principais" /> },
-  { component: <PlaceholderPage number={2} title="NPS por Cliente" description="Gráfico de barras NPS" /> },
-  { component: <PlaceholderPage number={3} title="Satisfação por Tema" description="Radar ou gráficos comparativos" /> },
-  { component: <PlaceholderPage number={4} title="Planos de Ação" description="Tabela resumo de status" /> },
-  { component: <PlaceholderPage number={5} title="Conclusões" description="Texto e imagens" /> },
-];
+/* ─── Pages definition (factory to pass surveyYear) ─── */
+function buildPages(surveyYear: number | null) {
+  return [
+    { component: <CoverPage /> },
+    { component: <BookCustomersPage surveyYear={surveyYear} /> },
+    { component: <PlaceholderPage number={2} title="NPS por Cliente" description="Gráfico de barras NPS" /> },
+    { component: <PlaceholderPage number={3} title="Satisfação por Tema" description="Radar ou gráficos comparativos" /> },
+    { component: <PlaceholderPage number={4} title="Planos de Ação" description="Tabela resumo de status" /> },
+    { component: <PlaceholderPage number={5} title="Conclusões" description="Texto e imagens" /> },
+  ];
+}
 
 /* ─── Main Book Board ─── */
 export default function BookBoard() {
   const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(0);
   const [flipping, setFlipping] = useState<"next" | "prev" | null>(null);
+  const [surveyYear, setSurveyYear] = useState<number | null>(null);
 
+  // Fetch available years
+  const { data: availableYears } = useQuery({
+    queryKey: ["book-survey-years"],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("pesquisa_satisfacao")
+        .select("survey_year");
+      const years = [...new Set((data || []).map((r) => r.survey_year).filter(Boolean))] as number[];
+      return years.sort((a, b) => b - a);
+    },
+  });
+
+  // Set default year
+  if (!surveyYear && availableYears?.length) {
+    setSurveyYear(availableYears[0]);
+  }
+
+  const PAGES = buildPages(surveyYear);
   const totalPages = PAGES.length;
 
   const goNext = useCallback(() => {
@@ -141,8 +166,26 @@ export default function BookBoard() {
     >
       {/* Book container */}
       <div className="relative w-full max-w-[72rem] px-16" style={{ perspective: "2000px" }}>
-        {/* Page counter */}
-        <div className="absolute -top-10 left-0 right-0 flex items-center justify-center gap-3">
+        {/* Page counter & year filter */}
+        <div className="absolute -top-10 left-0 right-0 flex items-center justify-center gap-4">
+          {/* Year selector */}
+          <Select
+            value={surveyYear?.toString() || ""}
+            onValueChange={(v) => {
+              setSurveyYear(Number(v));
+              setCurrentPage(0);
+            }}
+          >
+            <SelectTrigger className="w-[120px] h-7 text-xs bg-white/80 border-[hsl(200,20%,80%)]">
+              <SelectValue placeholder="Year" />
+            </SelectTrigger>
+            <SelectContent>
+              {availableYears?.map((y) => (
+                <SelectItem key={y} value={y.toString()}>{y}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
           <span className="text-sm text-[hsl(200,20%,40%)]">
             {currentPage + 1} / {totalPages}
           </span>
