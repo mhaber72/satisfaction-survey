@@ -169,7 +169,7 @@ const ThemeDetail = () => {
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.firstname} {r.lastname}</td>
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.theme}</td>
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.theme_comment}</td>
-                              <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.question}</td>
+                              <td className="p-4 align-middle whitespace-nowrap text-white/80">{translateQuestion(r.question)}</td>
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.applicability}</td>
                               <td className="p-4 align-middle whitespace-nowrap text-white/80">{r.importance}</td>
                               <td className="p-4 align-middle font-medium whitespace-nowrap text-white">{r.score}</td>

@@ -146,7 +146,7 @@ const Index = () => {
                            <td className="p-4 align-middle whitespace-nowrap">{r.firstname} {r.lastname}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.theme}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.theme_comment}</td>
-                           <td className="p-4 align-middle whitespace-nowrap">{r.question}</td>
+                           <td className="p-4 align-middle whitespace-nowrap">{translateQuestion(r.question)}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.applicability}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.importance}</td>
                            <td className="p-4 align-middle whitespace-nowrap">{r.score}</td>
