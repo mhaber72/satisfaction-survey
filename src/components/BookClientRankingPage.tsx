@@ -156,8 +156,8 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
         return (
           <div key={item.client} className="flex items-center gap-2">
             {/* Client name */}
-            <div className="w-[130px] shrink-0 text-right pr-2">
-              <span className="text-[9px] font-bold uppercase leading-tight">
+            <div className="w-[140px] shrink-0 text-right pr-2">
+              <span className="text-[11px] font-bold uppercase leading-tight">
                 {item.client}
               </span>
             </div>
@@ -165,7 +165,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
             <div className="flex-1 flex flex-col gap-[2px]">
               {/* Current year bar */}
               <div className="flex items-center gap-1">
-                <div className="flex-1 h-[10px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
+                <div className="flex-1 h-[12px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
                   <div
                     className="h-full rounded-sm"
                     style={{
@@ -178,7 +178,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
               </div>
               {/* Previous year bar */}
               <div className="flex items-center gap-1">
-                <div className="flex-1 h-[10px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
+                <div className="flex-1 h-[12px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
                   <div
                     className="h-full rounded-sm"
                     style={{
@@ -187,7 +187,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
                     }}
                   />
                 </div>
-                <span className="text-[9px] font-semibold text-[hsl(210,10%,55%)] w-[30px] shrink-0">
+                <span className="text-[11px] font-semibold text-[hsl(210,10%,55%)] w-[34px] shrink-0">
                   {item.previous != null ? fmt(item.previous) : "—"}
                 </span>
               </div>
