@@ -69,11 +69,11 @@ export default function BookCustomersPage({ surveyYear }: Props) {
 
   // Determine logo size per vertical based on client count
   const getLogoSize = (count: number) => {
-    if (count <= 1) return { h: "max-h-20", w: "max-w-[200px]" };
-    if (count <= 3) return { h: "max-h-16", w: "max-w-[180px]" };
-    if (count <= 5) return { h: "max-h-12", w: "max-w-[140px]" };
-    if (count <= 7) return { h: "max-h-10", w: "max-w-[120px]" };
-    return { h: "max-h-8", w: "max-w-[100px]" };
+    if (count <= 2) return { h: "max-h-14", w: "max-w-[160px]" };
+    if (count <= 4) return { h: "max-h-12", w: "max-w-[140px]" };
+    if (count <= 6) return { h: "max-h-10", w: "max-w-[120px]" };
+    if (count <= 8) return { h: "max-h-8", w: "max-w-[100px]" };
+    return { h: "max-h-6", w: "max-w-[80px]" };
   };
 
   // Smart grid: 3 cols for ≤6 verticals, with large groups spanning 2 cols
