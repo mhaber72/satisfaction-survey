@@ -123,11 +123,17 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
     const prevAvgsArr = prevYear ? computeClientAvgs(records, prevYear) : [];
     const prevMap = new Map(prevAvgsArr.map((c) => [c.client, c.avg]));
 
-    const merged = currentAvgs.map((c) => ({
-      client: c.client,
-      current: c.avg,
-      previous: prevMap.get(c.client) ?? null,
-    }));
+    const merged = currentAvgs
+      .map((c) => ({
+        client: c.client,
+        current: c.avg,
+        previous: prevMap.get(c.client) ?? null,
+      }))
+      .sort((a, b) => {
+        const diff = b.current - a.current;
+        if (Math.abs(diff) > 0.001) return diff;
+        return a.client.localeCompare(b.client);
+      });
 
     const gCur = computeGlobalAvg(records, surveyYear);
     const gPrev = prevYear ? computeGlobalAvg(records, prevYear) : 0;
