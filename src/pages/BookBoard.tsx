@@ -10,6 +10,7 @@ import coverWarehouse from "@/assets/cover-warehouse-clean.jpg";
 import BookCustomersPage from "@/components/BookCustomersPage";
 import BookCorporatePerceptionPage from "@/components/BookCorporatePerceptionPage";
 import BookComparisonByThemePage from "@/components/BookComparisonByThemePage";
+import BookClientRankingPage from "@/components/BookClientRankingPage";
 
 /* ─── Sample page components ─── */
 function CoverPage() {
@@ -98,6 +99,7 @@ function buildPages(surveyYear: number | null) {
     { component: <BookCustomersPage surveyYear={surveyYear} /> },
     { component: <BookCorporatePerceptionPage surveyYear={surveyYear} /> },
     { component: <BookComparisonByThemePage surveyYear={surveyYear} /> },
+    { component: <BookClientRankingPage surveyYear={surveyYear} /> },
     { component: <PlaceholderPage number={4} title="Planos de Ação" description="Tabela resumo de status" /> },
     { component: <PlaceholderPage number={5} title="Conclusões" description="Texto e imagens" /> },
   ];
