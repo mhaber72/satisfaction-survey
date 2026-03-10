@@ -1,9 +1,13 @@
 import { useState, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import logoIdl from "@/assets/logo-idl-dark.png";
 import coverWarehouse from "@/assets/cover-warehouse-clean.jpg";
+import BookCustomersPage from "@/components/BookCustomersPage";
 
 /* ─── Sample page components ─── */
 function CoverPage() {
