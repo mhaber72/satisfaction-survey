@@ -11,6 +11,7 @@ import { useTableSort } from "@/hooks/useTableSort";
 import SortableTh from "@/components/SortableTh";
 import { ScoreDot } from "@/components/ScoreDot";
 import { useScoreColors } from "@/hooks/useScoreColors";
+import { useTranslatedQuestions } from "@/hooks/useTranslatedQuestions";
 import { useState } from "react";
 
 const Index = () => {
