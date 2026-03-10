@@ -95,7 +95,7 @@ function buildPages(surveyYear: number | null) {
   return [
     { component: <CoverPage /> },
     { component: <BookCustomersPage surveyYear={surveyYear} /> },
-    { component: <PlaceholderPage number={2} title="NPS por Cliente" description="Gráfico de barras NPS" /> },
+    { component: <BookCorporatePerceptionPage surveyYear={surveyYear} /> },
     { component: <PlaceholderPage number={3} title="Satisfação por Tema" description="Radar ou gráficos comparativos" /> },
     { component: <PlaceholderPage number={4} title="Planos de Ação" description="Tabela resumo de status" /> },
     { component: <PlaceholderPage number={5} title="Conclusões" description="Texto e imagens" /> },
