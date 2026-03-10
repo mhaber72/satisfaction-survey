@@ -94,8 +94,8 @@ function TrendIcon({ current, previous }: { current: number; previous: number | 
   }
   if (diff > 0) {
     return (
-      <div className="w-6 h-6 rounded-full border-2 border-[hsl(200,60%,50%)] flex items-center justify-center">
-        <TrendingUp className="w-3 h-3 text-[hsl(200,60%,50%)]" />
+      <div className="w-7 h-7 rounded-full border-2 border-[hsl(200,60%,50%)] flex items-center justify-center">
+        <TrendingUp className="w-3.5 h-3.5 text-[hsl(200,60%,50%)]" />
       </div>
     );
   }
