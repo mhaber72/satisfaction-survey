@@ -95,9 +95,14 @@ const AllActionPlans = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t("actionPlan.listTitle")}</h1>
-        <Button variant="outline" size="lg" onClick={() => setShowDashboard(true)} title="Dashboard" className="border-blue-400/50 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 gap-2 px-4 mt-5 mr-10">
-          <BarChart3 className="h-7 w-7" />
-        </Button>
+        <div className="flex gap-2 mt-5 mr-10">
+          <Button variant="outline" size="lg" onClick={() => setShowImport(true)} title={t("importActions.title")} className="border-green-400/50 bg-green-500/10 hover:bg-green-500/20 text-green-400 gap-2 px-4">
+            <Upload className="h-6 w-6" />
+          </Button>
+          <Button variant="outline" size="lg" onClick={() => setShowDashboard(true)} title="Dashboard" className="border-blue-400/50 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 gap-2 px-4">
+            <BarChart3 className="h-7 w-7" />
+          </Button>
+        </div>
       </div>
 
       {/* Filters */}
