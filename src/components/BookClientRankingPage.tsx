@@ -145,7 +145,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
   const rightCol = clientsData.slice(half);
 
   const renderColumn = (items: typeof clientsData) => (
-    <div className="flex flex-col gap-[6px] flex-1">
+    <div className="flex flex-col gap-[3px] flex-1 justify-center">
       {items.map((item) => {
         const curPct = (item.current / maxScore) * 100;
         const prevPct = item.previous != null ? (item.previous / maxScore) * 100 : 0;
@@ -205,7 +205,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
   return (
     <div className="flex h-full w-full flex-col bg-white text-[hsl(215,85%,15%)]">
       {/* Header */}
-      <div className="flex items-center justify-between px-10 py-5 border-b border-[hsl(210,30%,90%)]">
+      <div className="flex items-center justify-between px-10 py-3 border-b border-[hsl(210,30%,90%)]">
         <div>
           <h2 className="text-3xl font-extrabold uppercase tracking-tight">
             Client Ranking {surveyYear}
@@ -232,7 +232,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
       </div>
 
       {/* Legend */}
-      <div className="flex items-center gap-6 px-10 pt-3 pb-1">
+      <div className="flex items-center gap-6 px-10 pt-2 pb-0">
         <div className="flex items-center gap-1.5">
           <div className="w-4 h-3 rounded-sm" style={{ backgroundColor: "hsl(175, 65%, 55%)" }} />
           <span className="text-[9px] font-semibold">{surveyYear} — Score ≥ 3</span>
@@ -248,7 +248,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
       </div>
 
       {/* Chart area — two columns */}
-      <div className="flex-1 flex gap-8 px-10 py-3 overflow-hidden min-h-0">
+      <div className="flex-1 flex gap-8 px-10 py-1 overflow-hidden min-h-0">
         {renderColumn(leftCol)}
         {renderColumn(rightCol)}
       </div>
