@@ -13,6 +13,7 @@ import SortableTh from "@/components/SortableTh";
 import CorporatePerceptionCharts from "@/components/CorporatePerceptionCharts";
 import { ScoreDot } from "@/components/ScoreDot";
 import { useScoreColors } from "@/hooks/useScoreColors";
+import { useTranslatedQuestions } from "@/hooks/useTranslatedQuestions";
 import { useState } from "react";
 
 const ThemeDetail = () => {
