@@ -168,27 +168,27 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
       </div>
 
       {/* Chart area */}
-      <div className="flex-1 flex flex-col px-10 py-4 overflow-hidden">
+      <div className="flex-1 flex flex-col px-10 py-4 overflow-hidden min-h-0">
         {/* Y-axis gridlines + bars */}
-        <div className="flex-1 flex flex-col relative min-h-0">
+        <div className="flex-1 relative min-h-0" style={{ display: "flex", flexDirection: "column" }}>
           {/* Grid lines */}
-          {[2, 3, 4].map((tick) => {
+          {[1, 2, 3, 4, 5].map((tick) => {
             const pct = ((maxScore - tick) / maxScore) * 100;
             return (
               <div
                 key={tick}
-                className="absolute left-0 right-0 border-t border-[hsl(210,20%,90%)]"
+                className="absolute left-6 right-0 border-t border-[hsl(210,20%,90%)]"
                 style={{ top: `${pct}%` }}
               >
-                <span className="absolute -left-6 -top-2 text-[10px] text-[hsl(200,20%,55%)]">
+                <span className="absolute -left-5 -top-2 text-[10px] text-[hsl(200,20%,55%)]">
                   {tick}
                 </span>
               </div>
             );
           })}
 
-          {/* Bars container */}
-          <div className="flex-1 flex items-end justify-around px-4 pb-0 relative z-10">
+          {/* Bars container - absolute to fill the chart area */}
+          <div className="absolute inset-0 left-6 flex items-end justify-around px-4 pb-0">
             {themes.map((theme) => {
               const cur = currentByTheme[theme] ?? 0;
               const prev = prevByTheme[theme] ?? 0;
@@ -196,10 +196,10 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
               const prevPct = (prev / maxScore) * 100;
 
               return (
-                <div key={theme} className="flex flex-col items-center gap-0 flex-1 max-w-[120px]">
-                  <div className="flex items-end gap-1 w-full justify-center" style={{ height: "100%" }}>
+                <div key={theme} className="flex flex-col items-center flex-1 max-w-[120px] h-full justify-end">
+                  <div className="flex items-end gap-1 w-full justify-center h-full">
                     {/* Current year bar */}
-                    <div className="flex flex-col items-center w-[38%]">
+                    <div className="flex flex-col items-center justify-end w-[38%] h-full">
                       <span className="text-[10px] font-bold mb-1">{fmt(cur)}</span>
                       <div
                         className="w-full rounded-t-sm"
@@ -211,7 +211,7 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
                       />
                     </div>
                     {/* Previous year bar */}
-                    <div className="flex flex-col items-center w-[38%]">
+                    <div className="flex flex-col items-center justify-end w-[38%] h-full">
                       <span className="text-[10px] font-bold text-[hsl(215,40%,55%)] mb-1">
                         {prev > 0 ? fmt(prev) : "—"}
                       </span>
@@ -232,7 +232,7 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
         </div>
 
         {/* Theme labels — staggered */}
-        <div className="flex justify-around px-4 mt-2">
+        <div className="flex justify-around px-4 pl-10 mt-2 shrink-0">
           {themes.map((theme, i) => (
             <div
               key={theme}
@@ -247,7 +247,7 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
         </div>
 
         {/* Legend */}
-        <div className="flex items-center gap-4 mt-3">
+        <div className="flex items-center gap-4 mt-3 shrink-0">
           <div className="flex items-center gap-1.5">
             <div className="w-4 h-3 rounded-sm" style={{ backgroundColor: "hsl(215, 85%, 15%)" }} />
             <span className="text-[10px] font-semibold">{surveyYear}</span>
