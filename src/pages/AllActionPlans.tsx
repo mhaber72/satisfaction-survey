@@ -233,6 +233,8 @@ const AllActionPlans = () => {
         />
       )}
 
+      <ActionPlanImport open={showImport} onOpenChange={setShowImport} />
+
       <ActionPlanDashboard
         open={showDashboard}
         onOpenChange={setShowDashboard}

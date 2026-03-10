@@ -232,6 +232,28 @@
     "firstName": "Nombre",
     "lastName": "Apellido"
   },
+  "importActions": {
+    "title": "Importar Planes de Acción",
+    "templateInfo": "Descargar Plantilla",
+    "templateDesc": "Descargue la plantilla Excel con la estructura correcta, valores válidos y una fila de ejemplo.",
+    "downloadTemplate": "Descargar Plantilla",
+    "importExcel": "Importar Excel",
+    "importing": "Importando...",
+    "noRows": "No se encontraron filas de datos en el archivo.",
+    "importError": "Error de importación",
+    "successCount": "{{count}} acción(es) importada(s) exitosamente",
+    "failedCount": "{{count}} fila(s) con error de validación",
+    "validationErrors": "{{count}} error(es) de validación",
+    "row": "Fila",
+    "field": "Campo",
+    "error": "Error",
+    "expectedColumns": "Columnas esperadas",
+    "errRequired": "Campo obligatorio",
+    "errMaxLen": "Excede la longitud máxima ({{max}} caracteres)",
+    "errNotFound": "\"{{value}}\" no encontrado en tabla de referencia",
+    "errInvalidDate": "Formato de fecha inválido (use DD/MM/AAAA)",
+    "errRequiredByStatus": "Requerido por el estado \"{{status}}\""
+  },
   "language": {
     "en": "English",
     "fr": "Français",
