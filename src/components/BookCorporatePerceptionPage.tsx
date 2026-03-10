@@ -174,7 +174,7 @@ export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
             {npsData.length === 0 ? (
               <div className="flex h-full items-center justify-center text-[hsl(200,20%,55%)] text-sm">No data</div>
             ) : (
-              <div className="grid grid-cols-2 gap-x-6 gap-y-1">
+              <div className="grid grid-cols-2 gap-x-6 gap-y-1" style={{ gridAutoFlow: 'column', gridTemplateRows: `repeat(${Math.ceil(npsData.length / 2)}, minmax(0, 1fr))` }}>
                 {npsData.map((d) => (
                   <BookNPSBar key={d.client} client={d.client} nps={d.nps} maxAbs={maxAbs} />
                 ))}
