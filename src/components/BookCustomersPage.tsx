@@ -76,11 +76,6 @@ export default function BookCustomersPage({ surveyYear }: Props) {
     return { h: "max-h-6", w: "max-w-[80px]" };
   };
 
-  // Smart grid: 3 cols for ≤6 verticals, with large groups spanning 2 cols
-  const getColSpan = (count: number, vertCount: number) => {
-    if (vertCount <= 4) return count >= 8 ? "col-span-2" : "";
-    return count >= 8 ? "col-span-2" : "";
-  };
 
   return (
     <div className="flex h-full w-full flex-col bg-white text-[hsl(215,85%,15%)]">
