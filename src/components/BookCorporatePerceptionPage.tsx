@@ -272,6 +272,15 @@ function MiniGauge({ nps, promoters, passives, detractors, year }: { nps: number
     return `M ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2}`;
   }
 
+  function labelPos(startDeg: number, sweepDeg: number, r: number) {
+    const mid = ((startDeg + sweepDeg / 2 - 90) * Math.PI) / 180;
+    return { x: cx + r * Math.cos(mid), y: cy + r * Math.sin(mid) };
+  }
+
+  const gLabel = labelPos(greenStart, greenSweep, rOuter);
+  const oLabel = labelPos(orangeStart, orangeSweep, rOuter);
+  const dLabel = labelPos(redStart, redSweep, rOuter);
+
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
       {total > 0 && (
@@ -279,6 +288,9 @@ function MiniGauge({ nps, promoters, passives, detractors, year }: { nps: number
           {greenSweep > 0.5 && <path d={arcPath(rOuter, greenStart, greenSweep)} fill="none" stroke="hsl(140,60%,75%)" strokeWidth={strokeOuter} strokeLinecap="butt" />}
           {orangeSweep > 0.5 && <path d={arcPath(rOuter, orangeStart, orangeSweep)} fill="none" stroke="hsl(30,80%,75%)" strokeWidth={strokeOuter} strokeLinecap="butt" />}
           {redSweep > 0.5 && <path d={arcPath(rOuter, redStart, redSweep)} fill="none" stroke="hsl(0,70%,75%)" strokeWidth={strokeOuter} strokeLinecap="butt" />}
+          {greenSweep > 6 && <text x={gLabel.x} y={gLabel.y} textAnchor="middle" dominantBaseline="central" fill="hsl(140,40%,30%)" fontSize="9" fontWeight="700">{promoters}</text>}
+          {orangeSweep > 6 && <text x={oLabel.x} y={oLabel.y} textAnchor="middle" dominantBaseline="central" fill="hsl(30,70%,35%)" fontSize="9" fontWeight="700">{passives}</text>}
+          {redSweep > 6 && <text x={dLabel.x} y={dLabel.y} textAnchor="middle" dominantBaseline="central" fill="hsl(0,60%,40%)" fontSize="9" fontWeight="700">{detractors}</text>}
         </>
       )}
       <text x={cx} y={cy - 4} textAnchor="middle" dominantBaseline="central" fill="hsl(215,85%,15%)" fontSize="24" fontWeight="800">{nps}</text>
