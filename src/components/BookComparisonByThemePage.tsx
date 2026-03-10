@@ -192,15 +192,15 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
             {themes.map((theme) => {
               const cur = currentByTheme[theme] ?? 0;
               const prev = prevByTheme[theme] ?? 0;
-              const curPct = (cur / maxScore) * 100;
-              const prevPct = (prev / maxScore) * 100;
+              const curPct = (cur / maxScore) * 60;
+              const prevPct = (prev / maxScore) * 60;
 
               return (
                 <div key={theme} className="flex flex-col items-center flex-1 max-w-[120px] h-full justify-end">
                   <div className="flex items-end gap-1 w-full justify-center h-full">
                     {/* Current year bar */}
                     <div className="flex flex-col items-center justify-end w-[38%] h-full">
-                      <span className="text-xs font-bold mb-1">{fmt(cur)}</span>
+                      <span className="text-sm font-bold mb-1">{fmt(cur)}</span>
                       <div
                         className="w-full rounded-t-sm"
                         style={{
@@ -212,7 +212,7 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
                     </div>
                     {/* Previous year bar */}
                     <div className="flex flex-col items-center justify-end w-[38%] h-full">
-                      <span className="text-xs font-bold text-[hsl(215,40%,55%)] mb-1">
+                      <span className="text-sm font-bold text-[hsl(215,40%,55%)] mb-1">
                         {prev > 0 ? fmt(prev) : "—"}
                       </span>
                       <div
