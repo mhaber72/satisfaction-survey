@@ -24,6 +24,7 @@ const ThemeDetail = () => {
   const { t } = useTranslation();
   const [selectedRow, setSelectedRow] = useState<any>(null);
   const { getColor } = useScoreColors();
+  const { translateQuestion } = useTranslatedQuestions();
 
   const { data: records, isLoading } = useQuery({
     queryKey: ["pesquisa-theme", decodedTheme],
