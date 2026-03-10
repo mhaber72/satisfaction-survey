@@ -66,13 +66,20 @@ export default function BookCustomersPage({ surveyYear }: Props) {
   })();
 
   const verticalNames = Object.keys(grouped).sort();
-  const totalClients = Object.values(grouped).flat().length;
 
-  // Dynamic sizing based on number of groups and clients
-  const isLarge = totalClients > 20;
-  const logoMaxH = isLarge ? "max-h-8" : "max-h-10";
-  const logoMaxW = isLarge ? "max-w-[90px]" : "max-w-[120px]";
-  const gap = isLarge ? "gap-2" : "gap-3";
+  // Determine logo size per vertical based on client count
+  const getLogoSize = (count: number) => {
+    if (count <= 2) return { h: "max-h-14", w: "max-w-[160px]" };
+    if (count <= 4) return { h: "max-h-12", w: "max-w-[140px]" };
+    if (count <= 6) return { h: "max-h-10", w: "max-w-[120px]" };
+    return { h: "max-h-8", w: "max-w-[100px]" };
+  };
+
+  // Smart grid: 3 cols for ≤6 verticals, with large groups spanning 2 cols
+  const getColSpan = (count: number, vertCount: number) => {
+    if (vertCount <= 4) return count >= 8 ? "col-span-2" : "";
+    return count >= 8 ? "col-span-2" : "";
+  };
 
   return (
     <div className="flex h-full w-full flex-col bg-white text-[hsl(215,85%,15%)]">
@@ -99,13 +106,15 @@ export default function BookCustomersPage({ surveyYear }: Props) {
             No clients found for this year
           </div>
         ) : (
-          <div className={`grid ${verticalNames.length <= 3 ? "grid-cols-3" : verticalNames.length <= 4 ? "grid-cols-4" : "grid-cols-3"} ${gap} h-full auto-rows-fr`}>
+          <div className="grid grid-cols-3 gap-3 h-full auto-rows-fr">
             {verticalNames.map((vertName) => {
               const items = grouped[vertName];
+              const size = getLogoSize(items.length);
+              const span = getColSpan(items.length, verticalNames.length);
               return (
                 <div
                   key={vertName}
-                  className="flex flex-col rounded-xl border-2 border-[hsl(210,60%,75%)] overflow-hidden"
+                  className={`flex flex-col rounded-xl border-2 border-[hsl(210,60%,75%)] overflow-hidden ${span}`}
                 >
                   {/* Vertical title */}
                   <div className="bg-white border-b border-[hsl(210,30%,90%)] px-3 py-2 text-center">
@@ -114,14 +123,14 @@ export default function BookCustomersPage({ surveyYear }: Props) {
                     </span>
                   </div>
                   {/* Logos */}
-                  <div className="flex-1 flex flex-wrap items-center justify-center content-center gap-3 p-3">
+                  <div className="flex-1 flex flex-wrap items-center justify-center content-center gap-4 p-4">
                     {items.map((client) => (
                       <div key={client.id} className="flex items-center justify-center">
                         {client.logo_url ? (
                           <img
                             src={client.logo_url}
                             alt={client.name}
-                            className={`${logoMaxH} ${logoMaxW} object-contain`}
+                            className={`${size.h} ${size.w} object-contain`}
                           />
                         ) : (
                           <span className="text-xs font-semibold text-[hsl(215,85%,25%)] bg-[hsl(210,30%,95%)] rounded px-2 py-1">
