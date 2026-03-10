@@ -146,20 +146,20 @@ export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
             prevYear={prevYear}
           />
           {/* Q2 */}
-          <div className="rounded-lg border border-[hsl(210,30%,88%)] bg-[hsl(210,40%,97%)] flex flex-col items-center justify-center p-2">
-            <p className="text-[9px] font-bold text-[hsl(215,85%,25%)] text-center leading-tight mb-1">
-              Would hire ID for a new service?
+          <div className="rounded-lg border border-[hsl(210,30%,88%)] bg-[hsl(210,40%,97%)] flex items-center gap-3 px-3 py-1.5">
+            <p className="text-[8px] font-bold text-[hsl(215,85%,25%)] leading-tight max-w-[60px]">
+              Would hire ID?
             </p>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <div className="flex flex-col items-center">
-                <span className="text-[10px] font-bold text-[hsl(210,80%,50%)]">YES</span>
-                <span className="text-xl font-bold text-[hsl(140,60%,35%)]">{q2Stats.yes}</span>
-                {q2PrevStats && <span className="text-[9px] text-[hsl(200,20%,55%)]">{q2PrevStats.yes} in {prevYear}</span>}
+                <span className="text-[9px] font-bold text-[hsl(210,80%,50%)]">YES</span>
+                <span className="text-lg font-bold text-[hsl(140,60%,35%)] leading-tight">{q2Stats.yes}</span>
+                {q2PrevStats && <span className="text-[8px] text-[hsl(200,20%,55%)]">{q2PrevStats.yes} in {prevYear}</span>}
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-[10px] font-bold text-[hsl(210,80%,50%)]">NO</span>
-                <span className="text-xl font-bold text-[hsl(0,70%,50%)]">{q2Stats.no}</span>
-                {q2PrevStats && <span className="text-[9px] text-[hsl(200,20%,55%)]">{q2PrevStats.no} in {prevYear}</span>}
+                <span className="text-[9px] font-bold text-[hsl(210,80%,50%)]">NO</span>
+                <span className="text-lg font-bold text-[hsl(0,70%,50%)] leading-tight">{q2Stats.no}</span>
+                {q2PrevStats && <span className="text-[8px] text-[hsl(200,20%,55%)]">{q2PrevStats.no} in {prevYear}</span>}
               </div>
             </div>
           </div>
