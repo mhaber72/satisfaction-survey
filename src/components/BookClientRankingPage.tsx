@@ -174,7 +174,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
                     }}
                   />
                 </div>
-                <span className="text-[9px] font-bold w-[30px] shrink-0">{fmt(item.current)}</span>
+                <span className="text-[11px] font-bold w-[34px] shrink-0">{fmt(item.current)}</span>
               </div>
               {/* Previous year bar */}
               <div className="flex items-center gap-1">
