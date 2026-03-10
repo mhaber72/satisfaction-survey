@@ -4,9 +4,11 @@ import logoIdl from "@/assets/logo-idl-dark.png";
 
 interface Props {
   surveyYear: number | null;
+  verticalName?: string;
+  filterClients?: string[];
 }
 
-export default function BookCustomersPage({ surveyYear }: Props) {
+export default function BookCustomersPage({ surveyYear, verticalName, filterClients }: Props) {
   // Fetch distinct client_names for the selected year
   const { data: surveyClients } = useQuery({
     queryKey: ["book-survey-clients", surveyYear],
@@ -52,7 +54,12 @@ export default function BookCustomersPage({ surveyYear }: Props) {
   // Match survey client names to registered clients & group by vertical
   const grouped = (() => {
     if (!surveyClients || !clients) return {};
-    const nameSet = new Set(surveyClients.map((n) => n.toLowerCase()));
+    let filteredSurveyClients = surveyClients;
+    if (filterClients) {
+      const filterSet = new Set(filterClients.map((n) => n.toLowerCase()));
+      filteredSurveyClients = surveyClients.filter((n) => filterSet.has(n.toLowerCase()));
+    }
+    const nameSet = new Set(filteredSurveyClients.map((n) => n.toLowerCase()));
     const matched = clients.filter((c) =>
       nameSet.has(c.name.toLowerCase())
     );
@@ -84,6 +91,7 @@ export default function BookCustomersPage({ surveyYear }: Props) {
         <div>
           <h2 className="text-3xl font-extrabold uppercase tracking-tight">
             Customers {surveyYear || ""}
+            {verticalName && <span className="text-[hsl(200,80%,45%)]"> — {verticalName}</span>}
           </h2>
           <div className="flex items-center gap-2 mt-1">
             <p className="text-sm font-bold text-[hsl(0,85%,45%)] uppercase tracking-wide">
@@ -102,7 +110,7 @@ export default function BookCustomersPage({ surveyYear }: Props) {
             No clients found for this year
           </div>
         ) : (
-          <div className="grid grid-cols-3 grid-rows-2 gap-3 h-full">
+          <div className={`grid ${verticalNames.length <= 1 ? 'grid-cols-1' : verticalNames.length <= 2 ? 'grid-cols-2' : 'grid-cols-3'} ${verticalNames.length <= 3 ? 'grid-rows-1' : 'grid-rows-2'} gap-3 h-full`}>
             {verticalNames.map((vertName) => {
               const items = grouped[vertName];
               const size = getLogoSize(items.length);

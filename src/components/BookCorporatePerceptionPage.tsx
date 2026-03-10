@@ -6,6 +6,8 @@ import logoIdl from "@/assets/logo-idl-dark.png";
 
 interface Props {
   surveyYear: number | null;
+  verticalName?: string;
+  filterClients?: string[];
 }
 
 const QUESTION_1 = "Dans quelle mesure recommanderiez-vous ID Logistics à vos collègues, partenaires commerciaux ou clients ?";
@@ -45,8 +47,7 @@ function computeGlobalNPS(records: any[]) {
 const isExplicitScore = (score: any, val: number) =>
   score !== null && score !== undefined && String(score).trim() !== "" && Number(score) === val;
 
-export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
-  // Fetch all records
+export default function BookCorporatePerceptionPage({ surveyYear, verticalName, filterClients }: Props) {
   const { data: allRecords } = useQuery({
     queryKey: ["book-cp-records"],
     queryFn: async () => {
@@ -68,16 +69,25 @@ export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
     },
   });
 
+  const filterSet = useMemo(() => {
+    if (!filterClients) return null;
+    return new Set(filterClients.map((n) => n.toLowerCase()));
+  }, [filterClients]);
+
   const records = useMemo(() => {
     if (!allRecords || !surveyYear) return [];
-    return allRecords.filter((r) => r.survey_year === surveyYear);
-  }, [allRecords, surveyYear]);
+    let filtered = allRecords.filter((r) => r.survey_year === surveyYear);
+    if (filterSet) filtered = filtered.filter((r) => filterSet.has((r.client_name ?? "").toLowerCase()));
+    return filtered;
+  }, [allRecords, surveyYear, filterSet]);
 
   const prevYear = surveyYear ? surveyYear - 1 : null;
   const prevRecords = useMemo(() => {
     if (!allRecords || !prevYear) return [];
-    return allRecords.filter((r) => r.survey_year === prevYear);
-  }, [allRecords, prevYear]);
+    let filtered = allRecords.filter((r) => r.survey_year === prevYear);
+    if (filterSet) filtered = filtered.filter((r) => filterSet.has((r.client_name ?? "").toLowerCase()));
+    return filtered;
+  }, [allRecords, prevYear, filterSet]);
 
   const npsData = useMemo(() => computeNPSByClient(records), [records]);
   const globalNPS = useMemo(() => computeGlobalNPS(records), [records]);
@@ -109,6 +119,7 @@ export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
         <div>
           <h2 className="text-3xl font-extrabold uppercase tracking-tight">
             Corporate Perception {surveyYear || ""}
+            {verticalName && <span className="text-[hsl(200,80%,45%)]"> — {verticalName}</span>}
           </h2>
           <div className="flex items-center gap-2 mt-1">
             <p className="text-sm font-bold text-[hsl(0,85%,45%)] uppercase tracking-wide">BRAZIL</p>
@@ -122,7 +133,6 @@ export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
       <div className="flex-1 min-h-0 overflow-hidden flex flex-col px-6 py-3 gap-3">
         {/* KPI Cards Row */}
         <div className="grid grid-cols-4 gap-3 shrink-0">
-          {/* Clients */}
           <KPICard
             icon={<Users className="h-5 w-5 text-[hsl(210,80%,50%)]" />}
             value={clientsCount}
@@ -130,14 +140,12 @@ export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
             prevValue={prevClientsCount || null}
             prevYear={prevYear}
           />
-          {/* Global NPS Gauge */}
           <div className="rounded-lg border border-[hsl(210,30%,88%)] bg-[hsl(210,40%,97%)] flex flex-col items-center justify-center p-4">
             <MiniGauge nps={globalNPS.nps} promoters={globalNPS.promoters} passives={globalNPS.passives} detractors={globalNPS.detractors} year={surveyYear} />
             {prevRecords.length > 0 && (
               <p className="text-[10px] text-[hsl(200,20%,55%)] mt-1">{prevGlobalNPS.nps} in {prevYear}</p>
             )}
           </div>
-          {/* Answers */}
           <KPICard
             icon={<MessageCircle className="h-5 w-5 text-[hsl(210,80%,50%)]" />}
             value={answersCount}
@@ -145,7 +153,6 @@ export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
             prevValue={prevAnswersCount || null}
             prevYear={prevYear}
           />
-          {/* Q2 */}
           <div className="rounded-lg border border-[hsl(210,30%,88%)] bg-[hsl(210,40%,97%)] flex flex-col items-center justify-center p-4">
             <p className="text-[10px] font-bold text-[hsl(215,85%,25%)] text-center leading-tight mb-2">
               Would hire ID for a new service?
