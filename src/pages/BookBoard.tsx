@@ -166,8 +166,26 @@ export default function BookBoard() {
     >
       {/* Book container */}
       <div className="relative w-full max-w-[72rem] px-16" style={{ perspective: "2000px" }}>
-        {/* Page counter */}
-        <div className="absolute -top-10 left-0 right-0 flex items-center justify-center gap-3">
+        {/* Page counter & year filter */}
+        <div className="absolute -top-10 left-0 right-0 flex items-center justify-center gap-4">
+          {/* Year selector */}
+          <Select
+            value={surveyYear?.toString() || ""}
+            onValueChange={(v) => {
+              setSurveyYear(Number(v));
+              setCurrentPage(0);
+            }}
+          >
+            <SelectTrigger className="w-[120px] h-7 text-xs bg-white/80 border-[hsl(200,20%,80%)]">
+              <SelectValue placeholder="Year" />
+            </SelectTrigger>
+            <SelectContent>
+              {availableYears?.map((y) => (
+                <SelectItem key={y} value={y.toString()}>{y}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
           <span className="text-sm text-[hsl(200,20%,40%)]">
             {currentPage + 1} / {totalPages}
           </span>
