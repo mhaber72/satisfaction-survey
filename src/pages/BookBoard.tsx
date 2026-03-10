@@ -12,8 +12,11 @@ function CoverPage() {
       {/* Left side content */}
       <div className="relative z-10 flex flex-col w-[50%] px-10 py-8">
         {/* Logo */}
-        <div>
-          <img src={logoIdl} alt="ID Logistics" className="h-20 object-contain" style={{ maxWidth: '200px' }} />
+        <div className="flex items-center gap-1">
+          <img src={logoIdl} alt="ID Logistics" className="h-16 object-contain" style={{ maxWidth: '60px' }} />
+          <span className="text-3xl font-extrabold tracking-tight text-[hsl(215,85%,15%)]">
+            <span className="text-[hsl(215,85%,15%)]">LOGISTICS</span>
+          </span>
         </div>
 
         {/* Title block */}
