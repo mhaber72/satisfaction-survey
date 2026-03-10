@@ -11,6 +11,7 @@ import BookCustomersPage from "@/components/BookCustomersPage";
 import BookCorporatePerceptionPage from "@/components/BookCorporatePerceptionPage";
 import BookComparisonByThemePage from "@/components/BookComparisonByThemePage";
 import BookClientRankingPage from "@/components/BookClientRankingPage";
+import obrigadoImg from "@/assets/obrigado.png";
 
 /* ─── Cover page ─── */
 function CoverPage() {
