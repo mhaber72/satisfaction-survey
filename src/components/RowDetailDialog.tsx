@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { ClipboardPlus, List } from "lucide-react";
+import { useTranslatedQuestions } from "@/hooks/useTranslatedQuestions";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import ActionPlanForm from "./ActionPlanForm";
 import ActionPlanList from "./ActionPlanList";
@@ -21,6 +22,7 @@ const FIELD_ORDER = [
 
 const RowDetailDialog = ({ row, open, onOpenChange }: RowDetailDialogProps) => {
   const { t } = useTranslation();
+  const { translateQuestion } = useTranslatedQuestions();
   const [showCreateAction, setShowCreateAction] = useState(false);
   const [showListActions, setShowListActions] = useState(false);
 
@@ -82,7 +84,9 @@ const RowDetailDialog = ({ row, open, onOpenChange }: RowDetailDialogProps) => {
               <div key={key} className="contents">
                 <span className="font-medium text-muted-foreground truncate">{labelMap[key] ?? key}</span>
                 <span className="text-foreground break-words">
-                  {row[key] != null && row[key] !== "" ? String(row[key]) : "—"}
+                  {key === "question"
+                    ? translateQuestion(row[key]) || "—"
+                    : (row[key] != null && row[key] !== "" ? String(row[key]) : "—")}
                 </span>
               </div>
             ))}
