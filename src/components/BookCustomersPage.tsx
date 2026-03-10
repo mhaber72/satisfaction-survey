@@ -97,9 +97,7 @@ export default function BookCustomersPage({ surveyYear, verticalName, filterClie
               BRAZIL
             </p>
             <div className="h-[3px] w-6 bg-[hsl(0,85%,45%)] rounded-full" />
-            {verticalName && (
-              <span className="text-sm font-bold text-[hsl(200,80%,45%)] uppercase tracking-wide">{verticalName}</span>
-            )}
+            <span className="text-sm font-bold text-[hsl(200,80%,45%)] uppercase tracking-wide">{verticalName || "GLOBAL"}</span>
           </div>
         </div>
         <img src={logoIdl} alt="ID Logistics" className="h-10 object-contain" />
