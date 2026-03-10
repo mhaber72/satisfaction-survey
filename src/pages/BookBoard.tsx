@@ -1,22 +1,58 @@
 import { useState, useCallback } from "react";
-import { ChevronLeft, ChevronRight, BookOpen } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
+import logoIdl from "@/assets/logo-idl.png";
+import coverWarehouse from "@/assets/cover-warehouse.png";
 
 /* ─── Sample page components ─── */
 function CoverPage() {
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-6 bg-white text-[hsl(215,85%,15%)] px-16">
-      <BookOpen className="h-24 w-24 text-[hsl(200,80%,60%)] drop-shadow-lg" />
-      <h1 className="text-5xl font-extrabold tracking-tight text-center leading-tight">
-        CSS Analytics
-      </h1>
-      <p className="text-xl text-[hsl(200,30%,45%)] text-center max-w-lg">
-        Customer Satisfaction Survey — Book Board
-      </p>
-      <div className="mt-8 flex items-center gap-2 text-sm text-[hsl(200,20%,60%)]">
-        <ChevronRight className="h-4 w-4 animate-pulse" />
-        <span>Deslize para começar</span>
+    <div className="relative flex h-full w-full bg-white overflow-hidden">
+      {/* Left side content */}
+      <div className="relative z-10 flex flex-col justify-between w-[55%] px-10 py-8">
+        {/* Logo */}
+        <div>
+          <img src={logoIdl} alt="ID Logistics" className="h-16 object-contain" />
+        </div>
+
+        {/* Title block */}
+        <div className="flex-1 flex flex-col justify-center -mt-4">
+          <h1 className="text-4xl font-extrabold tracking-tight leading-tight text-[hsl(215,85%,15%)] uppercase">
+            Customer Satisfaction<br />Survey Analysis
+          </h1>
+          <div className="mt-6">
+            <p className="text-lg font-bold text-[hsl(0,85%,45%)] uppercase tracking-wide">
+              BRAZIL
+            </p>
+            <div className="mt-1 h-[3px] w-10 bg-[hsl(200,80%,50%)] rounded-full" />
+          </div>
+        </div>
+
+        {/* Decorative dots bottom-left */}
+        <div className="absolute bottom-6 left-6 grid grid-cols-5 gap-2 opacity-20">
+          {Array.from({ length: 20 }).map((_, i) => (
+            <div key={i} className="h-2 w-2 rounded-full bg-[hsl(200,30%,70%)]" />
+          ))}
+        </div>
+      </div>
+
+      {/* Right side - warehouse image with curved mask */}
+      <div className="absolute right-0 top-0 bottom-0 w-[55%]">
+        <div
+          className="absolute inset-0"
+          style={{
+            clipPath: "ellipse(85% 100% at 70% 50%)",
+          }}
+        >
+          <img
+            src={coverWarehouse}
+            alt="Warehouse"
+            className="h-full w-full object-cover"
+          />
+          {/* Dark overlay for depth */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[hsl(215,30%,20%,0.3)] to-transparent" />
+        </div>
       </div>
     </div>
   );
