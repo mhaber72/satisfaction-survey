@@ -151,8 +151,8 @@ export default function BookBoard() {
 
     pages.push({
       component: (
-        <div className="relative h-full w-full">
-          <img src={obrigadoImg} alt="Obrigado" className="h-full w-full object-cover" />
+        <div className="relative h-full w-full bg-white flex items-center justify-center">
+          <img src={obrigadoImg} alt="Obrigado" className="max-h-full max-w-full object-contain" />
         </div>
       ),
     });
