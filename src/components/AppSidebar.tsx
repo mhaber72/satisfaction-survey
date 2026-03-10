@@ -34,7 +34,7 @@ export function AppSidebar() {
 
   const adminItems = [
     { title: t("nav.users"), url: "/admin/users", icon: Users },
-    { title: t("nav.accessProfiles"), url: "/admin/profiles", icon: Shield },
+    // Access Profiles removed - access now managed directly on users
     { title: t("nav.importData"), url: "/admin/import", icon: Upload },
     { title: t("nav.scoreColors"), url: "/admin/score-colors", icon: Palette },
     { title: t("nav.contractManagers"), url: "/admin/contract-managers", icon: UserCheck },
