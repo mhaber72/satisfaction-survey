@@ -248,7 +248,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
       </div>
 
       {/* Chart area — two columns */}
-      <div className="flex-1 flex gap-8 px-10 py-3 overflow-hidden min-h-0">
+      <div className="flex-1 flex gap-8 px-10 py-1 overflow-hidden min-h-0">
         {renderColumn(leftCol)}
         {renderColumn(rightCol)}
       </div>
