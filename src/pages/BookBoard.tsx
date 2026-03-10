@@ -180,13 +180,14 @@ export default function BookBoard() {
     }, 600);
   }, [currentPage, flipping]);
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" || e.key === " ") goNext();
       if (e.key === "ArrowLeft") goPrev();
-    },
-    [goNext, goPrev]
-  );
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [goNext, goPrev]);
 
   const nextPageIndex = currentPage + 1 < totalPages ? currentPage + 1 : null;
   const prevPageIndex = currentPage - 1 >= 0 ? currentPage - 1 : null;
