@@ -189,15 +189,17 @@ export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
 
 function KPICard({ icon, value, label, prevValue, prevYear }: { icon: React.ReactNode; value: number; label: string; prevValue: number | null; prevYear: number | null }) {
   return (
-    <div className="rounded-lg border border-[hsl(210,30%,88%)] bg-[hsl(210,40%,97%)] flex flex-col items-center justify-center p-3">
-      <div className="mb-1 flex h-10 w-10 items-center justify-center rounded-full border border-[hsl(210,60%,75%)]">
+    <div className="rounded-lg border border-[hsl(210,30%,88%)] bg-[hsl(210,40%,97%)] flex items-center gap-2 px-3 py-1.5">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[hsl(210,60%,75%)]">
         {icon}
       </div>
-      <p className="text-2xl font-bold text-[hsl(215,85%,15%)]">{value}</p>
-      <p className="text-[10px] font-semibold text-[hsl(215,85%,25%)] uppercase">{label}</p>
-      {prevValue !== null && prevYear && (
-        <p className="text-[10px] text-[hsl(200,20%,55%)] mt-0.5">{prevValue} in {prevYear}</p>
-      )}
+      <div className="flex flex-col">
+        <p className="text-xl font-bold text-[hsl(215,85%,15%)] leading-tight">{value}</p>
+        <p className="text-[9px] font-semibold text-[hsl(215,85%,25%)] uppercase leading-tight">{label}</p>
+        {prevValue !== null && prevYear && (
+          <p className="text-[9px] text-[hsl(200,20%,55%)] leading-tight">{prevValue} in {prevYear}</p>
+        )}
+      </div>
     </div>
   );
 }
