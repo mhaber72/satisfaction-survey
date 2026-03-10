@@ -57,7 +57,7 @@ function computeClientAvgs(records: any[], year: number) {
       avg: scores.reduce((a, b) => a + b, 0) / scores.length,
     });
   }
-  return result.sort((a, b) => b.avg - a.avg);
+  return result.sort((a, b) => b.avg - a.avg || a.client.localeCompare(b.client));
 }
 
 function computeGlobalAvg(records: any[], year: number) {
