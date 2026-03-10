@@ -10,6 +10,7 @@ import coverWarehouse from "@/assets/cover-warehouse-clean.jpg";
 import BookCustomersPage from "@/components/BookCustomersPage";
 import BookCorporatePerceptionPage from "@/components/BookCorporatePerceptionPage";
 import BookComparisonByThemePage from "@/components/BookComparisonByThemePage";
+import BookClientRankingPage from "@/components/BookClientRankingPage";
 
 /* ─── Sample page components ─── */
 function CoverPage() {
