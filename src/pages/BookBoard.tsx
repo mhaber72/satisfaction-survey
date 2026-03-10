@@ -11,6 +11,7 @@ import BookCustomersPage from "@/components/BookCustomersPage";
 import BookCorporatePerceptionPage from "@/components/BookCorporatePerceptionPage";
 import BookComparisonByThemePage from "@/components/BookComparisonByThemePage";
 import BookClientRankingPage from "@/components/BookClientRankingPage";
+import obrigadoImg from "@/assets/obrigado.png";
 
 /* ─── Cover page ─── */
 function CoverPage() {
@@ -148,8 +149,13 @@ export default function BookBoard() {
       }
     }
 
-    pages.push({ component: <PlaceholderPage number={4} title="Planos de Ação" description="Tabela resumo de status" /> });
-    pages.push({ component: <PlaceholderPage number={5} title="Conclusões" description="Texto e imagens" /> });
+    pages.push({
+      component: (
+        <div className="relative h-full w-full">
+          <img src={obrigadoImg} alt="Obrigado" className="h-full w-full object-cover" />
+        </div>
+      ),
+    });
 
     return pages;
   }, [surveyYear, verticalData]);
