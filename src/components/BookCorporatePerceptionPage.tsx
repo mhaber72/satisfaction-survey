@@ -276,8 +276,8 @@ function MiniGauge({ nps, promoters, passives, detractors, year }: { nps: number
           {redSweep > 0.5 && <path d={arcPath(rOuter, redStart, redSweep)} fill="none" stroke="hsl(0,70%,75%)" strokeWidth={strokeOuter} strokeLinecap="butt" />}
         </>
       )}
-      <text x={cx} y={cy - 4} textAnchor="middle" dominantBaseline="central" fill="hsl(215,85%,15%)" fontSize="24" fontWeight="800">{nps}</text>
-      <text x={cx} y={cy + 14} textAnchor="middle" dominantBaseline="central" fill="hsl(215,85%,25%)" fontSize="8" fontWeight="700">NPS {year}</text>
+      <text x={cx} y={cy - 2} textAnchor="middle" dominantBaseline="central" fill="hsl(215,85%,15%)" fontSize="18" fontWeight="800">{nps}</text>
+      <text x={cx} y={cy + 11} textAnchor="middle" dominantBaseline="central" fill="hsl(215,85%,25%)" fontSize="7" fontWeight="700">NPS {year}</text>
     </svg>
   );
 }
