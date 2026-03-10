@@ -14,7 +14,8 @@
     "administration": "Administração",
     "actionPlans": "Planos de Ação",
     "signOut": "Sair",
-    "actionResponsibles": "Responsáveis das Ações"
+    "actionResponsibles": "Responsáveis das Ações",
+    "questions": "Perguntas"
   },
   "login": {
     "title": "Entrar",
@@ -253,6 +254,23 @@
     "errNotFound": "\"{{value}}\" não encontrado na tabela de referência",
     "errInvalidDate": "Formato de data inválido (use DD/MM/AAAA)",
     "errRequiredByStatus": "Obrigatório pelo status \"{{status}}\""
+  },
+  "adminQuestions": {
+    "title": "Perguntas da Pesquisa",
+    "subtitle": "{{count}} pergunta(s)",
+    "searchPlaceholder": "Buscar perguntas...",
+    "loading": "Carregando...",
+    "year": "Ano",
+    "theme": "Tema",
+    "questionFr": "Pergunta (FR)",
+    "questionEn": "Pergunta (EN)",
+    "questionPt": "Pergunta (PT)",
+    "questionEs": "Pergunta (ES)",
+    "actions": "Ações",
+    "noTranslation": "Sem tradução",
+    "editQuestion": "Editar Pergunta",
+    "save": "Salvar",
+    "saved": "Pergunta salva"
   },
   "language": {
     "en": "English",

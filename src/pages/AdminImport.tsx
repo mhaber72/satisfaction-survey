@@ -108,9 +108,37 @@ const AdminImport = () => {
         if (error) throw error;
         inserted += batch.length;
       }
+
+      // Auto-create questions in survey_questions registry
+      const uniqueQuestions = new Map<string, { question: string; theme: string | null }>();
+      for (const row of mapped) {
+        const q = row.question as string | undefined;
+        if (q && q.trim()) {
+          const key = `${q.trim()}__${Number(selectedYear)}`;
+          if (!uniqueQuestions.has(key)) {
+            uniqueQuestions.set(key, { question: q.trim(), theme: (row.theme as string) ?? null });
+          }
+        }
+      }
+      if (uniqueQuestions.size > 0) {
+        const questionsToInsert = Array.from(uniqueQuestions.values()).map((v) => ({
+          question_fr: v.question,
+          theme: v.theme,
+          survey_year: Number(selectedYear),
+        }));
+        for (let i = 0; i < questionsToInsert.length; i += batchSize) {
+          const batch = questionsToInsert.slice(i, i + batchSize);
+          // Use upsert with onConflict to skip existing
+          await (supabase as any)
+            .from("survey_questions")
+            .upsert(batch, { onConflict: "question_fr,survey_year", ignoreDuplicates: true });
+        }
+      }
+
       toast.success(t("adminImport.recordsImported", { count: inserted }));
       refetch();
       queryClient.invalidateQueries({ queryKey: ["pesquisa"] });
+      queryClient.invalidateQueries({ queryKey: ["survey-questions"] });
     } catch (err: any) {
       toast.error(t("adminImport.importError") + err.message);
     } finally {

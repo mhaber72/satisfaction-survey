@@ -14,7 +14,8 @@
     "administration": "Administration",
     "actionPlans": "Plans d'Action",
     "signOut": "Déconnexion",
-    "actionResponsibles": "Responsables des Actions"
+    "actionResponsibles": "Responsables des Actions",
+    "questions": "Questions"
   },
   "login": {
     "title": "Connexion",
@@ -253,6 +254,23 @@
     "errNotFound": "\"{{value}}\" introuvable dans la table de référence",
     "errInvalidDate": "Format de date invalide (utilisez JJ/MM/AAAA)",
     "errRequiredByStatus": "Requis par le statut \"{{status}}\""
+  },
+  "adminQuestions": {
+    "title": "Questions de l'Enquête",
+    "subtitle": "{{count}} question(s)",
+    "searchPlaceholder": "Rechercher des questions...",
+    "loading": "Chargement...",
+    "year": "Année",
+    "theme": "Thème",
+    "questionFr": "Question (FR)",
+    "questionEn": "Question (EN)",
+    "questionPt": "Question (PT)",
+    "questionEs": "Question (ES)",
+    "actions": "Actions",
+    "noTranslation": "Pas de traduction",
+    "editQuestion": "Modifier la Question",
+    "save": "Enregistrer",
+    "saved": "Question enregistrée"
   },
   "language": {
     "en": "English",
