@@ -184,7 +184,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
               </div>
               {/* Previous year bar */}
               <div className="flex items-center gap-1">
-                <div className="flex-1 h-[16px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
+                <div className="flex-1 h-[18px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
                   <div
                     className="h-full rounded-sm"
                     style={{
