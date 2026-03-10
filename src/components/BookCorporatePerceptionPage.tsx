@@ -233,8 +233,8 @@ function BookNPSBar({ client, nps, maxAbs }: { client: string; nps: number; maxA
 
 function MiniGauge({ nps, promoters, passives, detractors, year }: { nps: number; promoters: number; passives: number; detractors: number; year: number | null }) {
   const size = 70;
-  const strokeOuter = 18;
-  const gap = 4;
+  const strokeOuter = 12;
+  const gap = 3;
   const rOuter = (size - strokeOuter) / 2;
   const cx = size / 2;
   const cy = size / 2;
