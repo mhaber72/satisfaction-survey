@@ -101,7 +101,6 @@ export default function BookCustomersPage({ surveyYear, verticalName, filterClie
           {verticalName && (
             <p className="text-sm font-bold text-[hsl(200,80%,45%)] uppercase tracking-wide mt-0.5">{verticalName}</p>
           )}
-          </div>
         </div>
         <img src={logoIdl} alt="ID Logistics" className="h-10 object-contain" />
       </div>
