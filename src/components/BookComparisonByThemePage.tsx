@@ -192,8 +192,8 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
             {themes.map((theme) => {
               const cur = currentByTheme[theme] ?? 0;
               const prev = prevByTheme[theme] ?? 0;
-              const curPct = (cur / maxScore) * 60;
-              const prevPct = (prev / maxScore) * 60;
+              const curPct = (cur / maxScore) * 100;
+              const prevPct = (prev / maxScore) * 100;
 
               return (
                 <div key={theme} className="flex flex-col items-center flex-1 max-w-[120px] h-full justify-end">
