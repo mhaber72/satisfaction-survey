@@ -126,12 +126,12 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
     const merged = currentAvgs
       .map((c) => ({
         client: c.client,
-        current: c.avg,
-        previous: prevMap.get(c.client) ?? null,
+        current: Math.round(c.avg * 100) / 100,
+        previous: prevMap.has(c.client) ? Math.round(prevMap.get(c.client)! * 100) / 100 : null,
       }))
       .sort((a, b) => {
         const diff = b.current - a.current;
-        if (Math.abs(diff) > 0.001) return diff;
+        if (diff !== 0) return diff;
         return a.client.localeCompare(b.client);
       });
 
