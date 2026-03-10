@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import logoIdl from "@/assets/logo-idl-dark.png";
 import coverWarehouse from "@/assets/cover-warehouse-clean.jpg";
 import BookCustomersPage from "@/components/BookCustomersPage";
+import BookCorporatePerceptionPage from "@/components/BookCorporatePerceptionPage";
 
 /* ─── Sample page components ─── */
 function CoverPage() {
