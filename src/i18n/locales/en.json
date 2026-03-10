@@ -255,6 +255,23 @@
     "errInvalidDate": "Invalid date format (use DD/MM/YYYY)",
     "errRequiredByStatus": "Required by status \"{{status}}\""
   },
+  "adminQuestions": {
+    "title": "Survey Questions",
+    "subtitle": "{{count}} question(s)",
+    "searchPlaceholder": "Search questions...",
+    "loading": "Loading...",
+    "year": "Year",
+    "theme": "Theme",
+    "questionFr": "Question (FR)",
+    "questionEn": "Question (EN)",
+    "questionPt": "Question (PT)",
+    "questionEs": "Question (ES)",
+    "actions": "Actions",
+    "noTranslation": "No translation",
+    "editQuestion": "Edit Question",
+    "save": "Save",
+    "saved": "Question saved"
+  },
   "language": {
     "en": "English",
     "fr": "Français",

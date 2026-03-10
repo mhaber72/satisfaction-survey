@@ -255,6 +255,23 @@
     "errInvalidDate": "Formato de fecha inválido (use DD/MM/AAAA)",
     "errRequiredByStatus": "Requerido por el estado \"{{status}}\""
   },
+  "adminQuestions": {
+    "title": "Preguntas de la Encuesta",
+    "subtitle": "{{count}} pregunta(s)",
+    "searchPlaceholder": "Buscar preguntas...",
+    "loading": "Cargando...",
+    "year": "Año",
+    "theme": "Tema",
+    "questionFr": "Pregunta (FR)",
+    "questionEn": "Pregunta (EN)",
+    "questionPt": "Pregunta (PT)",
+    "questionEs": "Pregunta (ES)",
+    "actions": "Acciones",
+    "noTranslation": "Sin traducción",
+    "editQuestion": "Editar Pregunta",
+    "save": "Guardar",
+    "saved": "Pregunta guardada"
+  },
   "language": {
     "en": "English",
     "fr": "Français",
