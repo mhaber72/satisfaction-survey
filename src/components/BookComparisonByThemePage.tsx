@@ -212,7 +212,7 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
                     </div>
                     {/* Previous year bar */}
                     <div className="flex flex-col items-center justify-end w-[38%] h-full">
-                      <span className="text-xs font-bold text-[hsl(215,40%,55%)] mb-1">
+                      <span className="text-sm font-bold text-[hsl(215,40%,55%)] mb-1">
                         {prev > 0 ? fmt(prev) : "—"}
                       </span>
                       <div
