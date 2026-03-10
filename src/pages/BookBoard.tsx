@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import logoIdl from "@/assets/logo-idl.png";
-import coverWarehouse from "@/assets/cover-warehouse.png";
+import coverWarehouse from "@/assets/cover-warehouse-clean.jpg";
 
 /* ─── Sample page components ─── */
 function CoverPage() {
