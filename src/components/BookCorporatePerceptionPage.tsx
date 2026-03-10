@@ -131,10 +131,10 @@ export default function BookCorporatePerceptionPage({ surveyYear }: Props) {
             prevYear={prevYear}
           />
           {/* Global NPS Gauge */}
-          <div className="rounded-lg border border-[hsl(210,30%,88%)] bg-[hsl(210,40%,97%)] flex items-center justify-center gap-2 px-3 py-1.5">
+          <div className="rounded-lg border border-[hsl(210,30%,88%)] bg-[hsl(210,40%,97%)] flex flex-col items-center justify-center p-4">
             <MiniGauge nps={globalNPS.nps} promoters={globalNPS.promoters} passives={globalNPS.passives} detractors={globalNPS.detractors} year={surveyYear} />
             {prevRecords.length > 0 && (
-              <p className="text-[9px] text-[hsl(200,20%,55%)]">{prevGlobalNPS.nps} in {prevYear}</p>
+              <p className="text-[10px] text-[hsl(200,20%,55%)] mt-1">{prevGlobalNPS.nps} in {prevYear}</p>
             )}
           </div>
           {/* Answers */}
