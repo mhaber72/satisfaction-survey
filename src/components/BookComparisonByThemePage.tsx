@@ -200,7 +200,7 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
                   <div className="flex items-end gap-1 w-full justify-center h-full">
                     {/* Current year bar */}
                     <div className="flex flex-col items-center justify-end w-[38%] h-full">
-                      <span className="text-[10px] font-bold mb-1">{fmt(cur)}</span>
+                      <span className="text-xs font-bold mb-1">{fmt(cur)}</span>
                       <div
                         className="w-full rounded-t-sm"
                         style={{
@@ -212,7 +212,7 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
                     </div>
                     {/* Previous year bar */}
                     <div className="flex flex-col items-center justify-end w-[38%] h-full">
-                      <span className="text-[10px] font-bold text-[hsl(215,40%,55%)] mb-1">
+                      <span className="text-xs font-bold text-[hsl(215,40%,55%)] mb-1">
                         {prev > 0 ? fmt(prev) : "—"}
                       </span>
                       <div
@@ -239,7 +239,7 @@ export default function BookComparisonByThemePage({ surveyYear }: Props) {
               className="flex-1 max-w-[120px] text-center"
               style={{ marginTop: i % 2 === 1 ? "14px" : "0px" }}
             >
-              <span className="text-[9px] font-bold uppercase leading-tight block">
+              <span className="text-[10px] font-bold uppercase leading-tight block">
                 {theme}
               </span>
             </div>
