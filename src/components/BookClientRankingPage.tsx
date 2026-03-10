@@ -205,7 +205,7 @@ export default function BookClientRankingPage({ surveyYear }: Props) {
   return (
     <div className="flex h-full w-full flex-col bg-white text-[hsl(215,85%,15%)]">
       {/* Header */}
-      <div className="flex items-center justify-between px-10 py-5 border-b border-[hsl(210,30%,90%)]">
+      <div className="flex items-center justify-between px-10 py-3 border-b border-[hsl(210,30%,90%)]">
         <div>
           <h2 className="text-3xl font-extrabold uppercase tracking-tight">
             Client Ranking {surveyYear}
