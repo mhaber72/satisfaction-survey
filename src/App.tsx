@@ -20,6 +20,7 @@ import AllActionPlans from "./pages/AllActionPlans";
 import AdminClients from "./pages/AdminClients";
 import AdminActionResponsibles from "./pages/AdminActionResponsibles";
 import AdminVerticals from "./pages/AdminVerticals";
+import AdminQuestions from "./pages/AdminQuestions";
 import BookBoard from "./pages/BookBoard";
 import NotFound from "./pages/NotFound";
 
