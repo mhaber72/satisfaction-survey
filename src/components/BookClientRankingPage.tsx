@@ -154,13 +154,22 @@ export default function BookClientRankingPage({ surveyYear, verticalName, filter
   const fmt = (v: number) => v.toFixed(2).replace(".", ",");
   const maxScore = 5;
 
-  // Split into two columns
+  // Determine if we should use single column (few clients) or two columns
+  const useOneCol = clientsData.length <= 6;
+  const large = clientsData.length <= 8;
+
+  // Split into two columns if needed
   const half = Math.ceil(clientsData.length / 2);
-  const leftCol = clientsData.slice(0, half);
-  const rightCol = clientsData.slice(half);
+  const leftCol = useOneCol ? clientsData : clientsData.slice(0, half);
+  const rightCol = useOneCol ? [] : clientsData.slice(half);
+
+  const barH = large ? "h-[24px]" : "h-[18px]";
+  const fontSize = large ? "text-base" : "text-sm";
+  const nameW = large ? "w-[200px]" : "w-[160px]";
+  const rowGap = large ? "gap-[14px]" : "gap-[8px]";
 
   const renderColumn = (items: typeof clientsData) => (
-    <div className="flex flex-col gap-[8px] flex-1 justify-center">
+    <div className={`flex flex-col ${rowGap} flex-1 justify-center`}>
       {items.map((item) => {
         const curPct = (item.current / maxScore) * 100;
         const prevPct = item.previous != null ? (item.previous / maxScore) * 100 : 0;
@@ -170,14 +179,14 @@ export default function BookClientRankingPage({ surveyYear, verticalName, filter
 
         return (
           <div key={item.client} className="flex items-center gap-2">
-            <div className="w-[160px] shrink-0 text-right pr-2">
-              <span className="text-sm font-bold uppercase leading-tight">
+            <div className={`${nameW} shrink-0 text-right pr-2`}>
+              <span className={`${fontSize} font-bold uppercase leading-tight`}>
                 {item.client}
               </span>
             </div>
             <div className="flex-1 flex flex-col gap-[2px]">
               <div className="flex items-center gap-1">
-                <div className="flex-1 h-[18px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
+                <div className={`flex-1 ${barH} bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden`}>
                   <div
                     className="h-full rounded-sm"
                     style={{
@@ -186,10 +195,10 @@ export default function BookClientRankingPage({ surveyYear, verticalName, filter
                     }}
                   />
                 </div>
-                <span className="text-sm font-bold w-[40px] shrink-0">{fmt(item.current)}</span>
+                <span className={`${fontSize} font-bold w-[40px] shrink-0`}>{fmt(item.current)}</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="flex-1 h-[18px] bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden">
+                <div className={`flex-1 ${barH} bg-[hsl(210,20%,95%)] rounded-sm overflow-hidden`}>
                   <div
                     className="h-full rounded-sm"
                     style={{
@@ -198,7 +207,7 @@ export default function BookClientRankingPage({ surveyYear, verticalName, filter
                     }}
                   />
                 </div>
-                <span className="text-sm font-semibold text-[hsl(210,10%,55%)] w-[40px] shrink-0">
+                <span className={`${fontSize} font-semibold text-[hsl(210,10%,55%)] w-[40px] shrink-0`}>
                   {item.previous != null ? fmt(item.previous) : "—"}
                 </span>
               </div>
@@ -219,7 +228,6 @@ export default function BookClientRankingPage({ surveyYear, verticalName, filter
         <div>
           <h2 className="text-3xl font-extrabold uppercase tracking-tight">
             Client Ranking {surveyYear}
-            {verticalName && <span className="text-[hsl(200,80%,45%)]"> — {verticalName}</span>}
           </h2>
           <div className="flex items-center gap-2 mt-1">
             <p className="text-sm font-bold text-[hsl(0,85%,45%)] uppercase tracking-wide">
@@ -227,6 +235,9 @@ export default function BookClientRankingPage({ surveyYear, verticalName, filter
             </p>
             <div className="h-[3px] w-6 bg-[hsl(0,85%,45%)] rounded-full" />
           </div>
+          {verticalName && (
+            <p className="text-sm font-bold text-[hsl(200,80%,45%)] uppercase tracking-wide mt-0.5">{verticalName}</p>
+          )}
         </div>
         <div className="flex items-center gap-6">
           <div className="text-right">
@@ -258,10 +269,10 @@ export default function BookClientRankingPage({ surveyYear, verticalName, filter
         </div>
       </div>
 
-      {/* Chart area — two columns */}
-      <div className="flex-1 flex gap-8 px-10 py-1 overflow-hidden min-h-0">
+      {/* Chart area */}
+      <div className={`flex-1 flex gap-8 px-10 py-1 overflow-hidden min-h-0 ${useOneCol ? 'justify-center' : ''}`}>
         {renderColumn(leftCol)}
-        {renderColumn(rightCol)}
+        {rightCol.length > 0 && renderColumn(rightCol)}
       </div>
     </div>
   );

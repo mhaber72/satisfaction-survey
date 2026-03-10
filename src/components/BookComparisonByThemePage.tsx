@@ -149,12 +149,14 @@ export default function BookComparisonByThemePage({ surveyYear, verticalName, fi
         <div>
           <h2 className="text-3xl font-extrabold uppercase tracking-tight">
             Comparison by Theme
-            {verticalName && <span className="text-[hsl(200,80%,45%)]"> — {verticalName}</span>}
           </h2>
           <div className="flex items-center gap-2 mt-1">
             <p className="text-sm font-bold text-[hsl(0,85%,45%)] uppercase tracking-wide">BRAZIL</p>
             <div className="h-[3px] w-6 bg-[hsl(0,85%,45%)] rounded-full" />
           </div>
+          {verticalName && (
+            <p className="text-sm font-bold text-[hsl(200,80%,45%)] uppercase tracking-wide mt-0.5">{verticalName}</p>
+          )}
         </div>
         <div className="flex items-center gap-6">
           <div className="text-right">

@@ -119,12 +119,14 @@ export default function BookCorporatePerceptionPage({ surveyYear, verticalName, 
         <div>
           <h2 className="text-3xl font-extrabold uppercase tracking-tight">
             Corporate Perception {surveyYear || ""}
-            {verticalName && <span className="text-[hsl(200,80%,45%)]"> — {verticalName}</span>}
           </h2>
           <div className="flex items-center gap-2 mt-1">
             <p className="text-sm font-bold text-[hsl(0,85%,45%)] uppercase tracking-wide">BRAZIL</p>
             <div className="h-[3px] w-6 bg-[hsl(0,85%,45%)] rounded-full" />
           </div>
+          {verticalName && (
+            <p className="text-sm font-bold text-[hsl(200,80%,45%)] uppercase tracking-wide mt-0.5">{verticalName}</p>
+          )}
         </div>
         <img src={logoIdl} alt="ID Logistics" className="h-10 object-contain" />
       </div>
@@ -180,6 +182,12 @@ export default function BookCorporatePerceptionPage({ surveyYear, verticalName, 
           <div className="flex-1 min-h-0 px-4 py-1">
             {npsData.length === 0 ? (
               <div className="flex h-full items-center justify-center text-[hsl(200,20%,55%)] text-sm">No data</div>
+            ) : npsData.length <= 6 ? (
+              <div className="flex flex-col gap-3 h-full justify-center">
+                {npsData.map((d) => (
+                  <BookNPSBar key={d.client} client={d.client} nps={d.nps} maxAbs={maxAbs} large />
+                ))}
+              </div>
             ) : (
               <div className="grid grid-cols-2 gap-x-6 h-full" style={{ gridAutoFlow: 'column', gridTemplateRows: `repeat(${Math.ceil(npsData.length / 2)}, minmax(0, 1fr))` }}>
                 {npsData.map((d) => (
@@ -209,29 +217,33 @@ function KPICard({ icon, value, label, prevValue, prevYear }: { icon: React.Reac
   );
 }
 
-function BookNPSBar({ client, nps, maxAbs }: { client: string; nps: number; maxAbs: number }) {
+function BookNPSBar({ client, nps, maxAbs, large }: { client: string; nps: number; maxAbs: number; large?: boolean }) {
   const barPct = Math.max((Math.abs(nps) / maxAbs) * 100, 3);
   const isPositive = nps >= 0;
+  const fontSize = large ? "text-sm" : "text-[10px]";
+  const barH = large ? "h-6" : "h-4";
+  const rowH = large ? "h-10" : "h-6";
+  const nameW = large ? "min-w-[140px]" : "min-w-[100px]";
 
   if (isPositive) {
     return (
-      <div className="flex items-center gap-1.5 h-6">
-        <span className="text-[10px] font-semibold text-[hsl(215,85%,20%)] text-right min-w-[100px] truncate">{client}</span>
+      <div className={`flex items-center gap-1.5 ${rowH}`}>
+        <span className={`${fontSize} font-semibold text-[hsl(215,85%,20%)] text-right ${nameW} truncate`}>{client}</span>
         <div className="flex-1 flex items-center gap-1">
-          <div className="h-4 rounded-sm bg-[hsl(140,60%,45%)]" style={{ width: `${barPct}%` }} />
-          <span className="text-[10px] font-bold text-[hsl(215,85%,15%)] whitespace-nowrap">{nps}</span>
+          <div className={`${barH} rounded-sm bg-[hsl(140,60%,45%)]`} style={{ width: `${barPct}%` }} />
+          <span className={`${fontSize} font-bold text-[hsl(215,85%,15%)] whitespace-nowrap`}>{nps}</span>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center gap-1.5 h-6">
-      <span className="text-[10px] font-bold text-[hsl(215,85%,15%)] whitespace-nowrap min-w-[24px] text-right">{nps}</span>
+    <div className={`flex items-center gap-1.5 ${rowH}`}>
+      <span className={`${fontSize} font-bold text-[hsl(215,85%,15%)] whitespace-nowrap min-w-[24px] text-right`}>{nps}</span>
       <div className="flex-1 flex items-center justify-end">
-        <div className="h-4 rounded-sm bg-[hsl(0,70%,55%)]" style={{ width: `${barPct}%` }} />
+        <div className={`${barH} rounded-sm bg-[hsl(0,70%,55%)]`} style={{ width: `${barPct}%` }} />
       </div>
-      <span className="text-[10px] font-semibold text-[hsl(215,85%,20%)] truncate">{client}</span>
+      <span className={`${fontSize} font-semibold text-[hsl(215,85%,20%)] truncate`}>{client}</span>
     </div>
   );
 }
