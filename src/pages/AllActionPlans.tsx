@@ -227,6 +227,7 @@ const AllActionPlans = () => {
           surveyYear={editingPlan.survey_year}
           clientName={editingPlan.client_name}
           theme={editingPlan.theme}
+          question={(editingPlan.pesquisa_satisfacao as any)?.question ?? null}
           themeComment={editingPlan.theme_comment}
           questionComment={editingPlan.question_comment}
           existingPlan={editingPlan}
