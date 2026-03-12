@@ -271,7 +271,7 @@ const AllActionPlans = () => {
               <DetailField label={t("actionPlan.client")} value={viewingPlan.client_name ?? "—"} />
               <DetailField label={t("actionPlan.theme")} value={viewingPlan.theme ?? "—"} />
               <div className="col-span-2">
-                <DetailField label={t("dashboard.question")} value={(viewingPlan.pesquisa_satisfacao as any)?.question ?? "—"} />
+                <DetailField label={t("dashboard.question")} value={translateQuestion((viewingPlan.pesquisa_satisfacao as any)?.question) || "—"} />
               </div>
               <DetailField label={t("actionPlan.contractManager")} value={(viewingPlan.contract_managers as any)?.name ?? "—"} />
               <DetailField label={t("actionPlan.regionalManager", "Gestor Regional")} value={(viewingPlan.regional_managers as any)?.name ?? "—"} />
