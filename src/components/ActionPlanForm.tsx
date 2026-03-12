@@ -97,6 +97,7 @@ const ActionPlanForm = ({
         responsible_id: "",
         action_name: "",
         action_description: "",
+        observations: "",
         start_date: null,
         end_date: null,
         new_end_date: null,
