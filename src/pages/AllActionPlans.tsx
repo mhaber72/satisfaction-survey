@@ -15,6 +15,7 @@ import MultiSelectFilter from "@/components/MultiSelectFilter";
 
 const AllActionPlans = () => {
   const { t } = useTranslation();
+  const { translateQuestion } = useTranslatedQuestions();
   const [editingPlan, setEditingPlan] = useState<any>(null);
   const [viewingPlan, setViewingPlan] = useState<any>(null);
   const [showDashboard, setShowDashboard] = useState(false);
