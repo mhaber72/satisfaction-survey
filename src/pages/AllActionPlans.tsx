@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
+import { useTranslatedQuestions } from "@/hooks/useTranslatedQuestions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -14,6 +15,7 @@ import MultiSelectFilter from "@/components/MultiSelectFilter";
 
 const AllActionPlans = () => {
   const { t } = useTranslation();
+  const { translateQuestion } = useTranslatedQuestions();
   const [editingPlan, setEditingPlan] = useState<any>(null);
   const [viewingPlan, setViewingPlan] = useState<any>(null);
   const [showDashboard, setShowDashboard] = useState(false);
@@ -269,7 +271,7 @@ const AllActionPlans = () => {
               <DetailField label={t("actionPlan.client")} value={viewingPlan.client_name ?? "—"} />
               <DetailField label={t("actionPlan.theme")} value={viewingPlan.theme ?? "—"} />
               <div className="col-span-2">
-                <DetailField label={t("dashboard.question")} value={(viewingPlan.pesquisa_satisfacao as any)?.question ?? "—"} />
+                <DetailField label={t("dashboard.question")} value={translateQuestion((viewingPlan.pesquisa_satisfacao as any)?.question) || "—"} />
               </div>
               <DetailField label={t("actionPlan.contractManager")} value={(viewingPlan.contract_managers as any)?.name ?? "—"} />
               <DetailField label={t("actionPlan.regionalManager", "Gestor Regional")} value={(viewingPlan.regional_managers as any)?.name ?? "—"} />

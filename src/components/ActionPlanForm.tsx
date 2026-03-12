@@ -10,6 +10,7 @@ const parseDateLocal = (d: string): Date => {
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
+import { useTranslatedQuestions } from "@/hooks/useTranslatedQuestions";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   AlertDialog,
@@ -53,6 +54,7 @@ const ActionPlanForm = ({
   existingPlan,
 }: ActionPlanFormProps) => {
   const { t } = useTranslation();
+  const { translateQuestion } = useTranslatedQuestions();
   const qc = useQueryClient();
   const { user } = useAuth();
 
@@ -260,7 +262,7 @@ const ActionPlanForm = ({
             <div><Label>{t("actionPlan.client")}</Label><Input value={clientName ?? ""} disabled /></div>
           </div>
           <div><Label>{t("actionPlan.theme")}</Label><Input value={theme ?? ""} disabled /></div>
-          <div><Label>{t("dashboard.question")}</Label><Input value={question ?? ""} disabled /></div>
+          <div><Label>{t("dashboard.question")}</Label><Input value={translateQuestion(question) || question || ""} disabled /></div>
           <div><Label>{t("actionPlan.themeComment")}</Label><Input value={themeComment ?? ""} disabled /></div>
           <div><Label>{t("actionPlan.questionComment")}</Label><Input value={questionComment ?? ""} disabled /></div>
 
