@@ -41,6 +41,7 @@ interface ActionPlanFormProps {
   surveyYear?: number | null;
   clientName?: string | null;
   theme?: string | null;
+  question?: string | null;
   themeComment?: string | null;
   questionComment?: string | null;
   existingPlan?: any;
@@ -48,7 +49,7 @@ interface ActionPlanFormProps {
 
 const ActionPlanForm = ({
   open, onOpenChange, pesquisaId,
-  surveyYear, clientName, theme, themeComment, questionComment,
+  surveyYear, clientName, theme, question, themeComment, questionComment,
   existingPlan,
 }: ActionPlanFormProps) => {
   const { t } = useTranslation();
