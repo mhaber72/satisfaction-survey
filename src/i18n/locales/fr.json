@@ -231,7 +231,13 @@
     "confirmStatusChange": "Êtes-vous sûr de vouloir changer le statut en \"{{status}}\" ?",
     "confirmCancel": "Annuler",
     "confirmOk": "Confirmer",
-    "responsible": "Responsable"
+    "responsible": "Responsable",
+    "observations": "Observations",
+    "history": "Historique",
+    "historyCreated": "Plan d'action créé",
+    "historyUpdated": "Plan d'action mis à jour",
+    "historyChangedFrom": "de",
+    "historyChangedTo": "à"
   },
   "adminResponsibles": {
     "firstName": "Prénom",

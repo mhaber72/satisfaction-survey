@@ -322,6 +322,11 @@ const ActionPlanForm = ({
           </div>
 
           <div>
+            <Label>{t("actionPlan.observations")}</Label>
+            <Textarea maxLength={500} value={form.observations} onChange={(e) => setForm((p) => ({ ...p, observations: e.target.value }))} />
+          </div>
+
+          <div>
             <Label>{t("actionPlan.actionDescription")} *</Label>
             <Textarea maxLength={250} value={form.action_description} onChange={(e) => setForm((p) => ({ ...p, action_description: e.target.value }))} />
           </div>
