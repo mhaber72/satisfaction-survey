@@ -430,6 +430,7 @@ function ActionPlanDetailDialog({ viewingPlan, onClose, fmtDate, translateQuesti
       </DialogContent>
     </Dialog>
   );
+}
 
 function DetailField({ label, value }: { label: string; value: React.ReactNode }) {
   return (
