@@ -82,6 +82,7 @@ const ActionPlanForm = ({
         responsible_id: existingPlan.responsible_id || "",
         action_name: existingPlan.action_name || "",
         action_description: existingPlan.action_description || "",
+        observations: existingPlan.observations || "",
         start_date: existingPlan.start_date ? parseDateLocal(existingPlan.start_date) : null,
         end_date: existingPlan.end_date ? parseDateLocal(existingPlan.end_date) : null,
         new_end_date: existingPlan.new_end_date ? parseDateLocal(existingPlan.new_end_date) : null,
