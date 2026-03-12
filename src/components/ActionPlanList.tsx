@@ -102,6 +102,7 @@ const ActionPlanList = ({
           surveyYear={surveyYear}
           clientName={clientName}
           theme={theme}
+          question={question}
           themeComment={themeComment}
           questionComment={questionComment}
           existingPlan={editingPlan}
