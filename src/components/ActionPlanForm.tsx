@@ -54,6 +54,7 @@ const ActionPlanForm = ({
   existingPlan,
 }: ActionPlanFormProps) => {
   const { t } = useTranslation();
+  const { translateQuestion } = useTranslatedQuestions();
   const qc = useQueryClient();
   const { user } = useAuth();
 
