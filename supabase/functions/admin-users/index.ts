@@ -164,32 +164,62 @@ Deno.serve(async (req) => {
       });
     }
 
-    if (action === "list_users") {
-      const { data: profiles } = await supabaseAdmin
-        .from("profiles")
-        .select("*")
-        .order("created_at", { ascending: false });
+    if (action === "batch_create_users") {
+      const { users } = params;
+      const results: any[] = [];
+      for (const u of users) {
+        try {
+          const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
+            email: u.email,
+            password: u.password,
+            email_confirm: true,
+            user_metadata: { full_name: u.full_name },
+          });
+          if (createError) { results.push({ email: u.email, error: createError.message }); continue; }
+          const userId = newUser.user.id;
+          const profileUpdate: any = { full_name: u.full_name, cargo: u.cargo || '' };
+          if (u.language) profileUpdate.language = u.language;
+          await supabaseAdmin.from("profiles").update(profileUpdate).eq("user_id", userId);
+          if (u.role === "admin") {
+            await supabaseAdmin.from("user_roles").upsert({ user_id: userId, role: "admin" }, { onConflict: "user_id,role" });
+            await supabaseAdmin.from("user_roles").delete().eq("user_id", userId).eq("role", "user");
+          } else if (u.role === "superuser") {
+            await supabaseAdmin.from("user_roles").upsert({ user_id: userId, role: "superuser" }, { onConflict: "user_id,role" });
+            await supabaseAdmin.from("user_roles").delete().eq("user_id", userId).eq("role", "user");
+          }
+          if (u.user_themes?.length) {
+            await supabaseAdmin.from("user_themes").insert(u.user_themes.map((t: string) => ({ user_id: userId, theme_key: t })));
+          }
+          if (u.user_clients?.length) {
+            await supabaseAdmin.from("user_clients").insert(u.user_clients.map((c: string) => ({ user_id: userId, client_name: c })));
+          }
+          results.push({ email: u.email, success: true });
+        } catch (e: any) {
+          results.push({ email: u.email, error: e.message });
+        }
+      }
+      return new Response(JSON.stringify({ results }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
-      const { data: allRoles } = await supabaseAdmin
-        .from("user_roles")
-        .select("user_id, role");
-
-      const { data: allUserThemes } = await supabaseAdmin
-        .from("user_themes")
-        .select("user_id, theme_key");
-
-      const { data: allUserClients } = await supabaseAdmin
-        .from("user_clients")
-        .select("user_id, client_name");
-
-      const enriched = (profiles ?? []).map((p: any) => ({
-        ...p,
-        user_roles: (allRoles ?? []).filter((r: any) => r.user_id === p.user_id),
-        user_themes: (allUserThemes ?? []).filter((t: any) => t.user_id === p.user_id),
-        user_clients: (allUserClients ?? []).filter((c: any) => c.user_id === p.user_id),
-      }));
-
-      return new Response(JSON.stringify({ users: enriched }), {
+    if (action === "backfill_profiles") {
+      const { data: authUsers } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 });
+      const results: any[] = [];
+      for (const u of (authUsers?.users ?? [])) {
+        const { data: existing } = await supabaseAdmin.from("profiles").select("id").eq("user_id", u.id).maybeSingle();
+        if (!existing) {
+          await supabaseAdmin.from("profiles").insert({
+            user_id: u.id,
+            email: u.email || '',
+            full_name: u.user_metadata?.full_name || '',
+          });
+          results.push({ email: u.email, action: "created" });
+        } else {
+          results.push({ email: u.email, action: "exists" });
+        }
+      }
+      return new Response(JSON.stringify({ results }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
