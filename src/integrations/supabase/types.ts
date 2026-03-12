@@ -64,6 +64,41 @@ export type Database = {
         }
         Relationships: []
       }
+      action_plan_history: {
+        Row: {
+          action_plan_id: string
+          change_type: string
+          changed_by: string | null
+          changes: Json
+          created_at: string
+          id: string
+        }
+        Insert: {
+          action_plan_id: string
+          change_type?: string
+          changed_by?: string | null
+          changes?: Json
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          action_plan_id?: string
+          change_type?: string
+          changed_by?: string | null
+          changes?: Json
+          created_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "action_plan_history_action_plan_id_fkey"
+            columns: ["action_plan_id"]
+            isOneToOne: false
+            referencedRelation: "action_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       action_plans: {
         Row: {
           action_description: string
@@ -77,6 +112,7 @@ export type Database = {
           end_date: string | null
           id: string
           new_end_date: string | null
+          observations: string | null
           pesquisa_id: number
           question_comment: string | null
           regional_manager_id: string
@@ -100,6 +136,7 @@ export type Database = {
           end_date?: string | null
           id?: string
           new_end_date?: string | null
+          observations?: string | null
           pesquisa_id: number
           question_comment?: string | null
           regional_manager_id: string
@@ -123,6 +160,7 @@ export type Database = {
           end_date?: string | null
           id?: string
           new_end_date?: string | null
+          observations?: string | null
           pesquisa_id?: number
           question_comment?: string | null
           regional_manager_id?: string
