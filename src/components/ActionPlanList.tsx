@@ -32,7 +32,7 @@ const ActionPlanList = ({
     queryFn: async () => {
       const { data, error } = await supabase
         .from("action_plans")
-        .select("*, contract_managers(name), regional_managers(name), directories(name), action_statuses(name, color)")
+        .select("*, contract_managers(name), regional_managers(name), directories(name), action_statuses(name, color), pesquisa_satisfacao(question)")
         .eq("pesquisa_id", pesquisaId)
         .order("created_at", { ascending: false });
       if (error) throw error;
