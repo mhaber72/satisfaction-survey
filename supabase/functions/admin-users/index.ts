@@ -168,7 +168,7 @@ Deno.serve(async (req) => {
       const { data: profiles } = await supabaseAdmin
         .from("profiles")
         .select("*")
-        .order("created_at", { ascending: false });
+        .order("full_name", { ascending: true });
 
       const { data: allRoles } = await supabaseAdmin
         .from("user_roles")
