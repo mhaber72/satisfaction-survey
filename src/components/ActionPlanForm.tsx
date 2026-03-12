@@ -262,7 +262,7 @@ const ActionPlanForm = ({
             <div><Label>{t("actionPlan.client")}</Label><Input value={clientName ?? ""} disabled /></div>
           </div>
           <div><Label>{t("actionPlan.theme")}</Label><Input value={theme ?? ""} disabled /></div>
-          <div><Label>{t("dashboard.question")}</Label><Input value={question ?? ""} disabled /></div>
+          <div><Label>{t("dashboard.question")}</Label><Input value={translateQuestion(question) || question || ""} disabled /></div>
           <div><Label>{t("actionPlan.themeComment")}</Label><Input value={themeComment ?? ""} disabled /></div>
           <div><Label>{t("actionPlan.questionComment")}</Label><Input value={questionComment ?? ""} disabled /></div>
 
