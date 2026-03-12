@@ -15,13 +15,14 @@ interface ActionPlanListProps {
   surveyYear?: number | null;
   clientName?: string | null;
   theme?: string | null;
+  question?: string | null;
   themeComment?: string | null;
   questionComment?: string | null;
 }
 
 const ActionPlanList = ({
   open, onOpenChange, pesquisaId,
-  surveyYear, clientName, theme, themeComment, questionComment,
+  surveyYear, clientName, theme, question, themeComment, questionComment,
 }: ActionPlanListProps) => {
   const { t } = useTranslation();
   const [editingPlan, setEditingPlan] = useState<any>(null);
@@ -31,7 +32,7 @@ const ActionPlanList = ({
     queryFn: async () => {
       const { data, error } = await supabase
         .from("action_plans")
-        .select("*, contract_managers(name), regional_managers(name), directories(name), action_statuses(name, color)")
+        .select("*, contract_managers(name), regional_managers(name), directories(name), action_statuses(name, color), pesquisa_satisfacao(question)")
         .eq("pesquisa_id", pesquisaId)
         .order("created_at", { ascending: false });
       if (error) throw error;
@@ -101,6 +102,7 @@ const ActionPlanList = ({
           surveyYear={surveyYear}
           clientName={clientName}
           theme={theme}
+          question={question}
           themeComment={themeComment}
           questionComment={questionComment}
           existingPlan={editingPlan}

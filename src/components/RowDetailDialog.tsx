@@ -106,6 +106,7 @@ const RowDetailDialog = ({ row, open, onOpenChange }: RowDetailDialogProps) => {
         surveyYear={row.survey_year}
         clientName={row.client_name}
         theme={row.theme}
+        question={row.question}
         themeComment={row.theme_comment}
         questionComment={row.question_comment}
       />
@@ -117,6 +118,7 @@ const RowDetailDialog = ({ row, open, onOpenChange }: RowDetailDialogProps) => {
         surveyYear={row.survey_year}
         clientName={row.client_name}
         theme={row.theme}
+        question={row.question}
         themeComment={row.theme_comment}
         questionComment={row.question_comment}
       />
