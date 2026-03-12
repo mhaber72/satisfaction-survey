@@ -255,9 +255,9 @@ Deno.serve(async (req) => {
             await supabaseAdmin.from("user_clients").insert(u.user_clients.map((c: string) => ({ user_id: userId, client_name: c })));
           }
           // Update profile cargo
-          if (u.cargo) {
-            await supabaseAdmin.from("profiles").update({ cargo: u.cargo, full_name: u.full_name }).eq("user_id", userId);
-          }
+          const profileUpdate: any = { full_name: u.full_name, cargo: u.cargo || '' };
+          if (u.language) profileUpdate.language = u.language;
+          await supabaseAdmin.from("profiles").update(profileUpdate).eq("user_id", userId);
           results.push({ email: u.email, success: true });
         } catch (e: any) {
           results.push({ email: u.email, error: e.message });
