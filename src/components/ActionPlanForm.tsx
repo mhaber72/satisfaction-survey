@@ -178,6 +178,7 @@ const ActionPlanForm = ({
         directory_id: form.directory_id,
         responsible_id: form.responsible_id || null,
         action_name: form.action_name,
+        observations: form.observations || null,
         action_description: form.action_description,
         start_date: form.start_date ? format(form.start_date, "yyyy-MM-dd") : null,
         end_date: form.end_date ? format(form.end_date, "yyyy-MM-dd") : null,
