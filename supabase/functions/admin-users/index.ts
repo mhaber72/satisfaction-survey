@@ -164,6 +164,36 @@ Deno.serve(async (req) => {
       });
     }
 
+    if (action === "list_users") {
+      const { data: profiles } = await supabaseAdmin
+        .from("profiles")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      const { data: allRoles } = await supabaseAdmin
+        .from("user_roles")
+        .select("user_id, role");
+
+      const { data: allUserThemes } = await supabaseAdmin
+        .from("user_themes")
+        .select("user_id, theme_key");
+
+      const { data: allUserClients } = await supabaseAdmin
+        .from("user_clients")
+        .select("user_id, client_name");
+
+      const enriched = (profiles ?? []).map((p: any) => ({
+        ...p,
+        user_roles: (allRoles ?? []).filter((r: any) => r.user_id === p.user_id),
+        user_themes: (allUserThemes ?? []).filter((t: any) => t.user_id === p.user_id),
+        user_clients: (allUserClients ?? []).filter((c: any) => c.user_id === p.user_id),
+      }));
+
+      return new Response(JSON.stringify({ users: enriched }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     if (action === "batch_create_users") {
       const { users } = params;
       const results: any[] = [];
