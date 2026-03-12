@@ -233,6 +233,41 @@ Deno.serve(async (req) => {
       });
     }
 
+    if (action === "batch_update_permissions") {
+      const { users } = params;
+      const results: any[] = [];
+      for (const u of users) {
+        try {
+          const { data: profile } = await supabaseAdmin.from("profiles").select("user_id").eq("email", u.email).maybeSingle();
+          if (!profile) { results.push({ email: u.email, error: "not found" }); continue; }
+          const userId = profile.user_id;
+          // Update role
+          await supabaseAdmin.from("user_roles").delete().eq("user_id", userId);
+          await supabaseAdmin.from("user_roles").insert({ user_id: userId, role: u.role || "user" });
+          // Update themes
+          await supabaseAdmin.from("user_themes").delete().eq("user_id", userId);
+          if (u.user_themes?.length) {
+            await supabaseAdmin.from("user_themes").insert(u.user_themes.map((t: string) => ({ user_id: userId, theme_key: t })));
+          }
+          // Update clients
+          await supabaseAdmin.from("user_clients").delete().eq("user_id", userId);
+          if (u.user_clients?.length) {
+            await supabaseAdmin.from("user_clients").insert(u.user_clients.map((c: string) => ({ user_id: userId, client_name: c })));
+          }
+          // Update profile cargo
+          if (u.cargo) {
+            await supabaseAdmin.from("profiles").update({ cargo: u.cargo, full_name: u.full_name }).eq("user_id", userId);
+          }
+          results.push({ email: u.email, success: true });
+        } catch (e: any) {
+          results.push({ email: u.email, error: e.message });
+        }
+      }
+      return new Response(JSON.stringify({ results }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     if (action === "backfill_profiles") {
       const { data: authUsers } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 });
       const results: any[] = [];
