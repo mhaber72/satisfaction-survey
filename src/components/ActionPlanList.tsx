@@ -15,13 +15,14 @@ interface ActionPlanListProps {
   surveyYear?: number | null;
   clientName?: string | null;
   theme?: string | null;
+  question?: string | null;
   themeComment?: string | null;
   questionComment?: string | null;
 }
 
 const ActionPlanList = ({
   open, onOpenChange, pesquisaId,
-  surveyYear, clientName, theme, themeComment, questionComment,
+  surveyYear, clientName, theme, question, themeComment, questionComment,
 }: ActionPlanListProps) => {
   const { t } = useTranslation();
   const [editingPlan, setEditingPlan] = useState<any>(null);
