@@ -231,7 +231,13 @@
     "confirmStatusChange": "Are you sure you want to change the status to \"{{status}}\"?",
     "confirmCancel": "Cancel",
     "confirmOk": "Confirm",
-    "responsible": "Responsible"
+    "responsible": "Responsible",
+    "observations": "Observations",
+    "history": "History",
+    "historyCreated": "Action plan created",
+    "historyUpdated": "Action plan updated",
+    "historyChangedFrom": "from",
+    "historyChangedTo": "to"
   },
   "adminResponsibles": {
     "firstName": "First Name",

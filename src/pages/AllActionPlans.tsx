@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
 import { useTranslatedQuestions } from "@/hooks/useTranslatedQuestions";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Pencil, Search, BarChart3, Eye, Upload } from "lucide-react";
@@ -246,20 +247,107 @@ const AllActionPlans = () => {
       />
 
       {/* Detail Dialog */}
-      <Dialog open={!!viewingPlan} onOpenChange={(o) => !o && setViewingPlan(null)}>
-        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-3">
-              {viewingPlan?.action_statuses && (
-                <span
-                  className="inline-block h-3.5 w-3.5 rounded-full shrink-0"
-                  style={{ backgroundColor: (viewingPlan.action_statuses as any)?.color || "#6b7280" }}
-                />
-              )}
-              {viewingPlan?.action_name}
-            </DialogTitle>
-          </DialogHeader>
-          {viewingPlan && (
+      <ActionPlanDetailDialog
+        viewingPlan={viewingPlan}
+        onClose={() => setViewingPlan(null)}
+        fmtDate={fmtDate}
+        translateQuestion={translateQuestion}
+      />
+    </div>
+  );
+};
+
+function ActionPlanDetailDialog({ viewingPlan, onClose, fmtDate, translateQuestion }: {
+  viewingPlan: any;
+  onClose: () => void;
+  fmtDate: (d: string | null) => string;
+  translateQuestion: (q: string | null | undefined) => string | null;
+}) {
+  const { t } = useTranslation();
+
+  const { data: history } = useQuery({
+    queryKey: ["action_plan_history", viewingPlan?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("action_plan_history" as any)
+        .select("*")
+        .eq("action_plan_id", viewingPlan.id)
+        .order("created_at", { ascending: true });
+      if (error) throw error;
+      return data as any[];
+    },
+    enabled: !!viewingPlan?.id,
+  });
+
+  const { data: statusesMap } = useQuery({
+    queryKey: ["action_statuses_map"],
+    queryFn: async () => {
+      const { data } = await supabase.from("action_statuses").select("id, name, color");
+      const map: Record<string, { name: string; color: string }> = {};
+      data?.forEach((s) => { map[s.id] = { name: s.name, color: s.color }; });
+      return map;
+    },
+    enabled: !!viewingPlan,
+  });
+
+  const { data: profilesMap } = useQuery({
+    queryKey: ["profiles_map"],
+    queryFn: async () => {
+      const { data } = await supabase.from("profiles").select("user_id, full_name, email");
+      const map: Record<string, string> = {};
+      data?.forEach((p) => { map[p.user_id] = p.full_name || p.email; });
+      return map;
+    },
+    enabled: !!viewingPlan,
+  });
+
+  const fieldLabel = (key: string): string => {
+    const labels: Record<string, string> = {
+      status_id: t("actionPlan.status"),
+      action_name: t("actionPlan.actionName"),
+      action_description: t("actionPlan.actionDescription"),
+      observations: t("actionPlan.observations"),
+      start_date: t("actionPlan.startDate"),
+      end_date: t("actionPlan.endDate"),
+      new_end_date: t("actionPlan.newEndDate"),
+      completion_date: t("actionPlan.completionDate"),
+      responsible_id: t("actionPlan.responsible"),
+      contract_manager_id: t("actionPlan.contractManager"),
+      regional_manager_id: t("actionPlan.regionalManager"),
+      directory_id: t("actionPlan.directory"),
+    };
+    return labels[key] || key;
+  };
+
+  const resolveValue = (key: string, val: any): string => {
+    if (val === null || val === undefined) return "—";
+    if (key === "status_id" && statusesMap?.[val]) return statusesMap[val].name;
+    return String(val);
+  };
+
+  const fmtHistoryDate = (d: string) => {
+    try {
+      const date = new Date(d);
+      return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    } catch { return d; }
+  };
+
+  return (
+    <Dialog open={!!viewingPlan} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-3">
+            {viewingPlan?.action_statuses && (
+              <span
+                className="inline-block h-3.5 w-3.5 rounded-full shrink-0"
+                style={{ backgroundColor: (viewingPlan.action_statuses as any)?.color || "#6b7280" }}
+              />
+            )}
+            {viewingPlan?.action_name}
+          </DialogTitle>
+        </DialogHeader>
+        {viewingPlan && (
+          <>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <DetailField label={t("actionPlan.status")} value={
                 <span className="flex items-center gap-2">
@@ -286,6 +374,9 @@ const AllActionPlans = () => {
                 <DetailField label={t("actionPlan.actionDescription", "Descrição da Ação")} value={viewingPlan.action_description || "—"} />
               </div>
               <div className="col-span-2">
+                <DetailField label={t("actionPlan.observations")} value={viewingPlan.observations || "—"} />
+              </div>
+              <div className="col-span-2">
                 <DetailField label={t("dashboard.question")} value={translateQuestion((viewingPlan.pesquisa_satisfacao as any)?.question) || "—"} />
               </div>
               {viewingPlan.theme_comment && (
@@ -299,12 +390,47 @@ const AllActionPlans = () => {
                 </div>
               )}
             </div>
-          )}
-        </DialogContent>
-      </Dialog>
-    </div>
+
+            {/* History section */}
+            <Separator className="my-4" />
+            <div>
+              <h3 className="text-sm font-semibold mb-3">{t("actionPlan.history")}</h3>
+              {!history?.length ? (
+                <p className="text-xs text-muted-foreground">—</p>
+              ) : (
+                <div className="space-y-3">
+                  {history.map((entry: any) => (
+                    <div key={entry.id} className="border rounded-md p-3 text-xs space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium">
+                          {entry.change_type === "created" ? t("actionPlan.historyCreated") : t("actionPlan.historyUpdated")}
+                        </span>
+                        <span className="text-muted-foreground">{fmtHistoryDate(entry.created_at)}</span>
+                      </div>
+                      {entry.changed_by && profilesMap?.[entry.changed_by] && (
+                        <p className="text-muted-foreground">{profilesMap[entry.changed_by]}</p>
+                      )}
+                      {entry.change_type === "updated" && entry.changes && (
+                        <div className="mt-1 space-y-0.5">
+                          {Object.entries(entry.changes as Record<string, any>).map(([key, val]: [string, any]) => (
+                            <p key={key} className="text-muted-foreground">
+                              <span className="font-medium text-foreground">{fieldLabel(key)}</span>:{" "}
+                              {resolveValue(key, val.old)} → {resolveValue(key, val.new)}
+                            </p>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
   );
-};
+}
 
 function DetailField({ label, value }: { label: string; value: React.ReactNode }) {
   return (

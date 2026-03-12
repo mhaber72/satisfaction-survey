@@ -65,6 +65,7 @@ const ActionPlanForm = ({
     responsible_id: "",
     action_name: "",
     action_description: "",
+    observations: "",
     start_date: null as Date | null,
     end_date: null as Date | null,
     new_end_date: null as Date | null,
@@ -81,6 +82,7 @@ const ActionPlanForm = ({
         responsible_id: existingPlan.responsible_id || "",
         action_name: existingPlan.action_name || "",
         action_description: existingPlan.action_description || "",
+        observations: existingPlan.observations || "",
         start_date: existingPlan.start_date ? parseDateLocal(existingPlan.start_date) : null,
         end_date: existingPlan.end_date ? parseDateLocal(existingPlan.end_date) : null,
         new_end_date: existingPlan.new_end_date ? parseDateLocal(existingPlan.new_end_date) : null,
@@ -95,6 +97,7 @@ const ActionPlanForm = ({
         responsible_id: "",
         action_name: "",
         action_description: "",
+        observations: "",
         start_date: null,
         end_date: null,
         new_end_date: null,
@@ -175,6 +178,7 @@ const ActionPlanForm = ({
         directory_id: form.directory_id,
         responsible_id: form.responsible_id || null,
         action_name: form.action_name,
+        observations: form.observations || null,
         action_description: form.action_description,
         start_date: form.start_date ? format(form.start_date, "yyyy-MM-dd") : null,
         end_date: form.end_date ? format(form.end_date, "yyyy-MM-dd") : null,
@@ -315,6 +319,11 @@ const ActionPlanForm = ({
             <Label>{t("actionPlan.actionName")} *</Label>
             <Input maxLength={100} value={form.action_name} onChange={(e) => setForm((p) => ({ ...p, action_name: e.target.value }))}
               disabled={!!existingPlan && false} />
+          </div>
+
+          <div>
+            <Label>{t("actionPlan.observations")}</Label>
+            <Textarea maxLength={500} value={form.observations} onChange={(e) => setForm((p) => ({ ...p, observations: e.target.value }))} />
           </div>
 
           <div>

@@ -231,7 +231,13 @@
     "confirmStatusChange": "¿Está seguro que desea cambiar el estado a \"{{status}}\"?",
     "confirmCancel": "Cancelar",
     "confirmOk": "Confirmar",
-    "responsible": "Responsable"
+    "responsible": "Responsable",
+    "observations": "Observaciones",
+    "history": "Historial",
+    "historyCreated": "Plan de acción creado",
+    "historyUpdated": "Plan de acción actualizado",
+    "historyChangedFrom": "de",
+    "historyChangedTo": "a"
   },
   "adminResponsibles": {
     "firstName": "Nombre",
