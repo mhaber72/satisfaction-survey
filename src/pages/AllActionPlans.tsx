@@ -270,9 +270,6 @@ const AllActionPlans = () => {
               <DetailField label={t("actionPlan.surveyYear")} value={viewingPlan.survey_year ?? "—"} />
               <DetailField label={t("actionPlan.client")} value={viewingPlan.client_name ?? "—"} />
               <DetailField label={t("actionPlan.theme")} value={viewingPlan.theme ?? "—"} />
-              <div className="col-span-2">
-                <DetailField label={t("dashboard.question")} value={translateQuestion((viewingPlan.pesquisa_satisfacao as any)?.question) || "—"} />
-              </div>
               <DetailField label={t("actionPlan.contractManager")} value={(viewingPlan.contract_managers as any)?.name ?? "—"} />
               <DetailField label={t("actionPlan.regionalManager", "Gestor Regional")} value={(viewingPlan.regional_managers as any)?.name ?? "—"} />
               <DetailField label={t("actionPlan.directory", "Diretoria")} value={(viewingPlan.directories as any)?.name ?? "—"} />
@@ -287,6 +284,9 @@ const AllActionPlans = () => {
               <DetailField label={t("actionPlan.completionDate", "Data Conclusão")} value={fmtDate(viewingPlan.completion_date)} />
               <div className="col-span-2">
                 <DetailField label={t("actionPlan.actionDescription", "Descrição da Ação")} value={viewingPlan.action_description || "—"} />
+              </div>
+              <div className="col-span-2">
+                <DetailField label={t("dashboard.question")} value={translateQuestion((viewingPlan.pesquisa_satisfacao as any)?.question) || "—"} />
               </div>
               {viewingPlan.theme_comment && (
                 <div className="col-span-2">
