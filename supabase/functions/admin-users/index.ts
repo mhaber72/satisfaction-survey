@@ -203,6 +203,27 @@ Deno.serve(async (req) => {
       });
     }
 
+    if (action === "backfill_profiles") {
+      const { data: authUsers } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 });
+      const results: any[] = [];
+      for (const u of (authUsers?.users ?? [])) {
+        const { data: existing } = await supabaseAdmin.from("profiles").select("id").eq("user_id", u.id).maybeSingle();
+        if (!existing) {
+          await supabaseAdmin.from("profiles").insert({
+            user_id: u.id,
+            email: u.email || '',
+            full_name: u.user_metadata?.full_name || '',
+          });
+          results.push({ email: u.email, action: "created" });
+        } else {
+          results.push({ email: u.email, action: "exists" });
+        }
+      }
+      return new Response(JSON.stringify({ results }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     return new Response(JSON.stringify({ error: "Unknown action" }), {
       status: 400,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
