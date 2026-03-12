@@ -268,6 +268,7 @@ Deno.serve(async (req) => {
       });
     }
 
+    if (action === "backfill_profiles") {
       const { data: authUsers } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 });
       const results: any[] = [];
       for (const u of (authUsers?.users ?? [])) {
