@@ -285,6 +285,9 @@ const AllActionPlans = () => {
               <div className="col-span-2">
                 <DetailField label={t("actionPlan.actionDescription", "Descrição da Ação")} value={viewingPlan.action_description || "—"} />
               </div>
+              <div className="col-span-2">
+                <DetailField label={t("dashboard.question")} value={translateQuestion((viewingPlan.pesquisa_satisfacao as any)?.question) || "—"} />
+              </div>
               {viewingPlan.theme_comment && (
                 <div className="col-span-2">
                   <DetailField label={t("actionPlan.themeComment", "Comentário do Tema")} value={viewingPlan.theme_comment} />
