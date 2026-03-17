@@ -31,8 +31,10 @@ const AllActionPlans = () => {
   const { data: plans, isLoading } = useQuery({
     queryKey: ["all_action_plans"],
     queryFn: async () => {
-      // Auto-update statuses based on date logic before fetching
-      await supabase.rpc("auto_update_action_plan_statuses");
+      // Auto-update statuses based on date logic before fetching (admin/superuser only)
+      if (isAdmin || isSuperUser) {
+        await supabase.rpc("auto_update_action_plan_statuses").catch(() => {});
+      }
       const { data, error } = await supabase
         .from("action_plans")
         .select("*, contract_managers(name), regional_managers(name), directories(name), action_statuses(name, color), action_responsibles(first_name, last_name), pesquisa_satisfacao(question)")

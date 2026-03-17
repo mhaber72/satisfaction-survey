@@ -58,15 +58,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       i18n.changeLanguage(profileData.language);
     }
 
-    // Check admin role
+    // Check admin role (uses has_own_role which only checks caller's own role)
     const { data: adminCheck } = await supabase
-      .rpc("has_role", { _user_id: userId, _role: "admin" });
+      .rpc("has_own_role", { _role: "admin" });
     const admin = adminCheck === true;
     setIsAdmin(admin);
 
     // Check superuser role
     const { data: superCheck } = await supabase
-      .rpc("has_role", { _user_id: userId, _role: "superuser" });
+      .rpc("has_own_role", { _role: "superuser" });
     const superuser = superCheck === true;
     setIsSuperUser(superuser);
 
