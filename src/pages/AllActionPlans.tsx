@@ -18,6 +18,7 @@ import { useAuth } from "@/hooks/useAuth";
 const AllActionPlans = () => {
   const { t } = useTranslation();
   const { translateQuestion } = useTranslatedQuestions();
+  const { isAdmin, isSuperUser } = useAuth();
   const [editingPlan, setEditingPlan] = useState<any>(null);
   const [viewingPlan, setViewingPlan] = useState<any>(null);
   const [showDashboard, setShowDashboard] = useState(false);
