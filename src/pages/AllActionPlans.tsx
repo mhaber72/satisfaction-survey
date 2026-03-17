@@ -35,7 +35,7 @@ const AllActionPlans = () => {
     queryFn: async () => {
       // Auto-update statuses based on date logic before fetching (admin/superuser only)
       if (isAdmin || isSuperUser) {
-        await supabase.rpc("auto_update_action_plan_statuses").catch(() => {});
+        try { await supabase.rpc("auto_update_action_plan_statuses"); } catch {}
       }
       const { data, error } = await supabase
         .from("action_plans")
