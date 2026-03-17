@@ -13,6 +13,7 @@ import ActionPlanForm from "@/components/ActionPlanForm";
 import ActionPlanDashboard from "@/components/ActionPlanDashboard";
 import ActionPlanImport from "@/components/ActionPlanImport";
 import MultiSelectFilter from "@/components/MultiSelectFilter";
+import { useAuth } from "@/hooks/useAuth";
 
 const AllActionPlans = () => {
   const { t } = useTranslation();
