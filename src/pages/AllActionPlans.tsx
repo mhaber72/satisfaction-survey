@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
@@ -13,10 +13,12 @@ import ActionPlanForm from "@/components/ActionPlanForm";
 import ActionPlanDashboard from "@/components/ActionPlanDashboard";
 import ActionPlanImport from "@/components/ActionPlanImport";
 import MultiSelectFilter from "@/components/MultiSelectFilter";
+import { useAuth } from "@/hooks/useAuth";
 
 const AllActionPlans = () => {
   const { t } = useTranslation();
   const { translateQuestion } = useTranslatedQuestions();
+  const { isAdmin, isSuperUser } = useAuth();
   const [editingPlan, setEditingPlan] = useState<any>(null);
   const [viewingPlan, setViewingPlan] = useState<any>(null);
   const [showDashboard, setShowDashboard] = useState(false);
@@ -31,8 +33,10 @@ const AllActionPlans = () => {
   const { data: plans, isLoading } = useQuery({
     queryKey: ["all_action_plans"],
     queryFn: async () => {
-      // Auto-update statuses based on date logic before fetching
-      await supabase.rpc("auto_update_action_plan_statuses");
+      // Auto-update statuses based on date logic before fetching (admin/superuser only)
+      if (isAdmin || isSuperUser) {
+        try { await supabase.rpc("auto_update_action_plan_statuses"); } catch {}
+      }
       const { data, error } = await supabase
         .from("action_plans")
         .select("*, contract_managers(name), regional_managers(name), directories(name), action_statuses(name, color), action_responsibles(first_name, last_name), pesquisa_satisfacao(question)")
