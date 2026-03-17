@@ -643,6 +643,10 @@ export type Database = {
     }
     Functions: {
       auto_update_action_plan_statuses: { Args: never; Returns: undefined }
+      has_own_role: {
+        Args: { _role: Database["public"]["Enums"]["app_role"] }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
